@@ -391,6 +391,7 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
             disabled={!data?.password}
             onClick={() => {
               setGeneratorPassword(data?.password);
+              hideModal();
               toast.success(
                 "Password applied successfully in the password form.",
                 { className: "toast-message" }
