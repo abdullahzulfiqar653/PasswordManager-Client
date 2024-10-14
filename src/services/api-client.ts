@@ -1,83 +1,89 @@
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+console.log(apiUrl)
 const axiosInstance = axios.create({
-
-    baseURL: "https://pmdev.azsoft.dev/pm/api" ,
-})
-
-
+  baseURL: apiUrl,
+});
 
 function getTokenIncludedConfig() {
-    return {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        "Content-Type": "application/json",
-      },
-    };
+  return {
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+}
+
+class APIClient {
+  endpoint;
+  constructor(endpoint) {
+    this.endpoint = endpoint;
   }
+
+  post = (data = {}) => {
+    return axiosInstance
+      .post(this.endpoint, data)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
   
+  postConfig = (data = {}, config = getTokenIncludedConfig()) => {
+    return axiosInstance
+      .post(this.endpoint, data, config)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
+  get = (config = getTokenIncludedConfig()) => {
+    return axiosInstance
+      .get(this.endpoint, config)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
 
-  class APIClient {
-    endpoint;
-    constructor(endpoint) {
-      this.endpoint = endpoint;
-    }
+  patch = (data, body, config = getTokenIncludedConfig()) => {
+    return axiosInstance
+      .patch(`${this.endpoint}/${data?.id}/`, body, config)
+      .then((res) => ({
+        data: res.data,
+        status: res.status,
+      }))
+      .catch((error) => {
+        throw error;
+      });
+  };
 
-    post = (data = {}) => {
-      return axiosInstance
-        .post(this.endpoint, data)
-        .then((res) => res.data)
-        .catch((error)=>{throw error});
-    };
-    postConfig = (data = {}, config = getTokenIncludedConfig()) => {
-      return axiosInstance
-        .post(this.endpoint, data, config)
-        .then((res) => res.data)
-        .catch((error)=>{throw error});
-    };
-    get = (config = getTokenIncludedConfig()) => {
-      return axiosInstance
-        .get(this.endpoint, config)
-        .then((res) => res.data)
-        .catch((error)=>{throw error});
-    };
+  createToken = (pass_phrase) => {
+    return this.post({ pass_phrase });
+  };
 
-    patch = (data, body, config = getTokenIncludedConfig()) => {
-      return axiosInstance
-        .patch(`${this.endpoint}/${data?.id}/`, body, config)
-        .then((res) => ({
-          data: res.data,
-          status: res.status,
-        }))
-        .catch((error)=>{throw error});
-    };
+  getSeeds = () => {
+    return this.post();
+  };
 
-    createToken = (pass_phrase) => {
-      return this.post({ pass_phrase });
-    };
+  create = (data) => {
+    return this.postConfig(JSON.stringify(data));
+  };
 
-    getSeeds = () => {
-      return this.post();
-    };
+  verifyToken = (token, login) => {
+    return this.postConfig({ token }).then(() => login());
+  };
 
-    create = (data) => {
-      return this.postConfig(JSON.stringify(data));
-    };
+  getUserPasswords = () => {
+    return this.get();
+  };
 
-    verifyToken = (token, login) => {
-      return this.postConfig({ token })
-        .then(() => login())
-    };
+  updatePassword = (data) => {
+    const body = JSON.stringify(data);
+    return this.patch(data, body);
+  };
+}
 
-    getUserPasswords = () => {
-      return this.get();
-    };
-
-    updatePassword = (data) => {
-      const body = JSON.stringify(data);
-      return this.patch(data,body);
-    };
-  }
-  
 export default APIClient;
