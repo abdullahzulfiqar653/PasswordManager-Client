@@ -18,6 +18,13 @@ module.exports = {
         md: '768px',
         sm: '600px',
         xs: '320px',
+        mq375: '375px',    
+        mq425: '425px',    
+        mq1024: '1024px', 
+        mq1440: '1440px',
+      },
+      boxShadow: {
+        'custom': '0px 4px 22px 0px #00000040', // Custom shadow definition
       },
     },
   },
