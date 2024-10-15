@@ -1,19 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import apiClient from "../services/api-client";
+import APIClient from "../services/api-client";
 
+const apiClient = new APIClient("/user/generate-pass-phrase/");
 
-export interface RegisterPassword{
-    pass_phrase :string;
-}
-
-const useGetSeeds = ()=> useQuery({
-    queryKey:["password"],
-    queryFn: () => apiClient  
-    .post<RegisterPassword>('/user/generate-pass-phrase/')
-    .then(res=> res.data)
-    .catch(er => er.error)
-
-})
+const useGetSeeds = () =>
+  useQuery({
+    queryKey: ["password"],
+    queryFn: () => apiClient.getSeeds(),
+  });
 
 export default useGetSeeds;
-

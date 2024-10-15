@@ -1,16 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import apiClient, { getTokenIncludedConfig } from "../services/api-client";
+import APIClient from "../services/api-client";
 
-const useVerifyToken = (login) => useMutation({
-    mutationFn:(token) => {
-      return apiClient
-        .post('/user/token/verify/', { token }, getTokenIncludedConfig())
-        .then(() => {
-            console.log('sucessfull request');
-            login();
-          })
-        .catch(er => er.error)
-  },
-});
+const apiClient = new APIClient("/user/token/verify/");
+
+const useVerifyToken = (login) => {
+  return useMutation({
+    mutationFn: (token) => apiClient.verifyToken(token, login),
+  });
+};
 
 export default useVerifyToken;
