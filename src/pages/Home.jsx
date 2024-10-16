@@ -74,17 +74,17 @@ function Home() {
 
             {/* Image section */}
             <section className="container flex flex-col w-[100%] sm:w-[50%] h-[100vh]">
-              <img
+              {/* <img
                 src="/lock_with_icon.png"
                 className="hidden sm:block mq1150:w-[90%] w-[95%]"
                 alt="Lock"
-              />
+              /> */}
             </section>
           </section>
           {/* Background Image for Larger Screens */}
           <img
-            src="/background_img.png"
-            className="absolute hidden top-[-99px] h-[120vh] w-[100vw] sm:block sm:object-cover"
+            src="/background_img.svg"
+            className="absolute hidden top-[-99px]  w-[100vw] sm:block sm:object-cover"
             alt="Background"
           />
 
@@ -261,7 +261,7 @@ function Home() {
                 }}
               >
                 <div
-                  className="w-[350px] mq350:w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
+                  className="mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
                   style={{
                     background: `linear-gradient(0deg, #0E1A60, #0E1A60),
                                radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),
@@ -336,7 +336,7 @@ function Home() {
                 }}
               >
                 <div
-                  className="mq350:w-[320px] w-[350px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
+                  className="mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
                   style={{
                     background: `linear-gradient(0deg, #0E1A60, #0E1A60),
                                radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),

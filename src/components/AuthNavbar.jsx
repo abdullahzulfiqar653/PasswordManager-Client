@@ -21,10 +21,10 @@ function Navbar() {
             className="flex items-center gap-[4px]  md:gap-[15px] z-[2]"
           >
             <img
-              src="/newLogo.svg"
+              src="/logov2.svg"
               className="w-[25px] sm:w-[70px] cursor-pointer ml-2 md:ml-0"
             />
-            <h2 className="md:text-[22px] xs:font-medium xs:pb-0 text-[14.3px] font-[400] md:font-normal text-white whitespace-nowrap">
+            <h2 className="md:text-[22px] xs:pb-0 text-[14.3px] text-white whitespace-nowrap">
               Password Manager
             </h2>
           </Link>

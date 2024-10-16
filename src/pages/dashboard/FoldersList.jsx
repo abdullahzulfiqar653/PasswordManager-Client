@@ -27,7 +27,7 @@ function FoldersList() {
                 </h4>
               </div>
             </Link>
-            <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">
+            {/* <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">
               <li>
                 <Link
                   to="/dashboard/folders/123"
@@ -41,7 +41,7 @@ function FoldersList() {
                   </div>
                 </Link>
               </li>
-            </ul>
+            </ul> */}
           </li>
           <li>
             <Link
