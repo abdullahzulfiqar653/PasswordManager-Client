@@ -84,7 +84,7 @@ function Home() {
           {/* Background Image for Larger Screens */}
           <img
             src="/background_img.png"
-            className="absolute hidden top-[-81px] h-[120vh] w-[100vw] sm:block sm:object-cover"
+            className="absolute hidden top-[-99px] h-[120vh] w-[100vw] sm:block sm:object-cover"
             alt="Background"
           />
 
