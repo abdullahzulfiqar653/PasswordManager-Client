@@ -7,65 +7,65 @@ import PasswordFolder from "./PasswordFolder";
 function FoldersList() {
   const { isDesktop } = useAuth();
   return isDesktop ? (
-    <></>
-    // <section className="hidden md:flex max-w-[296px] w-full bg-[#101E71] rounded-[12px] flex-col">
-    //   <section className="min-h-[512px] flex flex-col gap-[16px]">
-    //     <h4 className="pl-[21px] text-white text-[16px] mt-[25px] font-[400]">
-    //       Folders
-    //     </h4>
-    //     <ul className="flex flex-col gap-[16px]">
-    //       <li>
-    //         <Link
-    //           to="/dashboard/folders/123"
-    //           className="folder-wrapper active h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
-    //         >
-    //           <Bar />
-    //           <div className="flex h-full gap-[15px] items-center">
-    //             <Folder />
-    //             <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-    //               Database folder 2
-    //             </h4>
-    //           </div>
-    //         </Link>
-    //         <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">
-    //           <li>
-    //             <Link
-    //               to="/dashboard/folders/123"
-    //               className="h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
-    //             >
-    //               <Recycle />
-    //               <div className="flex h-full gap-[15px] items-center">
-    //                 <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-    //                   Recycle bin
-    //                 </h4>
-    //               </div>
-    //             </Link>
-    //           </li>
-    //         </ul>
-    //       </li>
-    //       <li>
-    //         <Link
-    //           to="/dashboard/folders/123"
-    //           className="folder-wrapper h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
-    //         >
-    //           <Bar />
-    //           <div className="flex h-full gap-[15px] items-center">
-    //             <Folder />
-    //             <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-    //               Database folder 2
-    //             </h4>
-    //           </div>
-    //         </Link>
-    //       </li>
-    //     </ul>
-    //   </section>
-    //   <hr className="border-[2px] border-[#00112B]" />
-    //   <SearchesTags />
-    // </section>
+   
+    <section className="hidden md:flex max-w-[296px] w-full bg-[#101E71] rounded-[12px] flex-col">
+      <section className="min-h-[512px] flex flex-col gap-[16px]">
+        <h4 className="pl-[21px] text-white text-[16px] mt-[25px] font-[400]">
+          Folders
+        </h4>
+        <ul className="flex flex-col gap-[16px]">
+          <li>
+            <Link
+              to="/dashboard/folders/123"
+              className="folder-wrapper active h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
+            >
+              <Bar />
+              <div className="flex h-full gap-[15px] items-center">
+                <Folder />
+                <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
+                  Database folder 2
+                </h4>
+              </div>
+            </Link>
+            <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">
+              <li>
+                <Link
+                  to="/dashboard/folders/123"
+                  className="h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
+                >
+                  <Recycle />
+                  <div className="flex h-full gap-[15px] items-center">
+                    <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
+                      Recycle bin
+                    </h4>
+                  </div>
+                </Link>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <Link
+              to="/dashboard/folders/123"
+              className="folder-wrapper h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
+            >
+              <Bar />
+              <div className="flex h-full gap-[15px] items-center">
+                <Folder />
+                <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
+                  Database folder 2
+                </h4>
+              </div>
+            </Link>
+          </li>
+        </ul>
+      </section>
+      <hr className="border-[2px] border-[#00112B]" />
+      <SearchesTags />
+    </section>
   ) : (
     <section className="w-full relative container flex flex-col gap-[24px]">
       <PasswordFolder/>
-      {/* <h4 className="text-white text-[22px] mt-[20px] font-[400]">Folders</h4>
+      <h4 className="text-white text-[22px] mt-[20px] font-[400]">Folders</h4>
       <ul className="flex flex-col gap-[9px]">
         {[true, false, false, false, false].map((condition, index) => (
           <li
@@ -94,7 +94,7 @@ function FoldersList() {
       </ul>
       <Link to="/dashboard/add" className="fixed right-[20px] bottom-[20px]">
         <Add />
-      </Link> */}
+      </Link>
     </section>
   );
 }

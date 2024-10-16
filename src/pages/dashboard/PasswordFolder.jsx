@@ -12,7 +12,7 @@ import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 const PasswordFolder = () => {
   const navigate = useNavigate();
-  const { isDesktop ,search} = useAuth();
+  const { isDesktop, search } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
   const { data, isLoading, refetch } = useGetUserPasswords();
 
@@ -57,30 +57,32 @@ const PasswordFolder = () => {
         Passwords
       </h3>
       <div className="flex flex-col gap-[11px]">
-      {data?.results
-          .filter((item) =>item?.title.toLowerCase().includes(search.toLowerCase()))
+        {data?.results
+          .filter((item) =>
+            item?.title.toLowerCase().includes(search.toLowerCase())
+          )
           .map((passWordRecord, index) => (
-          <div
-            key={index}
-            className="flex flex-col gap-[2px] rounded-[6px] bg-[#0E1A60]"
-          >
-            <button
-              onClick={() => handleTabClick(index)}
-              className={`${
-                index === activeTab ? "active" : ""
-              } flex justify-between items-center text-white bg-[#010E59] py-[17px] px-[14px] text-[14px] dm-sans font-[400] leading-[20px]`}
+            <div
+              key={index}
+              className="flex flex-col gap-[2px] rounded-[6px] bg-[#0E1A60]"
             >
-              {passWordRecord.title}
-              {index === activeTab ? <UpArrow /> : <DownArrow />}
-            </button>
-            {index == activeTab && (
-              <PasswordDetailContent
-                passWordRecord={passWordRecord}
-                handleRowClick={handleRowClick}
-              />
-            )}
-          </div>
-        ))}
+              <button
+                onClick={() => handleTabClick(index)}
+                className={`${
+                  index === activeTab ? "active" : ""
+                } flex justify-between items-center text-white bg-[#010E59] py-[17px] px-[14px] text-[14px] dm-sans font-[400] leading-[20px]`}
+              >
+                {passWordRecord.title}
+                {index === activeTab ? <UpArrow /> : <DownArrow />}
+              </button>
+              {index == activeTab && (
+                <PasswordDetailContent
+                  passWordRecord={passWordRecord}
+                  handleRowClick={handleRowClick}
+                />
+              )}
+            </div>
+          ))}
       </div>
     </section>
   );
