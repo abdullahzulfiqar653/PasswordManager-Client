@@ -5,7 +5,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Neue Plak';
+  src: url('./fonts/NeuePlak-Bold.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 body {
+  font-family: 'Neue Plak';
   background-color: #0e1a60;
 }
 main {

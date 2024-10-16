@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SpectreSecret from "../components/spectreSecret";
+import SpectreComponent from "../components/SpectreComponent";
+
 function Home() {
   return (
     <>
@@ -19,9 +20,9 @@ function Home() {
         </style>
 
         {/* Main container */}
-        <section className="container relative z-20 flex items-center">
-          <section className="flex flex-col md:flex-row justify-between pt-[26px] w-full relative">
-            <section className="flex flex-col gap-[10px] sm:gap-[30px] sm:w-[60%] items-start sm:px-[60px] sm:pt-[60px]">
+        <section className="relative h-[120vh] w-[100vw] sm:pb-20  flex items-center">
+          <section className="flex flex-col z-20 md:flex-row justify-between sm:pt-[26px] sm:pb-20 w-full relative">
+            <section className="flex flex-col gap-[10px] sm:gap-[30px] pt-[280px] pl-6 pr-4 w-[95%] sm:w-[55%] items-start sm:px-[60px] sm:pt-[60px]">
               {/* Button */}
               <button
                 className="rounded-[12px] border-[0.8px] border-[#fff] backdrop-blur-[11px] flex justify-between p-[5px] sm:p-[10px] items-center text-[#EFFAFF] font-[400] text-[12px] sm:text-[16px] xs:leading-[64px] h-[39px] dm-sans gap-[9px] outline-none min-w-[210px] md:min-w-[254px]"
@@ -34,7 +35,7 @@ function Home() {
               </button>
 
               {/* Headline */}
-              <h1 className="text-white text-[32px] md:text-[66px] font-[400] leading-[36px] md:leading-[61px]">
+              <h1 className="text-white text-[32px] mq1150:text-[48px] md:text-[66px] font-[400] leading-[36px] md:leading-[61px]">
                 Secure Your Systems with the Ultimate Password Manager
               </h1>
               <h1 className="text-[#FFFFFFB2] font-sans text-[12px] md:text-[18px] font-[400] leading-[15.62px] md:leading-[22px]">
@@ -50,7 +51,7 @@ function Home() {
               </button>
 
               {/* Mobile buttons */}
-              <div className="flex items-center gap-[20px] sm:hidden">
+              <div className="flex items-center gap-[20px] mt-6 mb-3 sm:hidden">
                 <div className="w-[108.63px] h-[38.05px] bg-white hover:bg-[#e7e7e7] text-[#002550] border-[0.8px] border-[#FFFFFF] rounded-[8px] flex justify-center items-center">
                   <Link
                     to="/auth/register"
@@ -72,36 +73,35 @@ function Home() {
             </section>
 
             {/* Image section */}
-            <section className="container flex flex-col sm:w-[50%] h-[100vh]">
+            <section className="container flex flex-col w-[100%] sm:w-[50%] h-[100vh]">
               <img
                 src="/lock_with_icon.png"
-                className="lg:w-[95%]"
+                className="hidden sm:block mq1150:w-[90%] w-[95%]"
                 alt="Lock"
               />
             </section>
           </section>
+          {/* Background Image for Larger Screens */}
+          <img
+            src="/background_img.png"
+            className="absolute hidden top-[-81px] h-[120vh] w-[100vw] sm:block sm:object-cover"
+            alt="Background"
+          />
+
+          {/* Background Image for Mobile Screens */}
+          <img
+            src="/mobileSection.svg"
+            className="absolute top-[-70px] w-full object-cover sm:hidden"
+            alt="Mobile Background"
+          />
         </section>
 
-        {/* Background Image for Larger Screens */}
-        <img
-          src="/background_img.png"
-          className="absolute hidden top-[-81px] h-[100vh] w-[100vw] sm:block sm:object-cover"
-          alt="Background"
-        />
-
-        {/* Background Image for Mobile Screens */}
-        <img
-          src="/bg_mobile.png"
-          className="absolute top-[-81px] h-[100vh] w-full object-cover sm:hidden"
-          alt="Mobile Background"
-        />
-
         {/* Second section */}
-        <section className="w-full h-[480px] relative bg-[#0e1a60]">
-          <section className="flex flex-row justify-between w-full relative">
-            <div className="flex gap-[30px] overflow-x-auto scrollbar-hide scroll-smooth mx-8">
+        <section className="w-full h-[1112px] sm:h-[480px] relative bg-[#0e1a60]">
+          <section className="flex flex-row justify-center sm:justify-between w-full relative">
+            <div className="flex flex-col z-20 h-[1000px] sm:h-full sm:flex-row gap-[30px] overflow-y-auto sm:overflow-x-auto  scrollbar-hide scroll-smooth mx-3 sm:mx-8">
               <div
-                className="relative z-10 w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
+                className="relative z-10 mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
                 style={{
                   background: `linear-gradient(0deg, #0E1A60, #0E1A60), 
                            radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), 
@@ -111,7 +111,7 @@ function Home() {
                 }}
               >
                 <div
-                  className="w-[384px] h-[274px] rounded-[16px] border-[1px] border-[#ffffff4d]"
+                  className="mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[1px] border-[#ffffff4d]"
                   style={{
                     background: `linear-gradient(0deg, #0E1A60, #0E1A60),
                                radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),
@@ -125,7 +125,7 @@ function Home() {
                       className="mt-2 pr-2 w-full absolute"
                     />
                   </span>
-                  <div className="flex flex-col justify-start gap-[17px] pl-[35px] pr-[25px] py-[30px]">
+                  <div className="flex flex-col justify-start gap-[17px] pl-[15px] mq375:pl-[35px] pr-[25px] py-[30px]">
                     <img src="/icon1.png" className="w-14" />
                     <h1 className="text-white text-[24px] leading-[24px]">
                       Instant Store, Safe & Sort
@@ -176,7 +176,7 @@ function Home() {
                 </div>
               </div>
               <div
-                className="relative z-10 w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
+                className="relative z-10 mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
                 style={{
                   background: `linear-gradient(0deg, #0E1A60, #0E1A60), 
                            radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), 
@@ -186,7 +186,7 @@ function Home() {
                 }}
               >
                 <div
-                  className="w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
+                  className="mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
                   style={{
                     background: `linear-gradient(0deg, #0E1A60, #0E1A60),
                                radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),
@@ -200,7 +200,7 @@ function Home() {
                       className="mt-2 pr-2 w-full absolute"
                     />
                   </span>
-                  <div className="flex flex-col justify-start gap-[17px] pl-[35px] pr-[25px] py-[30px]">
+                  <div className="flex flex-col justify-start gap-[17px] pl-[15px] mq375:pl-[35px] pr-[25px] py-[30px]">
                     <img src="/icon2.png" className="w-14" />
                     <h1 className="text-white text-[24px] leading-[24px]">
                       Store in High Security
@@ -251,7 +251,7 @@ function Home() {
                 </div>
               </div>
               <div
-                className="relative z-10 w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
+                className="relative z-10 mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
                 style={{
                   background: `linear-gradient(0deg, #0E1A60, #0E1A60), 
                            radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), 
@@ -261,7 +261,7 @@ function Home() {
                 }}
               >
                 <div
-                  className="w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
+                  className="w-[350px] mq350:w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
                   style={{
                     background: `linear-gradient(0deg, #0E1A60, #0E1A60),
                                radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),
@@ -275,7 +275,7 @@ function Home() {
                       className="mt-2 pr-2 w-full absolute"
                     />
                   </span>
-                  <div className="flex flex-col justify-start gap-[17px] pl-[35px] pr-[25px] py-[30px]">
+                  <div className="flex flex-col justify-start gap-[17px] pl-[15px] mq375:pl-[35px] pr-[25px] py-[30px]">
                     <img src="/icon3.png" className="w-14" />
                     <h1 className="text-white text-[24px] leading-[24px]">
                       Unbreakable Passwords
@@ -326,7 +326,7 @@ function Home() {
                 </div>
               </div>
               <div
-                className="relative z-10 w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
+                className="relative z-20 mq375:w-[350px] w-[320px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.8px] border-[#ffffff4d]"
                 style={{
                   background: `linear-gradient(0deg, #0E1A60, #0E1A60), 
                            radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%), 
@@ -336,7 +336,7 @@ function Home() {
                 }}
               >
                 <div
-                  className="w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
+                  className="mq350:w-[320px] w-[350px] sm:w-[384px] h-[274px] rounded-[16px] border-[0.1px] border-[#ffffff4d]"
                   style={{
                     background: `linear-gradient(0deg, #0E1A60, #0E1A60),
                                radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%),
@@ -350,7 +350,7 @@ function Home() {
                       className="mt-2 pr-2 w-full absolute"
                     />
                   </span>
-                  <div className="flex flex-col justify-start gap-[17px] pl-[35px] pr-[25px] py-[30px]">
+                  <div className="flex flex-col justify-start gap-[17px] pl-[15px]  mq375:pl-[35px] pr-[25px] py-[30px]">
                     <img src="/icon1.png" className="w-14" />
                     <h1 className="text-white text-[24px] leading-[24px]">
                       Instant Store, Safe & Sort
@@ -403,16 +403,22 @@ function Home() {
             </div>
           </section>
 
-          {/* Background Image */}
+          {/*Web Background Image */}
           <img
             src="/scroll_bg.svg"
-            className="absolute hidden top-[-150px] w-full sm:block sm:object-cover z-0"
+            className="absolute hidden top-[-150px] md:h-[480px] mq1330:h-auto w-full sm:block sm:object-cover z-10"
+            alt="Scroll Background"
+          />
+          {/*Mobile Background Image */}
+          <img
+            src="/scroll_bg_m.svg"
+            className="absolute  top-[-80px] w-full h-[1112px] sm:hidden object-cover z-10"
             alt="Scroll Background"
           />
         </section>
 
         {/* Third section */}
-        <SpectreSecret />
+        <SpectreComponent />
       </section>
     </>
   );

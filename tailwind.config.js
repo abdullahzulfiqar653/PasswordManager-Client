@@ -5,7 +5,7 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}", // Adjust this according to your file structure
   ],
   fontFamily: {
-    sans: ['DM Sans', 'sans-serif'], // Set DM Sans as the default sans font
+    sans: ['Montserrat', 'sans-serif'], // Set DM Sans as the default sans font
   },
   theme: {
     container:{
@@ -18,9 +18,13 @@ module.exports = {
         md: '768px',
         sm: '600px',
         xs: '320px',
+        mq350: '330px',    
         mq375: '375px',    
+        mq400: '400px',    
         mq425: '425px',    
-        mq1024: '1024px', 
+        mq1024: '1024px',
+        mq1150: '1150px', 
+        mq1330: '1380px',
         mq1440: '1440px',
       },
       boxShadow: {
