@@ -186,8 +186,8 @@ function AddPassword() {
 
   const handleBrowseClick = () => {
     fileInputRef.current.click();
-    setProgressValue(0);
-    setSelectedFile(null);
+    // setProgressValue(0);
+    // setSelectedFile(null);
   };
 
   const handleFileRemove = () => {
@@ -318,8 +318,7 @@ function AddPassword() {
             </label>
             <div className="relative flex-1 cursor-pointer">
               <div
-                contentEditable
-                className="w-full dm-sans border-[1px] flex gap-2 mb-2 md:mb-0 sm:h-[62] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
+                className="w-full dm-sans border-[1px] flex gap-2 mb-2 md:mb-0 sm:min-h-[63px] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
                 dangerouslySetInnerHTML={{ __html: selectedEmoji }}
                 onClick={() => setShowPicker((prev) => !prev)}
               ></div>
@@ -401,7 +400,7 @@ function AddPassword() {
                 </span>
               )}
               {isDropdownOpen && (
-                <div className="absolute left-0 mt-2 w-full h-auto max-h-[273px] overflow-y-auto bg-[#101E71] text-white shadow-[0px 4px 32px 0px #00000040] rounded-[12px] z-10">
+                <div className="absolute left-0 mt-2 w-full h-auto max-h-[200px] sm:max-h-[273px] overflow-y-auto bg-[#101E71] text-white shadow-[0px 4px 32px 0px #00000040] rounded-[12px] z-10">
                   <ul className="p-4">
                     {data?.results?.map((folder) => (
                       <li
