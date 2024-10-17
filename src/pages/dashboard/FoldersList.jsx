@@ -5,19 +5,20 @@ import SearchesTags from "../../components/SearchesTags";
 import PasswordFolder from "./PasswordFolder";
 
 function FoldersList() {
-  const { isDesktop } = useAuth();
+  const { isDesktop, handleOpenDeleteModal } = useAuth();
   return isDesktop ? (
-   
     <section className="hidden md:flex max-w-[296px] w-full bg-[#101E71] rounded-[12px] flex-col">
       <section className="min-h-[512px] flex flex-col gap-[16px]">
-        <h4 className="pl-[21px] text-white text-[16px] mt-[25px] font-[400]">
+        <h4 className="px-[21px] pb-2 flex justify-between text-white text-[16px] mt-[25px] font-[400]">
           Folders
+          <Folders className={"mt-1"} />
         </h4>
+
         <ul className="flex flex-col gap-[16px]">
           <li>
             <Link
               to="/dashboard/folders/123"
-              className="folder-wrapper active h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
+              className="folder-wrapper active  h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
             >
               <Bar />
               <div className="flex h-full gap-[15px] items-center">
@@ -25,6 +26,9 @@ function FoldersList() {
                 <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
                   Database folder 2
                 </h4>
+                <span onClick={() => handleOpenDeleteModal()}>
+                  <Recycle className={"ml-11 w-[12px] h-[13px]"} />
+                </span>
               </div>
             </Link>
             {/* <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">
@@ -43,7 +47,7 @@ function FoldersList() {
               </li>
             </ul> */}
           </li>
-          <li>
+          {/* <li>
             <Link
               to="/dashboard/folders/123"
               className="folder-wrapper h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
@@ -56,7 +60,7 @@ function FoldersList() {
                 </h4>
               </div>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </section>
       <hr className="border-[2px] border-[#00112B]" />
@@ -64,7 +68,7 @@ function FoldersList() {
     </section>
   ) : (
     <section className="w-full relative container flex flex-col gap-[24px]">
-      <PasswordFolder/>
+      <PasswordFolder />
       <h4 className="text-white text-[22px] mt-[20px] font-[400]">Folders</h4>
       <ul className="flex flex-col gap-[9px]">
         {[true, false, false, false, false].map((condition, index) => (
@@ -125,6 +129,23 @@ const Folder = () => (
     <path
       d="M28.1786 19.5893C28.1786 19.0984 28.1454 18.6146 28.0813 18.1426H25.1452L24.0424 15.8824C23.7886 15.3607 23.2574 15.031 22.6787 15.031H14.5179C13.6807 15.031 13 15.7117 13 16.5489V28.7676C13 28.9265 13.0237 29.0807 13.0711 29.2253C14.4325 29.8586 15.9527 30.2143 17.5536 30.2143C23.421 30.2143 28.1786 25.4568 28.1786 19.5893Z"
       fill="#FFD058"
+    />
+  </svg>
+);
+const Folders = ({ className }) => (
+  <svg
+    width="22"
+    height="19"
+    viewBox="0 0 22 19"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M8.14286 10.9167H13.8571M11 13.8293V8.08333M1 2.41667V15.1667C1 15.9181 1.30102 16.6388 1.83684 17.1701C2.37266 17.7015 3.09938 18 3.85714 18H18.1429C18.9006 18 19.6273 17.7015 20.1632 17.1701C20.699 16.6388 21 15.9181 21 15.1667V6.66242C20.9996 5.91121 20.6984 5.19091 20.1627 4.65986C19.6269 4.12882 18.9004 3.8305 18.1429 3.8305L11 3.83333L8.14286 1H2.42857C2.04969 1 1.68633 1.14926 1.41842 1.41493C1.15051 1.68061 1 2.04094 1 2.41667Z"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </svg>
 );

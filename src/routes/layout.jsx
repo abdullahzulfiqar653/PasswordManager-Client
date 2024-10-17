@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ConfirmationModal from "../components/ConfirmationModal";
 import GeneratePassword from "../components/GeneratePassword";
+import DeleteConfirmation from "../components/DeleteConfirmation";
 
 const Layout = () => {
   const {
@@ -17,6 +18,8 @@ const Layout = () => {
     showGeneratePassModal,
     setGeneratorPassword,
     applyPasswordButton,
+    openDeleteModal,
+    handleOpenDeleteModal,
   } = useAuth();
   const location = useLocation();
   const noNavbarRoutes = ["/auth/login", "/auth/register"];
@@ -37,6 +40,9 @@ const Layout = () => {
           setGeneratorPassword={setGeneratorPassword}
           triggerSource={applyPasswordButton}
         />
+      )}
+      {openDeleteModal && (
+        <DeleteConfirmation hideModal={handleOpenDeleteModal} />
       )}
     </React.Fragment>
   );
