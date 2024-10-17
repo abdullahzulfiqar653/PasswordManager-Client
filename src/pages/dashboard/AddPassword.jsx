@@ -334,7 +334,7 @@ function AddPassword() {
             <div className="relative flex-1 cursor-pointer">
               <div
                 contentEditable
-                className="w-full dm-sans border-[1px] flex gap-2 mb-2 md:mb-0 h-[62px] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
+                className="w-full dm-sans border-[1px] flex gap-2 mb-2 md:mb-0 sm:h-[62] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
                 dangerouslySetInnerHTML={{ __html: selectedEmoji }}
                 onClick={() => setShowPicker((prev) => !prev)}
               ></div>
@@ -383,17 +383,19 @@ function AddPassword() {
               Choose your folder
             </label>
             <div className="relative flex-1 cursor-pointer">
-              <Folder className="w-[14px] h-[14px] sm:w-[28px] sm:h-[28px] absolute top-[40%] md:top-[50%] translate-y-[-50%] left-[20px]" />
+              <Folder className="w-[18px] h-[18px] sm:w-[28px] sm:h-[28px] absolute top-[40%] md:top-[50%] translate-y-[-50%] left-[20px]" />
               {selectedValue && (
-                <span className="absolute top-[40%] md:top-[50%] translate-y-[-50%] left-[60px] font-sans text-white text-[16px]">
+                <span className="absolute top-[40%] md:top-[50%] translate-y-[-50%] left-[50px] font-sans text-white text-[16px]">
                   {selectedValue}
                 </span>
               )}
               <input
                 placeholder="Click to choose folder here"
                 className={`w-full dm-sans mb-2 md:mb-0 border-[1px] h-[37.86px] md:h-auto rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] ${
-                  selectedValue ? " placeholder:text-[#101E71]" : ""
-                } placeholder:pl-8 md:px-[24px] placeholder:text-[#DFDFDF36] placeholder:text-[16px] text-white text-[16px] leading-[32px] font-[400]`}
+                  selectedValue
+                    ? " placeholder:text-[#101E71]"
+                    : "placeholder:text-[#DFDFDF36]"
+                } placeholder:pl-11 sm:placeholder:pl-8 md:px-[24px]  placeholder:text-[16px] text-white text-[16px] leading-[32px] font-[400]`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 readOnly
               />
@@ -420,21 +422,33 @@ function AddPassword() {
                       className="flex gap-[13px] cursor-pointer pl-1 py-2 text-[16px] font-sans"
                       onClick={() => handleSelect("Folder 1")}
                     >
-                      <Folder className={"mb-[2px] sm:w-[28px] sm:h-[28px]"} />{" "}
+                      <Folder
+                        className={
+                          "mt-[4px] sm:mt-0 sm:mb-[2px] w-[18px] h-[18px] sm:w-[28px] sm:h-[28px]"
+                        }
+                      />{" "}
                       Folder 1
                     </li>
                     <li
                       className="flex gap-[13px] cursor-pointer pl-1 py-2 text-[16px] font-sans"
-                      onClick={() => handleSelect("Folder 2")}
+                      onClick={() => handleSelect("Folder 1")}
                     >
-                      <Folder className={"mb-[2px] sm:w-[28px] sm:h-[28px]"} />{" "}
+                      <Folder
+                        className={
+                          "mt-[4px] sm:mt-0 sm:mb-[2px] w-[18px] h-[18px] sm:w-[28px] sm:h-[28px]"
+                        }
+                      />{" "}
                       Folder 1
                     </li>
                     <li
                       className="flex gap-[13px] cursor-pointer pl-1 py-2 text-[16px] font-sans"
-                      onClick={() => handleSelect("Folder 3")}
+                      onClick={() => handleSelect("Folder 1")}
                     >
-                      <Folder className={"mb-[2px] sm:w-[28px] sm:h-[28px]"} />{" "}
+                      <Folder
+                        className={
+                          "mt-[4px] sm:mt-0 sm:mb-[2px] w-[18px] h-[18px] sm:w-[28px] sm:h-[28px]"
+                        }
+                      />{" "}
                       Folder 1
                     </li>
                   </ul>
@@ -458,11 +472,11 @@ function AddPassword() {
             <span className="text-red-500 text-[12px]">{errors.notes[0]}</span>
           )}
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-5 sm:mt-0">
           <div className="flex gap-3">
             <Cloud />
             <div>
-              <p className="text-[16px] leading-[32px] text-white font-sans">
+              <p className="text-[14px] sm:text-[16px] leading-[32px] text-white font-sans">
                 Add any Attachments, upload document or file here,{" "}
                 <span
                   style={{
@@ -506,7 +520,7 @@ function AddPassword() {
                 <progress
                   value={progressValue}
                   max="100"
-                  className="w-[408px] mt-2 h-[5px]"
+                  className="w-[308px] sm:w-[408px] mt-2 h-[5px]"
                   style={{
                     appearance: "none",
                     WebkitAppearance: "none",
