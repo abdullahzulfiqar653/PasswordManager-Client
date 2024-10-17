@@ -76,7 +76,7 @@ function Navbar() {
                 <Save />
               </Link> */}
               <Link
-                to="/dashboard/folders/123"
+                to="/dashboard/folders"
                 className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
               >
                 <Folder />

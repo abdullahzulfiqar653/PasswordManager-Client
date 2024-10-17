@@ -69,7 +69,7 @@ function FoldersList() {
   ) : (
     <section className="w-full relative container flex flex-col gap-[24px]">
       <PasswordFolder />
-      <h4 className="text-white text-[22px] mt-[20px] font-[400]">Folders</h4>
+      <h4 className="text-white text-[22px] mt-0 font-[400]">Folders</h4>
       <ul className="flex flex-col gap-[9px]">
         {[true, false, false, false, false].map((condition, index) => (
           <li
@@ -91,7 +91,7 @@ function FoldersList() {
               </div>
             </Link>
             <span className="absolute right-[15px]">
-              <Recycle className="recycle" />
+              <Recycle/>
             </span>
           </li>
         ))}

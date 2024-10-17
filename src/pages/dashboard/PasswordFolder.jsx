@@ -41,21 +41,21 @@ const PasswordFolder = () => {
       </div>
     </section>
   ) : (
-    <section className="flex flex-col gap-[23px] mt-[13px]">
-      {/* <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
+    <section className="flex flex-col gap-[0px] mt-[13px]">
+      <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
         <Link
           to="/dashboard/folders"
           className="text-[#5D73F2]"
         >{`Folders > ${"Database folder 1"} > `}</Link>
         Passwords
-      </h3> */}
-      <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
+      </h3>
+      {/* <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
         <Link
           to="/dashboard/folders/123"
           className="text-[#5D73F2]"
         >{`Folders > `}</Link>
         Passwords
-      </h3>
+      </h3> */}
       <div className="flex flex-col gap-[11px]">
         {data?.results
           .filter((item) =>
