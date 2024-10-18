@@ -1,37 +1,66 @@
 import React from "react";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import SearchesTags from "../../components/SearchesTags";
 import PasswordFolder from "./PasswordFolder";
+import useGetFolders from "../../hooks/useGetFolders";
 
-function FoldersList() {
-  const { isDesktop, handleOpenDeleteModal } = useAuth();
+function FoldersList({ foldersData }) {
+  const {
+    isDesktop,
+    handleOpenDeleteModal,
+    handleCreateFolderModal,
+    setPassSelectedFolderId,
+  } = useAuth();
+  const { data, refetch } = useGetFolders();
   return isDesktop ? (
     <section className="hidden md:flex max-w-[296px] w-full bg-[#101E71] rounded-[12px] flex-col">
-      <section className="min-h-[512px] flex flex-col gap-[16px]">
+      <section className="h-[624px] flex flex-col gap-[16px]">
         <h4 className="px-[21px] pb-2 flex justify-between text-white text-[16px] mt-[25px] font-[400]">
           Folders
-          <Folders className={"mt-1"} />
+          <span
+            className="cursor-pointer"
+            onClick={() => handleCreateFolderModal()}
+          >
+            <Folders className={"mt-1"} />
+          </span>
         </h4>
 
-        <ul className="flex flex-col gap-[16px]">
-          <li>
-            <Link
-              to="/dashboard/folders/123"
-              className="folder-wrapper active  h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
-            >
-              <Bar />
-              <div className="flex h-full gap-[15px] items-center">
-                <Folder />
-                <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-                  Database folder 2
-                </h4>
-                <span onClick={() => handleOpenDeleteModal()}>
-                  <Recycle className={"ml-11 w-[12px] h-[13px]"} />
-                </span>
-              </div>
-            </Link>
-            {/* <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">
+        <ul className="flex flex-col gap-[16px] overflow-y-auto">
+          {foldersData?.results.map((folder, index) => (
+            <li key={index} onClick={() => setPassSelectedFolderId(folder.id)}>
+              <NavLink
+                to={`/dashboard/folders/${folder.id}`}
+                className={({ isActive }) =>
+                  `h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px] ${
+                    isActive ? "active folder-wrapper" : ""
+                  }`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    {isActive && <Bar />}
+                    <div className="flex h-full gap-[15px] items-center justify-between w-full">
+                      <div className="flex gap-[15px] items-center">
+                        <Folder />
+                        <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
+                          {folder.title}
+                        </h4>
+                      </div>
+                      <span
+                        onClick={() => {
+                          handleOpenDeleteModal(folder.id);
+                        }}
+                      >
+                        <Recycle className={"w-[12px] h-[13px]"} />
+                      </span>
+                    </div>
+                  </>
+                )}
+              </NavLink>
+            </li>
+          ))}
+          {/* <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">
               <li>
                 <Link
                   to="/dashboard/folders/123"
@@ -46,59 +75,61 @@ function FoldersList() {
                 </Link>
               </li>
             </ul> */}
-          </li>
-          {/* <li>
-            <Link
-              to="/dashboard/folders/123"
-              className="folder-wrapper h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px]"
-            >
-              <Bar />
-              <div className="flex h-full gap-[15px] items-center">
-                <Folder />
-                <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-                  Database folder 2
-                </h4>
-              </div>
-            </Link>
-          </li> */}
         </ul>
       </section>
-      <hr className="border-[2px] border-[#00112B]" />
-      <SearchesTags />
+      {/* <hr className="border-[2px] border-[#00112B]" />
+      <SearchesTags /> */}
     </section>
   ) : (
     <section className="w-full relative container flex flex-col gap-[24px]">
       <PasswordFolder />
       <h4 className="text-white text-[22px] mt-0 font-[400]">Folders</h4>
       <ul className="flex flex-col gap-[9px]">
-        {[true, false, false, false, false].map((condition, index) => (
+        {data?.results.map((folder, index) => (
           <li
             key={index}
-            className={`folder-wrapper bg-[#010E59] ${
-              condition ? "active" : ""
-            } rounded-[9px] relative flex gap-[5px] items-center`}
+            onClick={() => setPassSelectedFolderId(folder.id)}
+            className={`folder-wrapper bg-[#010E59] rounded-[9px] relative flex gap-[5px] items-center`}
           >
-            <Bar className="absolute left-[-10px]" />
-            <Link
-              to="/dashboard/folders/123"
-              className={`flex-1 h-[54px] flex gap-[8px] items-center p-[5px] pr-[15px]`}
+            <NavLink
+              to={`/dashboard/folders/${folder.id}`}
+              className={({ isActive }) =>
+                `h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px] ${
+                  isActive ? "active folder-wrapper" : ""
+                }`
+              }
             >
-              <div className="flex h-full gap-[15px] items-center">
-                <Folder />
-                <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-                  Database folder 2
-                </h4>
-              </div>
-            </Link>
-            <span className="absolute right-[15px]">
-              <Recycle/>
+              {({ isActive }) => (
+                <>
+                  {isActive && <Bar />}
+                  <div className="flex h-full gap-[15px] items-center justify-between w-full">
+                    <div className="flex gap-[15px] items-center">
+                      <Folder />
+                      <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
+                        {folder.title}
+                      </h4>
+                    </div>
+                  </div>
+                </>
+              )}
+            </NavLink>
+            <span
+              onClick={() => {
+                handleOpenDeleteModal(folder.id);
+              }}
+              className="absolute right-[15px]"
+            >
+              <Recycle />
             </span>
           </li>
         ))}
       </ul>
-      <Link to="/dashboard/add" className="fixed right-[20px] bottom-[20px]">
+      <div
+        onClick={() => handleCreateFolderModal()}
+        className="fixed right-[20px] bottom-[20px]"
+      >
         <Add />
-      </Link>
+      </div>
     </section>
   );
 }
