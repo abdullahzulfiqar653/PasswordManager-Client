@@ -25,6 +25,8 @@ const Layout = () => {
     handleOpenDeleteModal,
     openCreateFolderModal,
     handleCreateFolderModal,
+    openConfirmChangesModal,
+    handleConfirmChangesModal,
     openPasswordDeleteModal,
     handleOpenPasswordDeleteModal,
   } = useAuth();
@@ -56,6 +58,9 @@ const Layout = () => {
       )}
       {openPasswordDeleteModal && (
         <DeletePassword hideModal={handleOpenPasswordDeleteModal} />
+      )}
+      {openConfirmChangesModal && (
+        <ConfirmChanges hideModal={handleConfirmChangesModal} />
       )}
     </React.Fragment>
   );

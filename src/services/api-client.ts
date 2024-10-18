@@ -84,15 +84,20 @@ deletePasswords=(pass_id)=>{
   };
 
   create = (data) => {
-    return this.postConfig(JSON.stringify(data));
+    return this.postConfig(data);
   };
 
   verifyToken = (token, login) => {
     return this.postConfig({ token }).then(() => login());
   };
 
-  getUserPasswords = () => {
-    return this.get();
+  getUserPasswords = (id) => {
+    return axiosInstance
+    .get(`${this.endpoint}?folder=${id}`, getTokenIncludedConfig())
+    .then((res) => res.data)
+    .catch((error) => {
+      throw error;
+    });
   };
 
   getFolders = () => {
