@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { debounce } from "lodash";
 import { useAuth } from "../../AuthContext";
 import PasswordTable from "../../components/Table";
 import RootFolder from "../../components/RootFolder";
@@ -12,14 +12,29 @@ import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 const PasswordFolder = () => {
   const navigate = useNavigate();
-  const { isDesktop, search, passSelectedFolderId } = useAuth();
+  const { isDesktop, search, passSelectedFolderId, setSearch } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
-  const { data, isLoading, refetch } =
-    useGetUserPasswords(passSelectedFolderId);
+  const { data, isLoading, refetch } = useGetUserPasswords(
+    passSelectedFolderId,
+    search
+  );
+
+  const debouncedRefetch = debounce(() => {
+    refetch();
+  }, 500); // 500ms debounce time
 
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    // Call the debounced refetch function whenever search changes
+    if (search) {
+      debouncedRefetch();
+    } else {
+      refetch();
+    }
+    // Cleanup function to cancel the debounce on unmount
+    return () => {
+      debouncedRefetch.cancel();
+    };
+  }, [search, debouncedRefetch]); // Run this effect whenever 'search' changes
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -27,6 +42,7 @@ const PasswordFolder = () => {
 
   const handleRowClick = (item) => {
     navigate(`/dashboard/edit/${item.id}`, { state: { item } });
+    setSearch("");
   };
 
   return isDesktop ? (
@@ -58,32 +74,28 @@ const PasswordFolder = () => {
         Passwords
       </h3> */}
       <div className="flex flex-col gap-[11px]">
-        {data?.results
-          .filter((item) =>
-            item?.title.toLowerCase().includes(search.toLowerCase())
-          )
-          .map((passWordRecord, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-[2px] rounded-[6px] bg-[#0E1A60]"
+        {data?.results.map((passWordRecord, index) => (
+          <div
+            key={index}
+            className="flex flex-col gap-[2px] rounded-[6px] bg-[#0E1A60]"
+          >
+            <button
+              onClick={() => handleTabClick(index)}
+              className={`${
+                index === activeTab ? "active" : ""
+              } flex justify-between items-center text-white bg-[#010E59] py-[17px] px-[14px] text-[14px] dm-sans font-[400] leading-[20px]`}
             >
-              <button
-                onClick={() => handleTabClick(index)}
-                className={`${
-                  index === activeTab ? "active" : ""
-                } flex justify-between items-center text-white bg-[#010E59] py-[17px] px-[14px] text-[14px] dm-sans font-[400] leading-[20px]`}
-              >
-                {passWordRecord.title}
-                {index === activeTab ? <UpArrow /> : <DownArrow />}
-              </button>
-              {index == activeTab && (
-                <PasswordDetailContent
-                  passWordRecord={passWordRecord}
-                  handleRowClick={handleRowClick}
-                />
-              )}
-            </div>
-          ))}
+              {passWordRecord.title}
+              {index === activeTab ? <UpArrow /> : <DownArrow />}
+            </button>
+            {index == activeTab && (
+              <PasswordDetailContent
+                passWordRecord={passWordRecord}
+                handleRowClick={handleRowClick}
+              />
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );

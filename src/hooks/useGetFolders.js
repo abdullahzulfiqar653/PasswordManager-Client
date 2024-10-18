@@ -3,10 +3,10 @@ import APIClient from "../services/api-client";
 
 const apiClient = new APIClient("/folders/");
 
-const useGetFolders = () =>
+const useGetFolders = (search) =>
   useQuery({
     queryKey: ["folders"],
-    queryFn: () => apiClient.getFolders(),
+    queryFn: () => apiClient.getFolders(search),
     refetchOnWindowFocus: true,
     refetchOnMount: true,
     refetchOnReconnect: true,

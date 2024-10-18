@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import FoldersList from "./FoldersList";
 import PasswordFolder from "./PasswordFolder";
 import useGetFolders from "../../hooks/useGetFolders";
+import { useAuth } from "../../AuthContext";
 
 function Dashboard() {
   const { data: foldersData, refetch: refetchFolders } = useGetFolders();
+
   useEffect(() => {
     refetchFolders();
   }, [refetchFolders]);

@@ -91,17 +91,26 @@ deletePasswords=(pass_id)=>{
     return this.postConfig({ token }).then(() => login());
   };
 
-  getUserPasswords = (id) => {
+  getUserPasswords = (id, search) => {
+    let url = `${this.endpoint}?folder=${id}`;
+    if (search) { url += `&search=${search}`; }
     return axiosInstance
-    .get(`${this.endpoint}?folder=${id}`, getTokenIncludedConfig())
+    .get(url, getTokenIncludedConfig())
     .then((res) => res.data)
     .catch((error) => {
       throw error;
     });
   };
 
-  getFolders = () => {
-    return this.get();
+  getFolders = (search) => {
+    let url = `${this.endpoint}`;
+    if (search) { url += `?search=${search}`; }
+    return axiosInstance
+    .get(url, getTokenIncludedConfig())
+    .then((res) => res.data)
+    .catch((error) => {
+      throw error;
+    });
   };
 
   updatePassword = (data) => {

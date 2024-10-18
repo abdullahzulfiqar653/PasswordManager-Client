@@ -3,10 +3,10 @@ import APIClient from "../services/api-client";
 
 const apiClient = new APIClient("/passwords/");
 
-const useGetUserPasswords = (id) =>
+const useGetUserPasswords = (folder_id,search) =>
   useQuery({
     queryKey: ["getPassword"],
-    queryFn: () => apiClient.getUserPasswords(id),
+    queryFn: () => apiClient.getUserPasswords(folder_id,search),
     refetchOnWindowFocus: true,
     refetchOnMount: true,
     refetchOnReconnect: true,

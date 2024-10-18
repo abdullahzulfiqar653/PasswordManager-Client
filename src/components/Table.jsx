@@ -3,7 +3,7 @@ import moment from "moment";
 import { useAuth } from "../AuthContext";
 
 const PasswordTable = ({ data, handleRowClick }) => {
-  const { search, selectPasswordsId, toggleSelection, setSelectedPasswordsId } =
+  const { selectPasswordsId, toggleSelection, setSelectedPasswordsId } =
     useAuth();
   const [areAllSelected, setAreAllSelected] = useState(false);
   const handleSelectAllChange = (e) => {
@@ -20,10 +20,9 @@ const PasswordTable = ({ data, handleRowClick }) => {
 
   const handleCheckboxChange = (id) => {
     toggleSelection(id);
-    console.log("Checkbox clicked for item:", id);
   };
 
-  console.log(selectPasswordsId);
+
   return (
     <table className="w-full text-sm text-left">
       <thead className="text-xs text-gray-700 uppercase z-[3] bg-[#010E59]">
@@ -109,76 +108,72 @@ const PasswordTable = ({ data, handleRowClick }) => {
 
       {/* Data table when data exists */}
       <tbody>
-        {data?.results
-          .filter((item) =>
-            item?.title.toLowerCase().includes(search.toLowerCase())
-          )
-          .map((item, index) => (
-            <tr
-              key={index}
-              className="bg-transparent border-[1.5px] border-[#002256] hover:bg-[#4207AF]"
+        {data?.results.map((item, index) => (
+          <tr
+            key={index}
+            className="bg-transparent border-[1.5px] border-[#002256] hover:bg-[#4207AF]"
+          >
+            <td className="w-4 p-4">
+              <div className="flex items-center">
+                <input
+                  id={`checkbox-table-search-${index}`}
+                  type="checkbox"
+                  className="w-[18px] h-[18px] bg-[#101E71] cursor-pointer border-[#FFFFFF] rounded"
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleCheckboxChange(item.id);
+                  }}
+                  checked={selectPasswordsId.includes(item.id)}
+                />
+                <label
+                  htmlFor={`checkbox-table-search-${index}`}
+                  className="sr-only"
+                >
+                  checkbox
+                </label>
+              </div>
+            </td>
+            <td
+              onClick={() => handleRowClick(item)}
+              className="border-[1.5px] w-4 p-4 border-[#002256] dm-sans text-[15px] font-[400] px-6 text-[#DFDFDF]"
             >
-              <td className="w-4 p-4">
-                <div className="flex items-center">
-                  <input
-                    id={`checkbox-table-search-${index}`}
-                    type="checkbox"
-                    className="w-[18px] h-[18px] bg-[#101E71] cursor-pointer border-[#FFFFFF] rounded"
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleCheckboxChange(item.id);
-                    }}
-                    checked={selectPasswordsId.includes(item.id)}
-                  />
-                  <label
-                    htmlFor={`checkbox-table-search-${index}`}
-                    className="sr-only"
-                  >
-                    checkbox
-                  </label>
-                </div>
-              </td>
-              <td
-                onClick={() => handleRowClick(item)}
-                className="border-[1.5px] w-4 p-4 border-[#002256] dm-sans text-[15px] font-[400] px-6 text-[#DFDFDF]"
-              >
-                {item?.emoji && (
-                  <img src={`/${item.emoji}.png`} alt={item.emoji} />
-                )}
-              </td>
-              <th
-                onClick={() => handleRowClick(item)}
-                scope="row"
-                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF] whitespace-nowrap"
-              >
-                {item.title}
-              </th>
-              <td
-                onClick={() => handleRowClick(item)}
-                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
-              >
-                {item.username}
-              </td>
-              <td
-                onClick={() => handleRowClick(item)}
-                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
-              >
-                {item.url}
-              </td>
-              <td
-                onClick={() => handleRowClick(item)}
-                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
-              >
-                {item.notes}
-              </td>
-              <td
-                onClick={() => handleRowClick(item)}
-                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
-              >
-                {moment(item.updated_at).format("MMM Do YYYY, h:mm:ss a")}
-              </td>
-            </tr>
-          ))}
+              {item?.emoji && (
+                <img src={`/${item.emoji}.png`} alt={item.emoji} />
+              )}
+            </td>
+            <th
+              onClick={() => handleRowClick(item)}
+              scope="row"
+              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF] whitespace-nowrap"
+            >
+              {item.title}
+            </th>
+            <td
+              onClick={() => handleRowClick(item)}
+              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            >
+              {item.username}
+            </td>
+            <td
+              onClick={() => handleRowClick(item)}
+              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            >
+              {item.url}
+            </td>
+            <td
+              onClick={() => handleRowClick(item)}
+              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            >
+              {item.notes}
+            </td>
+            <td
+              onClick={() => handleRowClick(item)}
+              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            >
+              {moment(item.updated_at).format("MMM Do YYYY, h:mm:ss a")}
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

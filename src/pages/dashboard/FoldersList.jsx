@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { debounce } from "lodash";
 import { Routes, Route, Link, useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import SearchesTags from "../../components/SearchesTags";
@@ -8,15 +9,32 @@ import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 function FoldersList({ foldersData }) {
   const {
+    search,
+    setSearch,
     isDesktop,
     handleOpenDeleteModal,
     handleCreateFolderModal,
     passSelectedFolderId,
     setPassSelectedFolderId,
   } = useAuth();
-  const { data } = useGetFolders();
+  const { data, refetch:folderRefetch } = useGetFolders(search);
   const { refetch } = useGetUserPasswords(passSelectedFolderId);
-  console.log("Selected Folder id", passSelectedFolderId);
+
+  const debouncedRefetch = debounce(() => {
+    folderRefetch();
+  }, 500); 
+
+  useEffect(() => {
+    if (search) {
+      debouncedRefetch();
+    } else {
+      folderRefetch();
+    }
+    return () => {
+      debouncedRefetch.cancel();
+    };
+  }, [search, debouncedRefetch]); 
+
   useEffect(() => {
     refetch();
   }, [refetch, passSelectedFolderId]);
@@ -38,7 +56,10 @@ function FoldersList({ foldersData }) {
           {foldersData?.results.map((folder, index) => (
             <li key={index}>
               <div
-                onClick={() => setPassSelectedFolderId(folder.id)} // Handle folder selection
+                onClick={() => {
+                  setPassSelectedFolderId(folder.id);
+                  setSearch("");
+                }}
                 className={`h-[54px] max-w-[296px] flex items-center py-[6px] px-[13px] pl-[21px] ${
                   passSelectedFolderId === folder.id
                     ? "active folder-wrapper"
@@ -47,6 +68,7 @@ function FoldersList({ foldersData }) {
               >
                 <div className="flex h-full w-full justify-between items-center">
                   <div className="flex gap-[15px] items-center">
+                    {passSelectedFolderId === folder.id && <Bar />}
                     <Folder />
                     <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
                       {folder.title}
@@ -93,31 +115,29 @@ function FoldersList({ foldersData }) {
         {data?.results.map((folder, index) => (
           <li
             key={index}
-            onClick={() => setPassSelectedFolderId(folder.id)}
+            onClick={() => {
+              setPassSelectedFolderId(folder.id);
+              setSearch("");
+            }}
             className={`folder-wrapper bg-[#010E59] rounded-[9px] relative flex gap-[5px] items-center`}
           >
-            <NavLink
-              to={`/dashboard/folders/${folder.id}`}
-              className={({ isActive }) =>
-                `h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px] ${
-                  isActive ? "active folder-wrapper" : ""
-                }`
-              }
+            <button
+              className={`h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px] ${
+                passSelectedFolderId === folder.id
+                  ? "active folder-wrapper"
+                  : ""
+              }`}
             >
-              {({ isActive }) => (
-                <>
-                  {isActive && <Bar />}
-                  <div className="flex h-full gap-[15px] items-center justify-between w-full">
-                    <div className="flex gap-[15px] items-center">
-                      <Folder />
-                      <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-                        {folder.title}
-                      </h4>
-                    </div>
-                  </div>
-                </>
-              )}
-            </NavLink>
+              <div className="flex h-full gap-[15px] items-center justify-between w-full">
+                <div className="flex gap-[15px] items-center">
+                  {passSelectedFolderId === folder.id && <Bar />}
+                  <Folder />
+                  <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
+                    {folder.title}
+                  </h4>
+                </div>
+              </div>
+            </button>
             <span
               onClick={() => {
                 handleOpenDeleteModal(folder.id);
