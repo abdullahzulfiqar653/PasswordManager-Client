@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState("hello null");
   const [passSelectedFolderId, setPassSelectedFolderId] = useState("");
+  const [selectPasswordsId, setSelectedPasswordsId] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -70,6 +71,16 @@ export const AuthProvider = ({ children }) => {
     setOpenCreateFolderModal((prev) => !prev);
   };
 
+  const toggleSelection = (id) => {
+    setSelectedPasswordsId((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((selectedId) => selectedId !== id);
+      } else {
+        return [...prevSelected, id];
+      }
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -91,6 +102,9 @@ export const AuthProvider = ({ children }) => {
         openCreateFolderModal,
         setOpenCreateFolderModal,
         handleCreateFolderModal,
+        toggleSelection,
+        selectPasswordsId,
+        setSelectedPasswordsId,
         showGeneratePassModal,
         applyPasswordButton,
         showSaveConfirmationModal,

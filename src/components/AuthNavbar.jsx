@@ -6,6 +6,8 @@ function Navbar() {
   const {
     search,
     setSearch,
+    selectPasswordsId,
+    setSelectedPasswordsId,
     handleGeneratePassVisibility,
     handleSaveConfirmationModalVisibility,
   } = useAuth();
@@ -57,30 +59,46 @@ function Navbar() {
                   </span>
                 </label>
               </div>
-              <Link
-                onClick={() => handleGeneratePassVisibility("navbar")}
-                className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
-              >
-                <Dice />
-              </Link>
-              <Link
-                to="/dashboard/add"
-                className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
-              >
-                <Add />
-              </Link>
-              {/* <Link
+              {selectPasswordsId?.length === 0 ? (
+                <>
+                  <Link
+                    onClick={() => handleGeneratePassVisibility("navbar")}
+                    className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Dice />
+                  </Link>
+                  <Link
+                    to="/dashboard/add"
+                    className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Add />
+                  </Link>
+                  {/* <Link
                 onClick={handleSaveConfirmationModalVisibility}
                 className="w-[28px] h-[28px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
               >
                 <Save />
               </Link> */}
-              <Link
-                to="/dashboard/folders"
-                className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
-              >
-                <Folder />
-              </Link>
+                  <Link
+                    to="/dashboard/folders"
+                    className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Folder />
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setSelectedPasswordsId([])}
+                    className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Unselect />
+                  </button>
+                  <button className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full">
+                    <Delete />
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </nav>
@@ -91,6 +109,38 @@ function Navbar() {
 
 export default Navbar;
 
+const Delete = () => (
+  <svg
+    width="17"
+    height="18"
+    viewBox="0 0 17 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px]"
+  >
+    <path
+      d="M5.13542 1.62H4.95833C5.05573 1.62 5.13542 1.539 5.13542 1.44V1.62ZM5.13542 1.62H11.8646V1.44C11.8646 1.539 11.9443 1.62 12.0417 1.62H11.8646V3.24H13.4583V1.44C13.4583 0.64575 12.823 0 12.0417 0H4.95833C4.17695 0 3.54167 0.64575 3.54167 1.44V3.24H5.13542V1.62ZM16.2917 3.24H0.708333C0.316536 3.24 0 3.56175 0 3.96V4.68C0 4.779 0.0796875 4.86 0.177083 4.86H1.51406L2.06081 16.6275C2.09622 17.3948 2.72044 18 3.47526 18H13.5247C14.2818 18 14.9038 17.397 14.9392 16.6275L15.4859 4.86H16.8229C16.9203 4.86 17 4.779 17 4.68V3.96C17 3.56175 16.6835 3.24 16.2917 3.24ZM13.3543 16.38H3.6457L3.11003 4.86H13.89L13.3543 16.38Z"
+      fill="white"
+    />
+  </svg>
+);
+const Unselect = () => (
+  <svg
+    width="24"
+    height="20"
+    viewBox="0 0 24 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px]"
+  >
+    <path
+      d="M6.86667 7L1 13M1 13L6.86667 19M1 13H17.1333C18.6893 13 20.1815 12.3679 21.2817 11.2426C22.3819 10.1174 23 8.5913 23 7C23 5.4087 22.3819 3.88258 21.2817 2.75736C20.1815 1.63214 18.6893 1 17.1333 1H15.6667"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 const Search = () => (
   <svg
     width="18"

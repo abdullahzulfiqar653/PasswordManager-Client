@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { useAuth } from "../AuthContext";
 
 const PasswordTable = ({ data, handleRowClick }) => {
-  const { search } = useAuth();
-  console.log("------------------", data);
+  const { search, selectPasswordsId, toggleSelection, setSelectedPasswordsId } =
+    useAuth();
+  const [areAllSelected, setAreAllSelected] = useState(false);
+  const handleSelectAllChange = (e) => {
+    const checked = e.target.checked;
+    setAreAllSelected(checked);
+
+    if (checked) {
+      const allIds = data?.results.map((item) => item.id);
+      setSelectedPasswordsId(allIds);
+    } else {
+      setSelectedPasswordsId([]);
+    }
+  };
+
+  const handleCheckboxChange = (id) => {
+    toggleSelection(id);
+    console.log("Checkbox clicked for item:", id);
+  };
+
+  console.log(selectPasswordsId);
   return (
     <table className="w-full text-sm text-left">
       <thead className="text-xs text-gray-700 uppercase z-[3] bg-[#010E59]">
@@ -15,11 +34,19 @@ const PasswordTable = ({ data, handleRowClick }) => {
                 id="checkbox-all-search"
                 type="checkbox"
                 className="w-[18px] h-[18px] bg-[#101E71] border-[#FFFFFF] rounded"
+                checked={areAllSelected}
+                onChange={handleSelectAllChange}
               />
               <label htmlFor="checkbox-all-search" className="sr-only">
                 checkbox
               </label>
             </div>
+          </th>
+          <th
+            scope="col"
+            className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-4 py-[20px] text-[#DFDFDF]"
+          >
+            Emoji
           </th>
           <th
             scope="col"
@@ -69,9 +96,10 @@ const PasswordTable = ({ data, handleRowClick }) => {
                 </h1>
                 <p className="text-[10px] font-sans leading-[13.02px] text-[#FFFFFFA1]">
                   Take the first step towards safeguarding your digital world.
-                  Add your first password now and<br/> experience top-notch security,
-                  ease of access, and peace of mind. Start building your vault
-                  and<br/> protect what matters most.
+                  Add your first password now and
+                  <br /> experience top-notch security, ease of access, and
+                  peace of mind. Start building your vault and
+                  <br /> protect what matters most.
                 </p>
               </div>
             </td>
@@ -88,40 +116,65 @@ const PasswordTable = ({ data, handleRowClick }) => {
           .map((item, index) => (
             <tr
               key={index}
-              onClick={() => handleRowClick(item)}
               className="bg-transparent border-[1.5px] border-[#002256] hover:bg-[#4207AF]"
             >
               <td className="w-4 p-4">
                 <div className="flex items-center">
                   <input
-                    id="checkbox-table-search-1"
+                    id={`checkbox-table-search-${index}`}
                     type="checkbox"
-                    className="w-[18px] h-[18px] bg-[#101E71] border-[#FFFFFF] rounded"
+                    className="w-[18px] h-[18px] bg-[#101E71] cursor-pointer border-[#FFFFFF] rounded"
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      handleCheckboxChange(item.id);
+                    }}
+                    checked={selectPasswordsId.includes(item.id)}
                   />
-                  <label htmlFor="checkbox-table-search-1" className="sr-only">
+                  <label
+                    htmlFor={`checkbox-table-search-${index}`}
+                    className="sr-only"
+                  >
                     checkbox
                   </label>
                 </div>
               </td>
+              <td
+                onClick={() => handleRowClick(item)}
+                className="border-[1.5px] w-4 p-4 border-[#002256] dm-sans text-[15px] font-[400] px-6 text-[#DFDFDF]"
+              >
+                {item?.emoji && (
+                  <img src={`/${item.emoji}.png`} alt={item.emoji} />
+                )}
+              </td>
               <th
+                onClick={() => handleRowClick(item)}
                 scope="row"
                 className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF] whitespace-nowrap"
               >
-                {item?.emoji
-                  ? String.fromCodePoint(parseInt(item.emoji, 16))
-                  : ""}{" "}
                 {item.title}
               </th>
-              <td className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]">
+              <td
+                onClick={() => handleRowClick(item)}
+                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              >
                 {item.username}
               </td>
-              <td className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]">
+              <td
+                onClick={() => handleRowClick(item)}
+                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              >
                 {item.url}
               </td>
-              <td className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]">
+              <td
+                onClick={() => handleRowClick(item)}
+                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              >
                 {item.notes}
               </td>
-              <td className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]">
+              <td
+                onClick={() => handleRowClick(item)}
+                className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              >
                 {moment(item.updated_at).format("MMM Do YYYY, h:mm:ss a")}
               </td>
             </tr>
