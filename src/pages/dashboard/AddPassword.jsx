@@ -197,7 +197,6 @@ function AddPassword() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log("Selected file:", file);
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
         toast.error("File size must be less than 2 MB.");
