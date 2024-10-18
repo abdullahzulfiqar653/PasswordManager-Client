@@ -60,12 +60,23 @@ class APIClient {
       });
   };
 
+  delete=(id)=>{
+    return axiosInstance
+    .delete(`${this.endpoint}/${id}`, getTokenIncludedConfig())
+    .then((res) => res.data)
+    .catch((error) => {throw error});
+}
+
   createToken = (pass_phrase) => {
     return this.post({ pass_phrase });
   };
 
   getSeeds = () => {
     return this.post();
+  };
+
+  createFolder = (name) => {
+    return this.postConfig(name);
   };
 
   create = (data) => {
@@ -77,6 +88,10 @@ class APIClient {
   };
 
   getUserPasswords = () => {
+    return this.get();
+  };
+
+  getFolders = () => {
     return this.get();
   };
 

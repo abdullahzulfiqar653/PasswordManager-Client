@@ -23,6 +23,9 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [generatorPassword, setGeneratorPassword] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
+  const [selectedFolderId, setSelectedFolderId] = useState("hello null");
+  const [passSelectedFolderId, setPassSelectedFolderId] = useState("");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -58,8 +61,13 @@ export const AuthProvider = ({ children }) => {
     setApplyPasswordButton(source);
   };
 
-  const handleOpenDeleteModal = () => {
+  const handleOpenDeleteModal = (id) => {
+    setSelectedFolderId(id);
     setOpenDeleteModal((prev) => !prev);
+  };
+
+  const handleCreateFolderModal = () => {
+    setOpenCreateFolderModal((prev) => !prev);
   };
 
   return (
@@ -74,9 +82,15 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         openDeleteModal,
         setOpenDeleteModal,
+        selectedFolderId,
         generatorPassword,
         setGeneratorPassword,
         handleOpenDeleteModal,
+        passSelectedFolderId,
+        setPassSelectedFolderId,
+        openCreateFolderModal,
+        setOpenCreateFolderModal,
+        handleCreateFolderModal,
         showGeneratePassModal,
         applyPasswordButton,
         showSaveConfirmationModal,

@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import ConfirmationModal from "../components/ConfirmationModal";
 import GeneratePassword from "../components/GeneratePassword";
 import DeleteConfirmation from "../components/DeleteConfirmation";
+import AddNewFolder from "../components/AddNewFolder";
+import ConfirmChanges from "../components/ConfirmChanges";
 
 const Layout = () => {
   const {
@@ -20,6 +22,8 @@ const Layout = () => {
     applyPasswordButton,
     openDeleteModal,
     handleOpenDeleteModal,
+    openCreateFolderModal,
+    handleCreateFolderModal,
   } = useAuth();
   const location = useLocation();
   const noNavbarRoutes = ["/auth/login", "/auth/register"];
@@ -43,6 +47,9 @@ const Layout = () => {
       )}
       {openDeleteModal && (
         <DeleteConfirmation hideModal={handleOpenDeleteModal} />
+      )}
+      {openCreateFolderModal && (
+        <AddNewFolder hideModal={handleCreateFolderModal} />
       )}
     </React.Fragment>
   );
