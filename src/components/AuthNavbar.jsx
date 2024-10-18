@@ -9,6 +9,7 @@ function Navbar() {
     selectPasswordsId,
     setSelectedPasswordsId,
     handleGeneratePassVisibility,
+    handleOpenPasswordDeleteModal,
     handleSaveConfirmationModalVisibility,
   } = useAuth();
 
@@ -94,7 +95,10 @@ function Navbar() {
                   >
                     <Unselect />
                   </button>
-                  <button className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full">
+                  <button
+                    onClick={() => handleOpenPasswordDeleteModal()}
+                    className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
                     <Delete />
                   </button>
                 </>

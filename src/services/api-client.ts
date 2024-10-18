@@ -67,6 +67,10 @@ class APIClient {
     .catch((error) => {throw error});
 }
 
+deletePasswords=(pass_id)=>{
+   return this.postConfig(pass_id);
+}
+
   createToken = (pass_phrase) => {
     return this.post({ pass_phrase });
   };

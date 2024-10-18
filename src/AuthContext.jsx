@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState("hello null");
   const [passSelectedFolderId, setPassSelectedFolderId] = useState("");
+  const [openPasswordDeleteModal, setOpenPasswordDeleteModal] = useState("");
   const [selectPasswordsId, setSelectedPasswordsId] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -71,6 +72,10 @@ export const AuthProvider = ({ children }) => {
     setOpenCreateFolderModal((prev) => !prev);
   };
 
+  const handleOpenPasswordDeleteModal = () => {
+    setOpenPasswordDeleteModal((prev) => !prev);
+  };
+
   const toggleSelection = (id) => {
     setSelectedPasswordsId((prevSelected) => {
       if (prevSelected.includes(id)) {
@@ -105,6 +110,9 @@ export const AuthProvider = ({ children }) => {
         toggleSelection,
         selectPasswordsId,
         setSelectedPasswordsId,
+        openPasswordDeleteModal,
+        setOpenPasswordDeleteModal,
+        handleOpenPasswordDeleteModal,
         showGeneratePassModal,
         applyPasswordButton,
         showSaveConfirmationModal,

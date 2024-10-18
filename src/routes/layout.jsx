@@ -10,6 +10,7 @@ import GeneratePassword from "../components/GeneratePassword";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import AddNewFolder from "../components/AddNewFolder";
 import ConfirmChanges from "../components/ConfirmChanges";
+import DeletePassword from "../components/DeletePassword";
 
 const Layout = () => {
   const {
@@ -24,6 +25,8 @@ const Layout = () => {
     handleOpenDeleteModal,
     openCreateFolderModal,
     handleCreateFolderModal,
+    openPasswordDeleteModal,
+    handleOpenPasswordDeleteModal,
   } = useAuth();
   const location = useLocation();
   const noNavbarRoutes = ["/auth/login", "/auth/register"];
@@ -50,6 +53,9 @@ const Layout = () => {
       )}
       {openCreateFolderModal && (
         <AddNewFolder hideModal={handleCreateFolderModal} />
+      )}
+      {openPasswordDeleteModal && (
+        <DeletePassword hideModal={handleOpenPasswordDeleteModal} />
       )}
     </React.Fragment>
   );
