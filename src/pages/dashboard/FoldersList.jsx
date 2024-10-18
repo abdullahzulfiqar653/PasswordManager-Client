@@ -8,6 +8,7 @@ import useGetFolders from "../../hooks/useGetFolders";
 import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 function FoldersList({ foldersData }) {
+  const navigate = useNavigate();
   const {
     search,
     setSearch,
@@ -109,8 +110,8 @@ function FoldersList({ foldersData }) {
     </section>
   ) : (
     <section className="w-full relative container flex flex-col gap-[24px]">
-      <PasswordFolder />
-      <h4 className="text-white text-[22px] mt-0 font-[400]">Folders</h4>
+      {/* <PasswordFolder /> */}
+      <h4 className="text-white text-[22px] mt-5 font-[400]">Folders</h4>
       <ul className="flex flex-col gap-[9px]">
         {data?.results.map((folder, index) => (
           <li
@@ -122,6 +123,7 @@ function FoldersList({ foldersData }) {
             className={`folder-wrapper bg-[#010E59] rounded-[9px] relative flex gap-[5px] items-center`}
           >
             <button
+            onClick={()=>navigate(`/dashboard/folders/${folder.id}`)}
               className={`h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px] ${
                 passSelectedFolderId === folder.id
                   ? "active folder-wrapper"
