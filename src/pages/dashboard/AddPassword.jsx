@@ -30,7 +30,7 @@ function AddPassword() {
     notes: null,
     emoji: null,
     folder: "",
-    // file: "",
+    file: "",
     ...state?.item,
   });
   const navigate = useNavigate();
@@ -153,11 +153,8 @@ function AddPassword() {
         uploadData.append(key, formData[key]);
       }
     }
-    for (let pair of uploadData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
     const mutationFn = isUpdating ? updatePassword : addPassword;
-    mutationFn(formData, {
+    mutationFn(uploadData, {
       onSuccess: () => {
         setGeneratorPassword("");
         navigate("/dashboard/folders");
@@ -275,7 +272,6 @@ function AddPassword() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log("Selected file:", file);
     if (file) {
       setSelectedFile(file);
       setFormData((prevFormData) => ({

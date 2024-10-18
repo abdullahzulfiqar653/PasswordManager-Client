@@ -16,6 +16,9 @@ function getTokenIncludedConfig() {
   };
 }
 
+let getTokenForMultipartData = getTokenIncludedConfig();
+getTokenForMultipartData.headers['Content-Type'] = 'multipart/form-data';
+
 class APIClient {
   endpoint;
   constructor(endpoint) {
@@ -84,7 +87,12 @@ deletePasswords=(pass_id)=>{
   };
 
   create = (data) => {
-    return this.postConfig(data);
+    return axiosInstance
+    .post(this.endpoint, data, getTokenForMultipartData)
+    .then((res) => res.data)
+    .catch((error) => {
+      throw error;
+    });
   };
 
   verifyToken = (token, login) => {
@@ -115,7 +123,15 @@ deletePasswords=(pass_id)=>{
 
   updatePassword = (data) => {
     const body = JSON.stringify(data);
-    return this.patch(data, body);
+     return axiosInstance
+    .patch(`${this.endpoint}/${data?.id}/`, body, getTokenIncludedConfig())
+    .then((res) => ({
+      data: res.data,
+      status: res.status,
+    }))
+    .catch((error) => {
+      throw error;
+    });
   };
 }
 
