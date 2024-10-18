@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Link, useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import SearchesTags from "../../components/SearchesTags";
 import PasswordFolder from "./PasswordFolder";
 import useGetFolders from "../../hooks/useGetFolders";
+import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 function FoldersList({ foldersData }) {
   const {
     isDesktop,
     handleOpenDeleteModal,
     handleCreateFolderModal,
+    passSelectedFolderId,
     setPassSelectedFolderId,
   } = useAuth();
-  const { data, refetch } = useGetFolders();
+  const { data } = useGetFolders();
+  const { refetch } = useGetUserPasswords(passSelectedFolderId);
+  console.log("Selected Folder id", passSelectedFolderId);
+  useEffect(() => {
+    refetch();
+  }, [refetch, passSelectedFolderId]);
+
   return isDesktop ? (
     <section className="hidden md:flex max-w-[296px] w-full bg-[#101E71] rounded-[12px] flex-col">
       <section className="h-[624px] flex flex-col gap-[16px]">
@@ -28,36 +36,33 @@ function FoldersList({ foldersData }) {
 
         <ul className="flex flex-col gap-[16px] overflow-y-auto">
           {foldersData?.results.map((folder, index) => (
-            <li key={index} onClick={() => setPassSelectedFolderId(folder.id)}>
-              <NavLink
-                to={`/dashboard/folders/${folder.id}`}
-                className={({ isActive }) =>
-                  `h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px] ${
-                    isActive ? "active folder-wrapper" : ""
-                  }`
-                }
+            <li key={index}>
+              <div
+                onClick={() => setPassSelectedFolderId(folder.id)} // Handle folder selection
+                className={`h-[54px] max-w-[296px] flex items-center py-[6px] px-[13px] pl-[21px] ${
+                  passSelectedFolderId === folder.id
+                    ? "active folder-wrapper"
+                    : ""
+                }`}
               >
-                {({ isActive }) => (
-                  <>
-                    {isActive && <Bar />}
-                    <div className="flex h-full gap-[15px] items-center justify-between w-full">
-                      <div className="flex gap-[15px] items-center">
-                        <Folder />
-                        <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
-                          {folder.title}
-                        </h4>
-                      </div>
-                      <span
-                        onClick={() => {
-                          handleOpenDeleteModal(folder.id);
-                        }}
-                      >
-                        <Recycle className={"w-[12px] h-[13px]"} />
-                      </span>
-                    </div>
-                  </>
-                )}
-              </NavLink>
+                <div className="flex h-full w-full justify-between items-center">
+                  <div className="flex gap-[15px] items-center">
+                    <Folder />
+                    <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
+                      {folder.title}
+                    </h4>
+                  </div>
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent button click from triggering folder selection
+                      handleOpenDeleteModal(folder.id);
+                    }}
+                    className="ml-auto" // This ensures the recycle icon is at the end
+                  >
+                    <Recycle className={"w-[12px] h-[13px]"} />
+                  </span>
+                </div>
+              </div>
             </li>
           ))}
           {/* <ul className="flex flex-col gap-[16px] pl-[33px] bg-[#010E59]">

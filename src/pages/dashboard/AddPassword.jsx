@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../AuthContext";
 import useAddPassword from "../../hooks/useAddPassword";
 import useUpdatePassword from "../../hooks/useUpdatePassword";
+import useGetFolders from "../../hooks/useGetFolders";
 
 function AddPassword() {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -17,13 +18,19 @@ function AddPassword() {
   const isUpdating = Boolean(state?.item);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
+  const [selectedEmoji, setSelectedEmoji] = useState("");
+  const [progressValue, setProgressValue] = useState(10);
+  const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
-    username: "",
-    password: "",
-    url: "",
+    username: null,
+    password: null,
+    url: null,
     notes: null,
-    emoji: "",
+    emoji: null,
+    folder: "",
+    // file: "",
     ...state?.item,
   });
   const navigate = useNavigate();
@@ -31,74 +38,13 @@ function AddPassword() {
     handleGeneratePassVisibility,
     generatorPassword,
     setGeneratorPassword,
+    passSelectedFolderId,
+    handleCreateFolderModal,
+    handleConfirmChangesModal,
   } = useAuth();
-
   const { mutate: addPassword } = useAddPassword();
   const { mutate: updatePassword } = useUpdatePassword();
-
-  useEffect(() => {
-    if (generatorPassword)
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        password: generatorPassword,
-      }));
-  }, [generatorPassword]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    if (name === "notes" && !value) {
-      setFormData({ ...formData, [name]: null });
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const mutationFn = isUpdating ? updatePassword : addPassword;
-    mutationFn(formData, {
-      onSuccess: () => {
-        setGeneratorPassword("");
-        navigate("/dashboard/folders");
-        toast.success(
-          `Password ${isUpdating ? "updated" : "added"} successfully.`,
-          {
-            className: "toast-message",
-          }
-        );
-      },
-      onError: (error) => {
-        setErrors(error.response.data);
-        toast.error(
-          error.response.data?.error
-            ? error.response.data?.error[0]
-            : "Please fix the errors in mentioned fields.",
-          {
-            className: "toast-message",
-          }
-        );
-      },
-    });
-  };
-
-  const handleSelect = (value) => {
-    setSelectedValue(value);
-    setIsDropdownOpen(false);
-  };
-
-  const passwordVisibilityHandler = () => setIsPasswordShow((prev) => !prev);
-
-  const onEmojiClick = (emojiObject) => {
-    setInputStr((prevInput) => prevInput + emojiObject.emoji);
-    setShowPicker(false);
-    const emojiCodePoint = emojiObject.emoji.codePointAt(0).toString(16);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      emoji: emojiCodePoint,
-    }));
-  };
+  const { data } = useGetFolders();
 
   const emojiArray = [
     {
@@ -191,42 +137,168 @@ function AddPassword() {
     },
   ];
 
-  const [selectedEmoji, setSelectedEmoji] = useState(""); // Store the selected emoji
+  useEffect(() => {
+    if (generatorPassword)
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        password: generatorPassword,
+      }));
+  }, [generatorPassword]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const uploadData = new FormData();
+    for (const key in formData) {
+      if (formData[key] !== null && formData[key] !== undefined) {
+        uploadData.append(key, formData[key]);
+      }
+    }
+    for (let pair of uploadData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+    const mutationFn = isUpdating ? updatePassword : addPassword;
+    mutationFn(formData, {
+      onSuccess: () => {
+        setGeneratorPassword("");
+        navigate("/dashboard/folders");
+        toast.success(
+          `Password ${isUpdating ? "updated" : "added"} successfully.`,
+          {
+            className: "toast-message",
+          }
+        );
+      },
+      onError: (error) => {
+        setErrors(error.response.data);
+        toast.error(
+          error.response.data?.error
+            ? error.response.data?.error[0]
+            : "Please fix the errors in mentioned fields.",
+          {
+            className: "toast-message",
+          }
+        );
+      },
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    if (
+      (name === "notes" ||
+        name === "username" ||
+        name === "password" ||
+        name === "url" ||
+        name === "emoji") &&
+      !value
+    ) {
+      setFormData({ ...formData, [name]: null });
+    }
+  };
+
+  const passwordVisibilityHandler = () => setIsPasswordShow((prev) => !prev);
+
+  const onEmojiClick = (emojiObject) => {
+    setInputStr((prevInput) => prevInput + emojiObject.emoji);
+    setShowPicker(false);
+    const emojiCodePoint = emojiObject.emoji.codePointAt(0).toString(16);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      emoji: emojiCodePoint,
+    }));
+  };
+
+  useEffect(() => {
+    if (formData?.emoji) {
+      const imgTag = `<img src="/${formData.emoji}.png" alt="${formData.emoji}" width="auto" height="auto" />`;
+      setSelectedEmoji(imgTag);
+    }
+  }, [formData?.emoji]);
 
   const handleEmojiSelect = (emoji) => {
-    const imgTag = `<img src="${emoji.url}" alt="${emoji.name}" width="auto" height="auto" />`;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      emoji: emoji.name,
+    }));
+    const imgTag = `<img src="/${emoji.name}.png" alt="${emoji.name}" width="auto" height="auto" />`;
     setSelectedEmoji(imgTag);
     setShowPicker(false);
   };
-  const [progressValue, setProgressValue] = useState(10);
-  const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleSelect = (id, value) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      folder: id,
+    }));
+    setSelectedValue(value);
+    setIsDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    if (passSelectedFolderId && data?.results) {
+      const selectedFolder = data.results.find(
+        (folder) => folder.id === passSelectedFolderId
+      );
+      if (selectedFolder) {
+        setSelectedValue(selectedFolder.title);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          folder: selectedFolder.id,
+        }));
+      }
+    }
+  }, [passSelectedFolderId, data]);
+
+  useEffect(() => {
+    if (formData?.folder && data?.results) {
+      const folder = data.results.find((item) => item.id === formData.folder);
+      if (folder) {
+        setSelectedValue(folder.title);
+      }
+    }
+  }, [formData?.folder, data]);
+
   const handleBrowseClick = () => {
     fileInputRef.current.click();
+    setProgressValue(0);
+    setSelectedFile(null);
+  };
+
+  const handleFileRemove = () => {
+    setProgressValue(0);
+    setSelectedFile(null);
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    console.log("Selected file:", file);
     if (file) {
       setSelectedFile(file);
-      const progressSteps = [25, 50, 75, 100];
-      const updateProgress = (index) => {
-        if (index < progressSteps.length) {
-          setProgressValue(progressSteps[index]);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        file: file,
+      }));
+      const totalTime = 4000;
+      const stepTime = totalTime / 100;
+
+      let currentProgress = 0;
+
+      const intervalId = setInterval(() => {
+        if (currentProgress < 100) {
+          currentProgress += 1;
+          setProgressValue(currentProgress);
+        } else {
+          clearInterval(intervalId);
         }
-      };
-      const intervals = progressSteps.map((_, index) =>
-        setTimeout(() => updateProgress(index), (index + 1) * 1000)
-      );
-      return () => intervals.forEach(clearTimeout);
+      }, stepTime);
+
+      return () => clearInterval(intervalId);
     }
   };
-
-  const handleFileRemove = () => {
-    setSelectedFile(null);
-  };
-
-  console.log(progressValue);
 
   return (
     <section className="w-full relative flex mt-[20px] md:mt-[42px] pb-[56px] gap-[7px]">
@@ -236,14 +308,14 @@ function AddPassword() {
       />
       <img
         src="/boxes.svg"
-        className="absolute w-[100vh]  top-[-135px]  z-[1] object-cover opacity-30"
+        className="absolute w-[100vh] md:w-[150vw] top-[-135px] h-[120vh] md:h-[75vw] z-[1] object-cover opacity-30"
       />
       <section className="w-full flex-1 flex flex-col md:gap-[20px] container z-[3]">
         <h4 className=" text-white  text-[22px]  md:text-[32px] leading-[64px] font-[400]">
           Root . Add Entry
         </h4>
 
-        {/* <form onSubmit={handleSubmit} onC className="flex flex-col gap-[25px]"> */}
+        {/* <form enctype="multipart/form-data"> */}
         <div className="flex flex-col md:gap-[38px] flex-wrap md:flex-row">
           <div className="flex-1 flex flex-col md:gap-[4px]">
             <label className="dm-sans text-[#DFDFDF] text-[9.77px] sm:text-[16px] leading-[19.54px] sm:leading-[32px] font-[400]">
@@ -271,11 +343,6 @@ function AddPassword() {
               onChange={handleChange}
               className="w-full dm-sans border-[1px] mb-2 md:mb-0 h-[37.86px] md:h-auto rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
             />
-            {errors.username && (
-              <span className="text-red-500 text-[12px]">
-                {errors.username[0]}
-              </span>
-            )}
           </div>
         </div>
         <div className="flex flex-col md:gap-[38px] flex-wrap md:flex-row">
@@ -304,11 +371,6 @@ function AddPassword() {
                 <Dice />
               </span>
             </div>
-            {errors.password && (
-              <span className="text-red-500 text-[12px]">
-                {errors.password[0]}
-              </span>
-            )}
           </div>
           <div className="flex-1 flex flex-col md:gap-[4px]">
             <label className="dm-sans text-[#DFDFDF] text-[9.77px] sm:text-[16px] leading-[19.54px] sm:leading-[32px] font-[400]">
@@ -321,9 +383,6 @@ function AddPassword() {
               className="w-full dm-sans border-[1px] mb-2 md:mb-0 h-[37.86px] md:h-auto rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
               placeholder="https://examples.com"
             />
-            {errors.url && (
-              <span className="text-red-500 text-[12px]">{errors.url[0]}</span>
-            )}
           </div>
         </div>
         <div className="flex flex-col md:gap-[38px] flex-wrap md:flex-row">
@@ -339,7 +398,6 @@ function AddPassword() {
                 onClick={() => setShowPicker((prev) => !prev)}
               ></div>
 
-              {/* SVG Icon */}
               <svg
                 width="18"
                 height="10"
@@ -354,7 +412,6 @@ function AddPassword() {
                 />
               </svg>
 
-              {/* Dropdown for Emojis */}
               {showPicker && (
                 <div className="absolute mt-2 top-[100%] left-0 bg-[#101E71] border-[1px] border-[#374CC4] rounded-[12.87px] z-50 w-full py-4 px-2">
                   <div className="grid grid-cols-7 md:grid-cols-9 lg:grid-cols-10 gap-5">
@@ -385,7 +442,7 @@ function AddPassword() {
             <div className="relative flex-1 cursor-pointer">
               <Folder className="w-[18px] h-[18px] sm:w-[28px] sm:h-[28px] absolute top-[40%] md:top-[50%] translate-y-[-50%] left-[20px]" />
               {selectedValue && (
-                <span className="absolute top-[40%] md:top-[50%] translate-y-[-50%] left-[50px] font-sans text-white text-[16px]">
+                <span className="absolute top-[40%] md:top-[50%] translate-y-[-50%] left-[50px] sm:left-[60px] font-sans text-white text-[16px]">
                   {selectedValue}
                 </span>
               )}
@@ -412,44 +469,38 @@ function AddPassword() {
                   fill="white"
                 />
               </svg>
-
-              {/* Dropdown */}
+              {errors.folder && (
+                <span className="absolute bottom-[-20px] left-0 text-red-500 text-[12px]">
+                  {errors.folder[0]}
+                </span>
+              )}
               {isDropdownOpen && (
                 <div className="absolute left-0 mt-2 w-full h-[273px] overflow-y-auto bg-[#101E71] text-white shadow-[0px 4px 32px 0px #00000040] rounded-[12px] z-10">
-                  {/* Dropdown items */}
                   <ul className="p-4">
+                    {data?.results?.map((folder) => (
+                      <li
+                        key={folder.id}
+                        className="flex gap-[13px] cursor-pointer pl-1 py-2 text-[16px] font-sans"
+                        onClick={() => handleSelect(folder.id, folder.title)}
+                      >
+                        <Folder
+                          className={
+                            "mt-[4px] sm:mt-0 sm:mb-[2px] w-[18px] h-[18px] sm:w-[28px] sm:h-[28px]"
+                          }
+                        />
+                        {folder.title}
+                      </li>
+                    ))}
                     <li
-                      className="flex gap-[13px] cursor-pointer pl-1 py-2 text-[16px] font-sans"
-                      onClick={() => handleSelect("Folder 1")}
+                      className="flex gap-[13px] cursor-pointer pl-1 py-2 mt-1 text-[17px] font-sans"
+                      onClick={() => handleCreateFolderModal()}
                     >
-                      <Folder
+                      <Folders
                         className={
                           "mt-[4px] sm:mt-0 sm:mb-[2px] w-[18px] h-[18px] sm:w-[28px] sm:h-[28px]"
                         }
-                      />{" "}
-                      Folder 1
-                    </li>
-                    <li
-                      className="flex gap-[13px] cursor-pointer pl-1 py-2 text-[16px] font-sans"
-                      onClick={() => handleSelect("Folder 1")}
-                    >
-                      <Folder
-                        className={
-                          "mt-[4px] sm:mt-0 sm:mb-[2px] w-[18px] h-[18px] sm:w-[28px] sm:h-[28px]"
-                        }
-                      />{" "}
-                      Folder 1
-                    </li>
-                    <li
-                      className="flex gap-[13px] cursor-pointer pl-1 py-2 text-[16px] font-sans"
-                      onClick={() => handleSelect("Folder 1")}
-                    >
-                      <Folder
-                        className={
-                          "mt-[4px] sm:mt-0 sm:mb-[2px] w-[18px] h-[18px] sm:w-[28px] sm:h-[28px]"
-                        }
-                      />{" "}
-                      Folder 1
+                      />
+                      Create New Folder
                     </li>
                   </ul>
                 </div>
@@ -551,7 +602,11 @@ function AddPassword() {
             Cancel
           </button>
           <button
-            onClick={handleSubmit}
+            onClick={
+              isUpdating
+                ? () => handleConfirmChangesModal(formData)
+                : handleSubmit
+            }
             className="py-[17px] w-[140px] h-[57px] rounded-[18.37px] bg-[#101E71] border-none outline-none text-white text-[15.5px] font-[400] 
             dm-sans
             bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)]
@@ -568,6 +623,23 @@ function AddPassword() {
 
 export default AddPassword;
 
+const Folders = ({ className }) => (
+  <svg
+    width="22"
+    height="19"
+    viewBox="0 0 22 19"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M8.14286 10.9167H13.8571M11 13.8293V8.08333M1 2.41667V15.1667C1 15.9181 1.30102 16.6388 1.83684 17.1701C2.37266 17.7015 3.09938 18 3.85714 18H18.1429C18.9006 18 19.6273 17.7015 20.1632 17.1701C20.699 16.6388 21 15.9181 21 15.1667V6.66242C20.9996 5.91121 20.6984 5.19091 20.1627 4.65986C19.6269 4.12882 18.9004 3.8305 18.1429 3.8305L11 3.83333L8.14286 1H2.42857C2.04969 1 1.68633 1.14926 1.41842 1.41493C1.15051 1.68061 1 2.04094 1 2.41667Z"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 const Cross = () => (
   <svg
     width="12"

@@ -24,9 +24,11 @@ export const AuthProvider = ({ children }) => {
   const [generatorPassword, setGeneratorPassword] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
-  const [selectedFolderId, setSelectedFolderId] = useState("hello null");
+  const [selectedFolderId, setSelectedFolderId] = useState("");
   const [passSelectedFolderId, setPassSelectedFolderId] = useState("");
   const [openPasswordDeleteModal, setOpenPasswordDeleteModal] = useState("");
+  const [openConfirmChangesModal, setOpenConfirmChangesModal] = useState("");
+  const [data, setData] = useState("");
   const [selectPasswordsId, setSelectedPasswordsId] = useState([]);
   const [search, setSearch] = useState("");
 
@@ -76,6 +78,11 @@ export const AuthProvider = ({ children }) => {
     setOpenPasswordDeleteModal((prev) => !prev);
   };
 
+  const handleConfirmChangesModal = (formData) => {
+    setOpenConfirmChangesModal((prev) => !prev);
+    setData(formData);
+  };
+
   const toggleSelection = (id) => {
     setSelectedPasswordsId((prevSelected) => {
       if (prevSelected.includes(id)) {
@@ -89,6 +96,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        data,
         login,
         search,
         signup,
@@ -115,6 +123,9 @@ export const AuthProvider = ({ children }) => {
         handleOpenPasswordDeleteModal,
         showGeneratePassModal,
         applyPasswordButton,
+        openConfirmChangesModal,
+        setOpenConfirmChangesModal,
+        handleConfirmChangesModal,
         showSaveConfirmationModal,
         handleGeneratePassVisibility,
         handleSaveConfirmationModalVisibility,

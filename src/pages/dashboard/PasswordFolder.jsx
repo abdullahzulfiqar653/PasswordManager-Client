@@ -12,9 +12,10 @@ import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 const PasswordFolder = () => {
   const navigate = useNavigate();
-  const { isDesktop, search } = useAuth();
+  const { isDesktop, search, passSelectedFolderId } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
-  const { data, isLoading, refetch } = useGetUserPasswords();
+  const { data, isLoading, refetch } =
+    useGetUserPasswords(passSelectedFolderId);
 
   useEffect(() => {
     refetch();

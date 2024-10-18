@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../AuthContext";
 import useDeletePasswords from "../hooks/useDeletePasswords";
 import { toast } from "react-toastify";
+import useGetUserPasswords from "../hooks/useGetUserPasswords";
 
 function DeletePassword({ hideModal }) {
   const { selectPasswordsId, setSelectedPasswordsId } = useAuth();
