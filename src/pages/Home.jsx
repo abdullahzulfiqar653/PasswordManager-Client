@@ -20,9 +20,9 @@ function Home() {
         </style>
 
         {/* Main container */}
-        <section className="relative h-[120vh] w-[100vw] sm:pb-20  flex items-center">
-          <section className="flex flex-col z-20 md:flex-row justify-between sm:pt-[26px] sm:pb-20 w-full relative">
-            <section className="flex flex-col gap-[10px] sm:gap-[30px] pt-[280px] pl-6 pr-4 w-[95%] sm:w-[55%] items-start sm:px-[60px] sm:pt-[60px]">
+        <section className="relative w-[100vw] sm:pb-20  flex items-center">
+          <section className="flex h-[100vh] flex-col z-10 md:flex-row justify-between sm:pt-[0px] sm:pb-20 w-full relative">
+            <section className="flex flex-col gap-[10px] sm:gap-[30px] pt-[280px] pl-6 pr-4 w-[95%] sm:w-[55%] items-start sm:px-[60px] sm:pt-[40px]">
               {/* Button */}
               <button
                 className="rounded-[12px] border-[0.8px] border-[#fff] backdrop-blur-[11px] flex justify-between p-[5px] sm:p-[10px] items-center text-[#EFFAFF] font-[400] text-[12px] sm:text-[16px] xs:leading-[64px] h-[39px] dm-sans gap-[9px] outline-none min-w-[210px] md:min-w-[254px]"
