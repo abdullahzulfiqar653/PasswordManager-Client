@@ -6,7 +6,11 @@ function Navbar() {
   const {
     search,
     setSearch,
+    selectPasswordsId,
+    setSelectedPasswordsId,
+    clearFolderSelection,
     handleGeneratePassVisibility,
+    handleOpenPasswordDeleteModal,
     handleSaveConfirmationModalVisibility,
   } = useAuth();
 
@@ -14,17 +18,15 @@ function Navbar() {
     <header className="bg-transparent z-10 relative">
       <section className="md:container">
         <nav className="relative flex justify-between items-center py-[16px] gradient-border gap-[26px]">
-          <img src="/dots.svg" className="absolute w-full top-3 z-[1]" />
-          {/* <img src="/HomeSideShade.png" className="absolute top-[60px] right-[200px] w-[900px]" /> */}
           <Link
             to="/"
             className="flex items-center gap-[4px]  md:gap-[15px] z-[2]"
           >
             <img
               src="/logov2.svg"
-              className="w-[35px] sm:w-[70px] cursor-pointer ml-2 md:ml-0"
+              className="w-[25px] sm:w-[70px] cursor-pointer ml-2 md:ml-0"
             />
-            <h2 className="md:text-[22px] xs:font-medium xs:pb-0 text-[14.3px] font-[400] md:font-normal text-white whitespace-nowrap">
+            <h2 className="md:text-[22px] xs:pb-0 text-[14.3px] text-white whitespace-nowrap">
               Password Manager
             </h2>
           </Link>
@@ -32,6 +34,7 @@ function Navbar() {
             <div className="relative flex-1 hidden md:block">
               <Search />
               <input
+                onClick={() => clearFolderSelection()}
                 className="dm-sans w-full border-[1px] rounded-[12px] border-[#374CC4] outline-none bg-[#101E71] py-[11px] pl-[41px] px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
                 placeholder="Search..."
                 value={search}
@@ -48,7 +51,7 @@ function Navbar() {
                   placeholder="Search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="absolute left-0 focus:w-[155px] focus:p-[0_16px_0_0] focus:pl-[10px] placeholder:text-white text-white text-[12px] focus:border-[.5px] rounded-[20px] border-[#374CC4] bg-[#101E71] outline-none p-0 w-0 h-full z-10 transition-[width] duration-400"
+                  className="absolute font-sans left-0 focus:w-[155px] focus:p-[0_16px_0_0] focus:pl-[10px] placeholder:text-white text-white text-[12px] focus:border-[.5px] rounded-[20px] border-[#374CC4] bg-[#101E71] outline-none p-0 w-0 h-full z-10 transition-[width] duration-400"
                 />
                 <label
                   htmlFor="searchleft" // Linking the label to the input
@@ -59,30 +62,49 @@ function Navbar() {
                   </span>
                 </label>
               </div>
-              <Link
-                onClick={() => handleGeneratePassVisibility("navbar")}
-                className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
-              >
-                <Shield />
-              </Link>
-              <Link
-                to="/dashboard/add"
-                className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
-              >
-                <Add />
-              </Link>
-              {/* <Link
+              {selectPasswordsId?.length === 0 ? (
+                <>
+                  <Link
+                    onClick={() => handleGeneratePassVisibility("navbar")}
+                    className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Dice />
+                  </Link>
+                  <Link
+                    to="/dashboard/add"
+                    className="w-[32px] h-[32px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Add />
+                  </Link>
+                  {/* <Link
                 onClick={handleSaveConfirmationModalVisibility}
                 className="w-[28px] h-[28px] sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
               >
                 <Save />
               </Link> */}
-              <Link
-                to="/dashboard/folders/123"
-                className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
-              >
-                <Folder />
-              </Link>
+                  <Link
+                    to="/dashboard/folders"
+                    className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Folder />
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setSelectedPasswordsId([])}
+                    className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Unselect />
+                  </button>
+                  <button
+                    onClick={() => handleOpenPasswordDeleteModal()}
+                    className="w-[32px] h-[32px] mr-3 sm:w-[61px] sm:h-[61px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
+                  >
+                    <Delete />
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </nav>
@@ -93,6 +115,38 @@ function Navbar() {
 
 export default Navbar;
 
+const Delete = () => (
+  <svg
+    width="17"
+    height="18"
+    viewBox="0 0 17 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px]"
+  >
+    <path
+      d="M5.13542 1.62H4.95833C5.05573 1.62 5.13542 1.539 5.13542 1.44V1.62ZM5.13542 1.62H11.8646V1.44C11.8646 1.539 11.9443 1.62 12.0417 1.62H11.8646V3.24H13.4583V1.44C13.4583 0.64575 12.823 0 12.0417 0H4.95833C4.17695 0 3.54167 0.64575 3.54167 1.44V3.24H5.13542V1.62ZM16.2917 3.24H0.708333C0.316536 3.24 0 3.56175 0 3.96V4.68C0 4.779 0.0796875 4.86 0.177083 4.86H1.51406L2.06081 16.6275C2.09622 17.3948 2.72044 18 3.47526 18H13.5247C14.2818 18 14.9038 17.397 14.9392 16.6275L15.4859 4.86H16.8229C16.9203 4.86 17 4.779 17 4.68V3.96C17 3.56175 16.6835 3.24 16.2917 3.24ZM13.3543 16.38H3.6457L3.11003 4.86H13.89L13.3543 16.38Z"
+      fill="white"
+    />
+  </svg>
+);
+const Unselect = () => (
+  <svg
+    width="24"
+    height="20"
+    viewBox="0 0 24 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px]"
+  >
+    <path
+      d="M6.86667 7L1 13M1 13L6.86667 19M1 13H17.1333C18.6893 13 20.1815 12.3679 21.2817 11.2426C22.3819 10.1174 23 8.5913 23 7C23 5.4087 22.3819 3.88258 21.2817 2.75736C20.1815 1.63214 18.6893 1 17.1333 1H15.6667"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 const Search = () => (
   <svg
     width="18"
@@ -123,34 +177,41 @@ const MobileSearch = () => (
     />
   </svg>
 );
-const Shield = () => (
+const Dice = () => (
   <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
+    width="25"
+    height="25"
+    viewBox="0 0 25 25"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="w-[14px] h-[14px] sm:w-[24px] sm:h-[24px]"
   >
     <path
-      d="M10.4902 2.23006L5.50016 4.11006C4.35016 4.54006 3.41016 5.90006 3.41016 7.12006V14.5501C3.41016 15.7301 4.19016 17.2801 5.14016 17.9901L9.44016 21.2001C10.8502 22.2601 13.1702 22.2601 14.5802 21.2001L18.8802 17.9901C19.8302 17.2801 20.6102 15.7301 20.6102 14.5501V7.12006C20.6102 5.89006 19.6702 4.53006 18.5202 4.10006L13.5302 2.23006C12.6802 1.92006 11.3202 1.92006 10.4902 2.23006Z"
+      d="M1 3.55556C1 2.87778 1.26925 2.22776 1.7485 1.7485C2.22776 1.26925 2.87778 1 3.55556 1H21.4444C22.1222 1 22.7722 1.26925 23.2515 1.7485C23.7308 2.22776 24 2.87778 24 3.55556V21.4444C24 22.1222 23.7308 22.7722 23.2515 23.2515C22.7722 23.7308 22.1222 24 21.4444 24H3.55556C2.87778 24 2.22776 23.7308 1.7485 23.2515C1.26925 22.7722 1 22.1222 1 21.4444V3.55556Z"
       stroke="white"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <path
-      d="M12 12.5C13.1046 12.5 14 11.6046 14 10.5C14 9.39543 13.1046 8.5 12 8.5C10.8954 8.5 10 9.39543 10 10.5C10 11.6046 10.8954 12.5 12 12.5Z"
+      d="M8.02756 8.66669C8.38041 8.66669 8.66645 8.38065 8.66645 8.0278C8.66645 7.67496 8.38041 7.38892 8.02756 7.38892C7.67471 7.38892 7.38867 7.67496 7.38867 8.0278C7.38867 8.38065 7.67471 8.66669 8.02756 8.66669Z"
+      fill="white"
       stroke="white"
-      strokeMiterlimit="10"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
     <path
-      d="M12 12.5V15.5"
+      d="M16.9719 17.6112C17.3247 17.6112 17.6108 17.3251 17.6108 16.9723C17.6108 16.6194 17.3247 16.3334 16.9719 16.3334C16.619 16.3334 16.333 16.6194 16.333 16.9723C16.333 17.3251 16.619 17.6112 16.9719 17.6112Z"
+      fill="white"
       stroke="white"
-      strokeMiterlimit="10"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M12.5002 13.1389C12.8531 13.1389 13.1391 12.8528 13.1391 12.5C13.1391 12.1471 12.8531 11.8611 12.5002 11.8611C12.1474 11.8611 11.8613 12.1471 11.8613 12.5C11.8613 12.8528 12.1474 13.1389 12.5002 13.1389Z"
+      fill="white"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     />
   </svg>
 );
@@ -192,7 +253,7 @@ const Folder = () => (
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-[14px] h-[14px] sm:w-[24px] sm:h-[24px]"
+    className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px]"
   >
     <path
       d="M0.675887 4.8375L0.625887 3.75C0.625887 3.08696 0.889279 2.45107 1.35812 1.98223C1.82696 1.51339 2.46285 1.25 3.12589 1.25H7.71589C8.37887 1.25014 9.01466 1.51363 9.48339 1.9825L10.5184 3.0175C10.9871 3.48637 11.6229 3.74986 12.2859 3.75H17.2634C17.6108 3.74996 17.9544 3.82233 18.2723 3.96249C18.5901 4.10265 18.8753 4.30751 19.1096 4.56403C19.3439 4.82054 19.5221 5.12306 19.633 5.4523C19.7438 5.78155 19.7848 6.13028 19.7534 6.47625L18.9571 15.2262C18.9007 15.8474 18.6141 16.425 18.1536 16.8457C17.6932 17.2664 17.0921 17.4998 16.4684 17.5H3.53339C2.90968 17.4998 2.3086 17.2664 1.84813 16.8457C1.38767 16.425 1.10108 15.8474 1.04464 15.2262L0.248387 6.47625C0.196183 5.89732 0.34735 5.31828 0.675887 4.83875V4.8375ZM2.73839 5C2.56474 4.99999 2.393 5.03616 2.23411 5.1062C2.07522 5.17624 1.93267 5.27862 1.81554 5.4068C1.69841 5.53499 1.60927 5.68617 1.5538 5.85072C1.49833 6.01526 1.47776 6.18956 1.49339 6.3625L2.28964 15.1125C2.3177 15.4231 2.46084 15.7119 2.69096 15.9224C2.92107 16.1329 3.22154 16.2497 3.53339 16.25H16.4684C16.7802 16.2497 17.0807 16.1329 17.3108 15.9224C17.5409 15.7119 17.6841 15.4231 17.7121 15.1125L18.5084 6.3625C18.524 6.18956 18.5034 6.01526 18.448 5.85072C18.3925 5.68617 18.3034 5.53499 18.1862 5.4068C18.0691 5.27862 17.9265 5.17624 17.7677 5.1062C17.6088 5.03616 17.437 4.99999 17.2634 5H2.73839ZM8.60089 2.86625C8.48469 2.75002 8.34672 2.65784 8.19486 2.595C8.043 2.53215 7.88024 2.49987 7.71589 2.5H3.12589C2.79844 2.49994 2.48405 2.62837 2.2503 2.85768C2.01655 3.08699 1.88211 3.39886 1.87589 3.72625L1.88339 3.9C2.15255 3.80083 2.43755 3.75083 2.73839 3.75H9.48339L8.60089 2.86625Z"
