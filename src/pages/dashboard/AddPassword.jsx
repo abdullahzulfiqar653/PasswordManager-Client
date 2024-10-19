@@ -8,7 +8,7 @@ import { useAuth } from "../../AuthContext";
 import useAddPassword from "../../hooks/useAddPassword";
 import useUpdatePassword from "../../hooks/useUpdatePassword";
 import useGetFolders from "../../hooks/useGetFolders";
-// import useGetFile from "../../hooks/useGetFile";
+import useGetFile from "../../hooks/useGetFile";
 import { ThreeDots } from "react-loader-spinner";
 
 function AddPassword() {
@@ -51,6 +51,7 @@ function AddPassword() {
   const { mutate: updatePassword } = useUpdatePassword();
   const { data: data } = useGetFolders();
 
+  console.log(useGetFile(state?.item?.file_type, state?.item?.file_name));
   useEffect(() => {
     if (generatorPassword)
       setFormData((prevFormData) => ({
