@@ -21,6 +21,7 @@ function ConfirmChanges({ hideModal }) {
         toast.success(`Password updated successfully.`, {
           className: "toast-message",
         });
+
         hideModal();
         navigate("/dashboard/folders");
       },
