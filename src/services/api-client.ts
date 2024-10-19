@@ -159,32 +159,6 @@ class APIClient {
         throw error;
       });
   };
-  
-  getFile = () => {
-    let url = `${this.endpoint}`;
-    return axiosInstance
-    .get(url, getTokenIncludedConfig(), )
-    .then((res) => {
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      console.log(url)
-      const a = document.createElement('a');
-    a.href = url;
-    
-    // Set the file name (you may want to extract this from headers or other means)
-    a.download = 'filename.pdf'; // Replace with your desired file name and extension
-    
-    // Append the link to the DOM and trigger the click
-    document.body.appendChild(a);
-    a.click();
-    
-    // Clean up
-    window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
-    })
-    .catch((error) => {
-      throw error;
-    });
-  };
 
   updatePassword = (data) => {
     let idValue = null;
