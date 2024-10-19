@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const PasswordTable = ({ data, handleRowClick }) => {
   const navigate = useNavigate();
-  const { selectPasswordsId, toggleSelection, setSelectedPasswordsId } = useAuth();
+  const { selectPasswordsId, toggleSelection, setSelectedPasswordsId } =
+    useAuth();
   const [areAllSelected, setAreAllSelected] = useState(false);
-  
+
   const handleSelectAllChange = (e) => {
     const checked = e.target.checked;
     setAreAllSelected(checked);
@@ -35,11 +36,11 @@ const PasswordTable = ({ data, handleRowClick }) => {
   }, [selectPasswordsId, data?.results]);
 
   return (
-    <table className="w-full text-sm text-left">
+    <table className="w-full h-full table-fixed text-center">
       <thead className="text-xs text-gray-700 uppercase z-[3] bg-[#010E59]">
         <tr>
-          <th scope="col" className="p-4">
-            <div className="flex items-center">
+          <th scope="col" className="p-0 w-[50px] h-[60px]">
+            <div className="flex items-center justify-center h-full">
               <input
                 id="checkbox-all-search"
                 type="checkbox"
@@ -54,37 +55,31 @@ const PasswordTable = ({ data, handleRowClick }) => {
           </th>
           <th
             scope="col"
-            className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-4 py-[20px] text-[#DFDFDF]"
-          >
-            Emoji
-          </th>
-          <th
-            scope="col"
-            className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            className="border-[1.5px] overflow-hidden w-[140px] h-[60px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF]"
           >
             Title
           </th>
           <th
             scope="col"
-            className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            className="border-[1.5px] overflow-hidden w-[140px] h-[60px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF]"
           >
             Username
           </th>
           <th
             scope="col"
-            className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            className="border-[1.5px] overflow-hidden w-[140px] h-[60px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF]"
           >
             URL
           </th>
           <th
             scope="col"
-            className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            className="border-[1.5px] overflow-hidden w-[160px] h-[60px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF]"
           >
             Notes
           </th>
           <th
             scope="col"
-            className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+            className="border-[1.5px] overflow-hidden w-[230px] h-[60px] border-[#002256] dm-sans text-[15px] font-[400] px-0 py-0 text-[#DFDFDF]"
           >
             Modified
           </th>
@@ -124,7 +119,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
             key={index}
             className="bg-transparent border-[1.5px] border-[#002256] hover:bg-[#4207AF]"
           >
-            <td className="w-4 p-4">
+            <td className="w-4 p-4" style={{ height: "70px" }}>
               <div className="flex items-center">
                 <input
                   id={`checkbox-table-search-${index}`}
@@ -144,42 +139,46 @@ const PasswordTable = ({ data, handleRowClick }) => {
                 </label>
               </div>
             </td>
-            <td
-              onClick={() => handleRowClick(item)}
-              className="border-[1.5px] w-4 p-4 border-[#002256] dm-sans text-[15px] font-[400] px-6 text-[#DFDFDF]"
-            >
-              {item?.emoji && (
-                <img src={`/${item.emoji}.png`} alt={item.emoji} />
-              )}
-            </td>
             <th
               onClick={() => handleRowClick(item)}
               scope="row"
-              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF] whitespace-nowrap"
+              className="border-[1.5px] relative border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF] whitespace-nowrap"
+              style={{ height: "70px" }}
             >
+              {item?.emoji && (
+                <img
+                  src={`/${item.emoji}.png`}
+                  alt={item.emoji}
+                  className="h-6 absolute left-3"
+                />
+              )}
               {item.title}
             </th>
             <td
               onClick={() => handleRowClick(item)}
-              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              className="border-[1.5px] border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF]"
+              style={{ height: "70px" }}
             >
               {item.username}
             </td>
             <td
               onClick={() => handleRowClick(item)}
-              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              className="border-[1.5px] border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF]"
+              style={{ height: "70px" }}
             >
               {item.url}
             </td>
             <td
               onClick={() => handleRowClick(item)}
-              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              className="border-[1.5px] border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF]"
+              style={{ height: "70px" }}
             >
               {item.notes}
             </td>
             <td
               onClick={() => handleRowClick(item)}
-              className="border-[1.5px] border-[#002256] dm-sans text-[15px] font-[400] px-6 py-[20px] text-[#DFDFDF]"
+              className="border-[1.5px] border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] px-3 py-0 text-[#DFDFDF]"
+              style={{ height: "70px" }}
             >
               {moment(item.updated_at).format("MMM Do YYYY, h:mm:ss a")}
             </td>

@@ -80,11 +80,20 @@ const PasswordFolder = () => {
             className="flex flex-col gap-[2px] rounded-[6px] bg-[#0E1A60]"
           >
             <button
-              onClick={() => {handleTabClick(index)}}
+              onClick={() => {
+                handleTabClick(index);
+              }}
               className={`${
                 index === activeTab ? "active" : ""
-              } flex justify-between items-center text-white bg-[#010E59] py-[17px] px-[14px] text-[14px] dm-sans font-[400] leading-[20px]`}
+              } flex justify-between items-center relative text-white bg-[#010E59] py-[17px] px-[44px] text-[14px] dm-sans font-[400] leading-[20px]`}
             >
+              {passWordRecord?.emoji && (
+                <img
+                  src={`/${passWordRecord.emoji}.png`}
+                  alt={passWordRecord.emoji}
+                  className="h-6 absolute left-3"
+                />
+              )}
               {passWordRecord.title}
               {index === activeTab ? <UpArrow /> : <DownArrow />}
             </button>

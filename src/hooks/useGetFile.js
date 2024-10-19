@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import APIClient from "../services/api-client";
+const useGetFile = () => {
+  const apiClient = new APIClient();
 
-const useGetFile = (file_type, file_name) => {
-  const apiClient = new APIClient(`/media/${file_type}/${file_name}/`);
-  useQuery({
-    queryFn: () => apiClient.getFile(),
+  return useMutation({
+    mutationFn: ({ fileType, fileName }) => {
+      return apiClient.getFile(`/media/${fileType}/${fileName}/`); // Pass the full URL to getFile
+    },
     refetchOnWindowFocus: true,
     refetchOnMount: true,
     refetchOnReconnect: true,

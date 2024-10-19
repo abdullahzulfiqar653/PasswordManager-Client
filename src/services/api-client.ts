@@ -127,13 +127,13 @@ class APIClient {
       });
   };
 
-  getFile = () => {
+  getFile = (endpoint) => {
     const config = {
       ...getTokenIncludedConfig(),
       responseType: "blob",
     };
     return axiosInstance
-      .get(this.endpoint, config)
+      .get(endpoint, config)
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const a = document.createElement("a");
@@ -161,9 +161,15 @@ class APIClient {
   };
 
   updatePassword = (data) => {
-    const body = JSON.stringify(data);
+    let idValue = null;
+    for (const [key, value] of data.entries()) {
+      if (key === 'id') {
+        idValue = value; 
+        break; 
+      }
+    }
     return axiosInstance
-      .patch(`${this.endpoint}/${data?.id}/`, body, getTokenIncludedConfig())
+      .patch(`${this.endpoint}/${idValue}/`, data, getTokenForMultipartData)
       .then((res) => ({
         data: res.data,
         status: res.status,

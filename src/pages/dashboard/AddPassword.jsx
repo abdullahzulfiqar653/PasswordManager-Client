@@ -50,8 +50,14 @@ function AddPassword() {
   const { mutate: addPassword } = useAddPassword();
   const { mutate: updatePassword } = useUpdatePassword();
   const { data: data } = useGetFolders();
+  const { mutate } = useGetFile();
 
-  console.log(useGetFile(state?.item?.file_type, state?.item?.file_name));
+  const handleFileDownload = () => {
+    const fileType = state?.item?.file_type;
+    const fileName = state?.item?.file_name;
+    mutate({ fileType, fileName });
+  };
+  // console.log(useGetFile(state?.item?.file_type, state?.item?.file_name));
   useEffect(() => {
     if (generatorPassword)
       setFormData((prevFormData) => ({
@@ -60,15 +66,16 @@ function AddPassword() {
       }));
   }, [generatorPassword]);
 
+  const uploadData = new FormData();
+  for (const key in formData) {
+    if (formData[key] !== null && formData[key] !== undefined) {
+      uploadData.append(key, formData[key]);
+    }
+  }
+
   const handleSubmit = (e) => {
     setLoading(true);
     e.preventDefault();
-    const uploadData = new FormData();
-    for (const key in formData) {
-      if (formData[key] !== null && formData[key] !== undefined) {
-        uploadData.append(key, formData[key]);
-      }
-    }
     const mutationFn = isUpdating ? updatePassword : addPassword;
     mutationFn(uploadData, {
       onSuccess: () => {
@@ -191,12 +198,17 @@ function AddPassword() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("File size must be less than 2 MB.");
+        setSelectedFile(null);
+        return;
+      }
       setSelectedFile(file);
       setFormData((prevFormData) => ({
         ...prevFormData,
         file: file,
       }));
-      const totalTime = 4000;
+      const totalTime = 2000;
       const stepTime = totalTime / 100;
 
       let currentProgress = 0;
@@ -239,10 +251,10 @@ function AddPassword() {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="w-full dm-sans border-[1px] mb-2 md:mb-0 h-[37.86px] md:h-auto rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
+              className="w-full dm-sans border-[1px] mb-1 md:mb-0 h-[37.86px] md:h-auto rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
             />
             {errors.title && (
-              <span className="text-red-500 text-[12px]">
+              <span className="text-red-500 text-[12px] font-sans">
                 {errors.title[0]}
               </span>
             )}
@@ -469,9 +481,12 @@ function AddPassword() {
                       {selectedFile.name}
                     </p>
                     <p className="text-[#DFDFDF99]">
-                      {selectedFile.size > 0
-                        ? (selectedFile.size / 1024).toFixed(2) + " kb"
-                        : "File size is 0 MB"}
+                      {selectedFile.size > 0 &&
+                        ((selectedFile.size / (1024 * 1024)).toFixed(2) >= 0.01
+                          ? `${(selectedFile.size / (1024 * 1024)).toFixed(
+                              2
+                            )} MB`
+                          : `0.01 MB`)}
                     </p>
                   </div>
                   {/* Cross icon */}
@@ -504,6 +519,32 @@ function AddPassword() {
             onChange={handleFileChange}
           />
         </div>
+        {state?.item?.file_name && (
+          <div className="flex flex-col mt-5 sm:mt-0">
+            <div className="flex gap-3">
+              <Download />
+              <div>
+                <p className="text-[14px] sm:text-[18px] leading-[32px] text-white font-sans">
+                  {formData.file_name}
+                  <span
+                    style={{
+                      background: `linear-gradient(90deg, #963AFB 0%, #6211E4 100%)`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      cursor: "pointer",
+                      borderBottom: "1px solid",
+                      borderColor: "#963AFB",
+                    }}
+                    className="ml-2"
+                    onClick={handleFileDownload}
+                  >
+                    Download.
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-[12px] justify-center md:justify-end mt-[15px]">
           <button
@@ -516,23 +557,24 @@ function AddPassword() {
             Cancel
           </button>
           <button
+            onClick={
+              isUpdating
+                ? () => handleConfirmChangesModal(uploadData)
+                : handleSubmit
+            }
             style={{
               background: loading
                 ? "#0E1956"
                 : "linear-gradient(90deg, #A143FF 0%, #5003DB 100%)",
               cursor: loading ? "not-allowed" : "pointer",
             }}
-            onClick={
-              isUpdating
-                ? () => handleConfirmChangesModal(formData)
-                : handleSubmit
-            }
             disabled={loading}
-            className="py-[17px] w-[140px] h-[57px] rounded-[18.37px] bg-[#101E71] border-none outline-none text-white text-[15.5px] font-[400] 
+            className="dm-sans w-[140px] h-[57px] flex items-center justify-center rounded-[18.37px] bg-[#101E71] border-none outline-none text-white text-[15.5px] font-[400] 
             dm-sans
             bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)]
 "
           >
+            Ok
             {loading && (
               <ThreeDots
                 color="white"
@@ -542,7 +584,6 @@ function AddPassword() {
                 wrapperStyle={{ marginLeft: "5%" }}
               />
             )}
-            Ok
           </button>
         </div>
         {/* </form> */}
@@ -599,6 +640,57 @@ const File = ({ className }) => (
       d="M4.23921 29H18.7608C21.5916 29 23 27.5797 23 24.7663V12.4847C23 10.7395 22.8086 9.98235 21.7147 8.87313L14.1663 1.28523C13.1278 0.229692 12.2795 0 10.7345 0H4.23921C1.4224 0 0 1.43355 0 4.24756V24.7663C0 27.593 1.4224 29 4.23921 29ZM4.34831 26.8225C2.93991 26.8225 2.20128 26.0781 2.20128 24.7259V4.28796C2.20128 2.94905 2.93991 2.17745 4.36231 2.17745H10.4335V10.0366C10.4335 11.7408 11.3086 12.5794 13.0041 12.5794H20.7987V24.7259C20.7987 26.0781 20.0735 26.8225 18.6517 26.8225H4.34831ZM13.2503 10.5364C12.717 10.5364 12.4977 10.3205 12.4977 9.7792V2.59702L20.374 10.537L13.2503 10.5364ZM16.5321 16.2989H6.15286C5.66103 16.2989 5.30572 16.6642 5.30572 17.1241C5.30572 17.5974 5.66161 17.9627 6.15344 17.9627H16.5321C16.6439 17.9645 16.755 17.944 16.8586 17.9025C16.9623 17.861 17.0565 17.7993 17.1356 17.7211C17.2146 17.6429 17.277 17.5497 17.319 17.4471C17.3609 17.3446 17.3816 17.2348 17.3798 17.1241C17.3798 16.6642 17.0105 16.2989 16.5321 16.2989ZM16.5321 21.0197H6.15286C5.66103 21.0197 5.30572 21.3983 5.30572 21.8715C5.30572 22.3314 5.66161 22.6835 6.15344 22.6835H16.5321C17.0105 22.6835 17.3798 22.3314 17.3798 21.8715C17.3798 21.3983 17.0105 21.0197 16.5321 21.0197Z"
       fill="white"
     />
+  </svg>
+);
+
+const Download = () => (
+  <svg
+    width="42"
+    height="27"
+    viewBox="0 0 42 27"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M33.8625 10.0387C33.2747 7.20944 31.6708 4.66177 29.3249 2.83085C26.9789 0.999935 24.0364 -0.000651921 21 3.18673e-07C15.9425 3.18673e-07 11.55 2.72574 9.3625 6.71462C6.79041 6.97861 4.41176 8.13601 2.68361 9.96444C0.955449 11.7929 -0.000300478 14.1633 7.08623e-08 16.6204C7.08623e-08 22.1217 4.7075 26.5926 10.5 26.5926H33.25C38.08 26.5926 42 22.8696 42 18.2824C42 13.8946 38.4125 10.3379 33.8625 10.0387Z"
+      fill="url(#paint0_linear_1652_8665)"
+    />
+    <path
+      d="M16.9619 17.8919H25.0909H16.9619ZM21.0264 15.6401V8.88477V15.6401ZM21.0264 8.88477L23.3974 10.8551L21.0264 8.88477ZM21.0264 8.88477L18.6555 10.8551L21.0264 8.88477Z"
+      fill="url(#paint1_linear_1652_8665)"
+    />
+    <path
+      d="M16.9619 17.8919H25.0909M21.0264 15.6401V8.88477M21.0264 8.88477L23.3974 10.8551M21.0264 8.88477L18.6555 10.8551"
+      stroke="white"
+      stroke-width="0.826311"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      transform="rotate(180 21.0264 15.6401) translate(0 2)"
+    />
+    <defs>
+      <linearGradient
+        id="paint0_linear_1652_8665"
+        x1="-2.01923"
+        y1="3.63461"
+        x2="44.4231"
+        y2="24.2308"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#A143FF" />
+        <stop offset="1" stop-color="#5305DD" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_1652_8665"
+        x1="16.5711"
+        y1="10.1158"
+        x2="26.6787"
+        y2="12.6773"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#A143FF" />
+        <stop offset="1" stop-color="#5305DD" />
+      </linearGradient>
+    </defs>
   </svg>
 );
 const Cloud = () => (
