@@ -8,7 +8,7 @@ function Navbar() {
     setSearch,
     selectPasswordsId,
     setSelectedPasswordsId,
-    setPassSelectedFolderId,
+    clearFolderSelection,
     handleGeneratePassVisibility,
     handleOpenPasswordDeleteModal,
     handleSaveConfirmationModalVisibility,
@@ -34,7 +34,7 @@ function Navbar() {
             <div className="relative flex-1 hidden md:block">
               <Search />
               <input
-                onClick={() => setPassSelectedFolderId("")}
+                onClick={() => clearFolderSelection()}
                 className="dm-sans w-full border-[1px] rounded-[12px] border-[#374CC4] outline-none bg-[#101E71] py-[11px] pl-[41px] px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
                 placeholder="Search..."
                 value={search}

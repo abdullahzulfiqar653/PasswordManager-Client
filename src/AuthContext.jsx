@@ -25,12 +25,14 @@ export const AuthProvider = ({ children }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState("");
-  const [passSelectedFolderId, setPassSelectedFolderId] = useState("");
   const [openPasswordDeleteModal, setOpenPasswordDeleteModal] = useState("");
   const [openConfirmChangesModal, setOpenConfirmChangesModal] = useState("");
   const [data, setData] = useState("");
   const [selectPasswordsId, setSelectedPasswordsId] = useState([]);
   const [search, setSearch] = useState("");
+  const [passSelectedFolderId, setPassSelectedFolderId] = useState(() => {
+    return localStorage.getItem("FolderId") || "";
+  });
 
   useEffect(() => {
     if (isTokenValid()) {
@@ -84,6 +86,16 @@ export const AuthProvider = ({ children }) => {
     setData(formData);
   };
 
+  const handleFolderSelection = (id) => {
+    setPassSelectedFolderId(id); // Update the state with the selected ID
+    localStorage.setItem("FolderId", id); // Store the selected ID in localStorage
+  };
+
+  const clearFolderSelection = () => {
+    setPassSelectedFolderId(""); // Clear the state
+    localStorage.removeItem("FolderId"); // Remove it from localStorage
+  };
+
   const toggleSelection = (id) => {
     setSelectedPasswordsId((prevSelected) => {
       if (prevSelected.includes(id)) {
@@ -112,6 +124,8 @@ export const AuthProvider = ({ children }) => {
         setGeneratorPassword,
         handleOpenDeleteModal,
         passSelectedFolderId,
+        clearFolderSelection,
+        handleFolderSelection,
         setPassSelectedFolderId,
         openCreateFolderModal,
         setOpenCreateFolderModal,

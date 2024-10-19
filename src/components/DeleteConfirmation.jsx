@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { ThreeDots } from "react-loader-spinner";
 
 function DeleteConfirmation({ hideModal }) {
-  const { selectedFolderId } = useAuth();
+  const { selectedFolderId,clearFolderSelection } = useAuth();
   const { refetch } = useGetFolders();
   const { mutate } = useDeleteFolders();
   const [loading, setLoading] = useState(false);
@@ -24,6 +24,7 @@ function DeleteConfirmation({ hideModal }) {
         });
         refetch();
         hideModal();
+        clearFolderSelection();
       },
       onError: (error) => {
         setLoading(false);

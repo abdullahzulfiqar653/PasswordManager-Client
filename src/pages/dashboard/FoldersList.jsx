@@ -16,6 +16,7 @@ function FoldersList({ foldersData }) {
     handleOpenDeleteModal,
     handleCreateFolderModal,
     passSelectedFolderId,
+    handleFolderSelection,
     setPassSelectedFolderId,
   } = useAuth();
   const { data, refetch:folderRefetch } = useGetFolders(search);
@@ -40,6 +41,13 @@ function FoldersList({ foldersData }) {
     refetch();
   }, [refetch, passSelectedFolderId]);
 
+  useEffect(() => {
+    const storedFolderId = localStorage.getItem("FolderId");
+    if (storedFolderId) {
+      setPassSelectedFolderId(storedFolderId);
+    }
+  }, []);
+
   return isDesktop ? (
     <section className="hidden md:flex max-w-[296px] w-full bg-[#101E71] rounded-[12px] flex-col">
       <section className="h-[624px] flex flex-col gap-[16px]">
@@ -58,10 +66,10 @@ function FoldersList({ foldersData }) {
             <li key={index}>
               <div
                 onClick={() => {
-                  setPassSelectedFolderId(folder.id);
+                  handleFolderSelection(folder.id);
                   setSearch("");
                 }}
-                className={`h-[54px] max-w-[296px] flex items-center py-[6px] px-[13px] pl-[21px] ${
+                className={`h-[54px] max-w-[296px] flex cursor-pointer items-center py-[6px] px-[13px] pl-[21px] ${
                   passSelectedFolderId === folder.id
                     ? "active folder-wrapper"
                     : ""
@@ -82,7 +90,7 @@ function FoldersList({ foldersData }) {
                     }}
                     className="ml-auto" // This ensures the recycle icon is at the end
                   >
-                    <Recycle className={"w-[12px] h-[13px]"} />
+                    <Recycle className={"w-[18px] h-[18px]"} />
                   </span>
                 </div>
               </div>
@@ -117,7 +125,7 @@ function FoldersList({ foldersData }) {
           <li
             key={index}
             onClick={() => {
-              setPassSelectedFolderId(folder.id);
+              handleFolderSelection(folder.id);
               setSearch("");
             }}
             className={`folder-wrapper bg-[#010E59] rounded-[9px] relative flex gap-[5px] items-center`}

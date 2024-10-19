@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useAuth } from "../AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const PasswordTable = ({ data, handleRowClick }) => {
-  const { selectPasswordsId, toggleSelection, setSelectedPasswordsId } =
-    useAuth();
+  const navigate = useNavigate();
+  const { selectPasswordsId, toggleSelection, setSelectedPasswordsId } = useAuth();
   const [areAllSelected, setAreAllSelected] = useState(false);
+  
   const handleSelectAllChange = (e) => {
     const checked = e.target.checked;
     setAreAllSelected(checked);
@@ -22,6 +24,15 @@ const PasswordTable = ({ data, handleRowClick }) => {
     toggleSelection(id);
   };
 
+  useEffect(() => {
+    const allIds = data?.results.map((item) => item.id) || [];
+
+    if (selectPasswordsId.length === allIds.length && allIds.length > 0) {
+      setAreAllSelected(true);
+    } else {
+      setAreAllSelected(false);
+    }
+  }, [selectPasswordsId, data?.results]);
 
   return (
     <table className="w-full text-sm text-left">
@@ -32,7 +43,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
               <input
                 id="checkbox-all-search"
                 type="checkbox"
-                className="w-[18px] h-[18px] bg-[#101E71] border-[#FFFFFF] rounded"
+                className="w-[18px] h-[18px] cursor-pointer bg-[#101E71] border-[#FFFFFF] rounded"
                 checked={areAllSelected}
                 onChange={handleSelectAllChange}
               />
@@ -86,8 +97,9 @@ const PasswordTable = ({ data, handleRowClick }) => {
             <td className="w-full h-full">
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
                 <img
+                  onClick={() => navigate("/dashboard/add")}
                   src="\securityLogo.png"
-                  className="mb-1"
+                  className="mb-1 cursor-pointer"
                   alt="Secure Logo"
                 />
                 <h1 className="text-[16px] leading-[64px] text-white">
@@ -106,7 +118,6 @@ const PasswordTable = ({ data, handleRowClick }) => {
         </tbody>
       )}
 
-      {/* Data table when data exists */}
       <tbody>
         {data?.results.map((item, index) => (
           <tr

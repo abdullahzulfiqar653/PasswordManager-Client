@@ -389,7 +389,7 @@ function AddPassword() {
                 </span>
               )}
               {isDropdownOpen && (
-                <div className="absolute left-0 mt-2 w-full h-[273px] overflow-y-auto bg-[#101E71] text-white shadow-[0px 4px 32px 0px #00000040] rounded-[12px] z-10">
+                <div className="absolute left-0 mt-2 w-full h-auto max-h-[273px] overflow-y-auto bg-[#101E71] text-white shadow-[0px 4px 32px 0px #00000040] rounded-[12px] z-10">
                   <ul className="p-4">
                     {data?.results?.map((folder) => (
                       <li
@@ -406,7 +406,7 @@ function AddPassword() {
                       </li>
                     ))}
                     <li
-                      className="flex gap-[13px] cursor-pointer pl-1 py-2 mt-1 text-[17px] font-sans"
+                      className="flex gap-[13px] cursor-pointer pl-1 py-2 mt-0 text-[17px] font-sans"
                       onClick={() => handleCreateFolderModal()}
                     >
                       <Folders
