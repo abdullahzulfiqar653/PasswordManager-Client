@@ -1,27 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
-import useAddPassword from "../hooks/useAddPassword";
 import useUpdatePassword from "../hooks/useUpdatePassword";
-import { useNavigate } from "react-router-dom";
+
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 function ConfirmChanges({ hideModal }) {
   const { setGeneratorPassword, data, setData } = useAuth();
   const { mutate } = useUpdatePassword();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const clickToConfirm = () => {
+    setLoading(true);
     mutate(data, {
       onSuccess: () => {
+        setLoading(false);
         setGeneratorPassword("");
         toast.success(`Password updated successfully.`, {
           className: "toast-message",
         });
+
         hideModal();
         navigate("/dashboard/folders");
       },
 
       onError: () => {
+        setLoading(false);
         toast.error("Failed to update password.");
       },
     });
@@ -53,11 +59,24 @@ function ConfirmChanges({ hideModal }) {
           <button
             onClick={clickToConfirm}
             style={{
-              background: `linear-gradient(180deg, #4206AE 0%, #674E94 100%)`,
+              background: loading
+                ? "#0E1956"
+                : "linear-gradient(90deg, #A143FF 0%, #5003DB 100%)",
+              cursor: loading ? "not-allowed" : "pointer",
             }}
+            disabled={loading}
             className="dm-sans w-[125px] h-[40px] sm:w-[141px] sm:h-[50px] rounded-[6.23px] sm:rounded-[15px] outline-none 
           border-none flex items-center justify-center text-[12px] sm:text-[15.5px]  text-white"
           >
+            {loading && (
+              <ThreeDots
+                color="white"
+                height={10}
+                width={25}
+                ariaLabel="loading"
+                wrapperStyle={{ marginLeft: "5%" }}
+              />
+            )}
             Okay
           </button>
         </section>

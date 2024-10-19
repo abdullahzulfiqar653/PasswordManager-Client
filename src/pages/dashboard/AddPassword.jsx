@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+import emojiArray from "../../data/emojis";
 import { toast } from "react-toastify";
 import { useAuth } from "../../AuthContext";
 import useAddPassword from "../../hooks/useAddPassword";
 import useUpdatePassword from "../../hooks/useUpdatePassword";
 import useGetFolders from "../../hooks/useGetFolders";
+// import useGetFile from "../../hooks/useGetFile";
+import { ThreeDots } from "react-loader-spinner";
 
 function AddPassword() {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -20,6 +23,8 @@ function AddPassword() {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState("");
   const [progressValue, setProgressValue] = useState(10);
+  const [loading, setLoading] = useState(false);
+
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
@@ -44,98 +49,7 @@ function AddPassword() {
   } = useAuth();
   const { mutate: addPassword } = useAddPassword();
   const { mutate: updatePassword } = useUpdatePassword();
-  const { data } = useGetFolders();
-
-  const emojiArray = [
-    {
-      name: "paypal",
-      url: "/paypal.png",
-    },
-    {
-      name: "amazon",
-      url: "/amazon.png",
-    },
-    {
-      name: "facebook",
-      url: "/facebook.png",
-    },
-    {
-      name: "apple",
-      url: "/apple.png",
-    },
-    {
-      name: "twitter",
-      url: "/twitter.png",
-    },
-    {
-      name: "linkedin",
-      url: "/linkedin.png",
-    },
-    {
-      name: "instagram",
-      url: "/instagram.png",
-    },
-    {
-      name: "ebay",
-      url: "/ebay.png",
-    },
-    {
-      name: "shopify",
-      url: "/shopify.png",
-    },
-    {
-      name: "tiktok",
-      url: "/tiktok.png",
-    },
-    {
-      name: "discord",
-      url: "/discord.png",
-    },
-    {
-      name: "snapchat",
-      url: "/snapchat.png",
-    },
-    {
-      name: "stripe",
-      url: "/stripe.png",
-    },
-    {
-      name: "hulu",
-      url: "/hulu.png",
-    },
-    {
-      name: "spotify",
-      url: "/spotify.png",
-    },
-    {
-      name: "coinbase",
-      url: "/coinbase.png",
-    },
-    {
-      name: "airbnb",
-      url: "/airbnb.png",
-    },
-    {
-      name: "twitch",
-      url: "/twitch.png",
-    },
-    {
-      name: "dropbox",
-      url: "/dropbox.png",
-    },
-    {
-      name: "slack",
-      url: "/slack.png",
-    },
-    {
-      name: "uber",
-      url: "/uber.png",
-    },
-    {
-      name: "binance",
-      url: "/binance.png",
-    },
-  ];
+  const { data: data } = useGetFolders();
 
   useEffect(() => {
     if (generatorPassword)
@@ -146,6 +60,7 @@ function AddPassword() {
   }, [generatorPassword]);
 
   const handleSubmit = (e) => {
+    setLoading(true);
     e.preventDefault();
     const uploadData = new FormData();
     for (const key in formData) {
@@ -156,6 +71,7 @@ function AddPassword() {
     const mutationFn = isUpdating ? updatePassword : addPassword;
     mutationFn(uploadData, {
       onSuccess: () => {
+        setLoading(false);
         setGeneratorPassword("");
         navigate("/dashboard/folders");
         toast.success(
@@ -166,6 +82,7 @@ function AddPassword() {
         );
       },
       onError: (error) => {
+        setLoading(false);
         setErrors(error.response.data);
         toast.error(
           error.response.data?.error
@@ -598,16 +515,32 @@ function AddPassword() {
             Cancel
           </button>
           <button
+            style={{
+              background: loading
+                ? "#0E1956"
+                : "linear-gradient(90deg, #A143FF 0%, #5003DB 100%)",
+              cursor: loading ? "not-allowed" : "pointer",
+            }}
             onClick={
               isUpdating
                 ? () => handleConfirmChangesModal(formData)
                 : handleSubmit
             }
+            disabled={loading}
             className="py-[17px] w-[140px] h-[57px] rounded-[18.37px] bg-[#101E71] border-none outline-none text-white text-[15.5px] font-[400] 
             dm-sans
             bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)]
 "
           >
+            {loading && (
+              <ThreeDots
+                color="white"
+                height={10}
+                width={25}
+                ariaLabel="loading"
+                wrapperStyle={{ marginLeft: "5%" }}
+              />
+            )}
             Ok
           </button>
         </div>

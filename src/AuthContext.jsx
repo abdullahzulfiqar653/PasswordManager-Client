@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
     if (isTokenValid()) {
       setIsAuthenticated(true);
     } else {
+      localStorage.removeItem("access_token");
       setIsAuthenticated(false);
     }
     const handleResize = () => setIsDesktop(window.innerWidth >= 768);
