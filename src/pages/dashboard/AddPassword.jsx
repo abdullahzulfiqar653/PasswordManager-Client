@@ -556,32 +556,23 @@ function AddPassword() {
             Cancel
           </button>
           <button
+            onClick={
+              isUpdating
+                ? () => handleConfirmChangesModal(uploadData)
+                : handleSubmit
+            }
             style={{
               background: loading
                 ? "#0E1956"
                 : "linear-gradient(90deg, #A143FF 0%, #5003DB 100%)",
               cursor: loading ? "not-allowed" : "pointer",
             }}
-            onClick={
-              isUpdating
-                ? () => handleConfirmChangesModal(uploadData)
-                : handleSubmit
-            }
             disabled={loading}
-            className="py-[17px] w-[140px] h-[57px] rounded-[18.37px] bg-[#101E71] border-none outline-none text-white text-[15.5px] font-[400] 
+            className="dm-sans w-[140px] h-[57px] flex items-center justify-center rounded-[18.37px] bg-[#101E71] border-none outline-none text-white text-[15.5px] font-[400] 
             dm-sans
             bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)]
 "
           >
-            {loading && (
-              <ThreeDots
-                color="white"
-                height={10}
-                width={25}
-                ariaLabel="loading"
-                wrapperStyle={{ marginLeft: "5%" }}
-              />
-            )}
             Ok
             {loading && (
               <ThreeDots
