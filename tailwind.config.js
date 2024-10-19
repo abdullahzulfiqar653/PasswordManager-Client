@@ -28,6 +28,9 @@ module.exports = {
         mq1290: '1290px', 
         mq1330: '1380px',
         mq1440: '1440px',
+        'h-sm': { 'raw': '(max-height: 666px)' }, 
+        'h-md': { 'raw': '(max-height: 700px)' }, // For min-height: 601px and max-height: 1024px
+        'h-lg': { 'raw': '(min-height: 1025px)' }
       },
       boxShadow: {
         'custom': '0px 4px 22px 0px #00000040', // Custom shadow definition
