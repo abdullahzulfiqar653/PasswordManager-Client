@@ -12,7 +12,7 @@ function LogoutConfirmation({ hideModal }) {
   };
   return (
     <section className="fixed inset-0 flex justify-center items-center bg-[#0000006B] z-50 px-[20px]">
-      <section className="bg-[#101E71] relative w-full max-w-[600px] h-[338px] sm:h-[350px] rounded-[5px] flex flex-col justify-center items-center">
+      <section className="bg-[#101E71] relative w-full max-w-[600px] h-[250px] sm:h-[350px] rounded-[5px] flex flex-col justify-center items-center">
         <span
           className="absolute right-[17px] top-[17px] cursor-pointer"
           onClick={hideModal}
