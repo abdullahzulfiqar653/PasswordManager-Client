@@ -5,6 +5,7 @@ function SpectreComponent() {
   const [secretKey, setSecretKey] = useState("");
   const [url, setUrl] = useState("");
   const [generatedPassword, setGeneratedPassword] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
   const generatePassword = async (fullName, secret, domain) => {
     const input = `${fullName}${secret}${domain}`;
@@ -37,14 +38,12 @@ function SpectreComponent() {
   console.log(fullName, secretKey, url);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(generatePassword);
-    // .then(() => {
-    //   console.log('Password copied to clipboard!');
-    //   alert('Password copied to clipboard!');
-    // })
-    // .catch(err => {
-    //   console.error('Failed to copy: ', err);
-    // });
+    navigator.clipboard.writeText(generatePassword).then(() => {
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 3000);
+    });
   };
   return (
     <>
@@ -244,23 +243,34 @@ function SpectreComponent() {
                     className="flex items-center transition duration-300 ease-in-out 
                    hover:shadow-lg hover:shadow-slate-800 cursor-pointer justify-center relative z-30  w-[34.39px] h-[30.65px] sm:w-[41.17px] sm:h-[36.7px] rounded-[5.37px]"
                   >
-                    <svg
-                      width="22"
-                      height="23"
-                      viewBox="0 0 22 23"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.14746 10.9039C6.14746 8.4639 6.14746 7.24391 6.90201 6.48579C7.65745 5.72766 8.87206 5.72766 11.3031 5.72766H13.8809C16.311 5.72766 17.5265 5.72766 18.2811 6.48579C19.0365 7.24391 19.0365 8.4639 19.0365 10.9039V15.2181C19.0365 17.6581 19.0365 18.8781 18.2811 19.6362C17.5265 20.3943 16.311 20.3943 13.8809 20.3943H11.3031C8.87206 20.3943 7.65745 20.3943 6.90201 19.6362C6.14657 18.8781 6.14746 17.6581 6.14746 15.2181V10.9039Z"
+                    {isCopied ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="19px"
                         fill="white"
-                      />
-                      <path
-                        opacity="0.5"
-                        d="M3.97383 3.54182C2.9248 4.58995 2.9248 6.27806 2.9248 9.65337V11.4435C2.9248 14.8188 2.9248 16.5069 3.97383 17.5551C4.52609 18.1082 5.25647 18.3696 6.31892 18.4931C6.14706 17.7412 6.14706 16.7065 6.14706 15.2171V10.9038C6.14706 8.46382 6.14706 7.24384 6.90161 6.48571C7.65705 5.72759 8.87166 5.72759 11.3027 5.72759H13.8805C15.3591 5.72759 16.3867 5.72759 17.1368 5.89765C17.0132 4.82983 16.7519 4.09677 16.1969 3.54182C15.1488 2.4928 13.4607 2.4928 10.0854 2.4928C6.71006 2.4928 5.02196 2.4928 3.97383 3.54182Z"
-                        fill="white"
-                      />
-                    </svg>
+                      >
+                        <path d="M20.285 5.432l-11.642 11.64-5.585-5.586a1.5 1.5 0 00-2.121 2.121l7.25 7.25a1.5 1.5 0 002.121 0l12-12a1.5 1.5 0 00-2.121-2.121z" />
+                      </svg>
+                    ) : (
+                      <svg
+                        width="22"
+                        height="23"
+                        viewBox="0 0 22 23"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.14746 10.9039C6.14746 8.4639 6.14746 7.24391 6.90201 6.48579C7.65745 5.72766 8.87206 5.72766 11.3031 5.72766H13.8809C16.311 5.72766 17.5265 5.72766 18.2811 6.48579C19.0365 7.24391 19.0365 8.4639 19.0365 10.9039V15.2181C19.0365 17.6581 19.0365 18.8781 18.2811 19.6362C17.5265 20.3943 16.311 20.3943 13.8809 20.3943H11.3031C8.87206 20.3943 7.65745 20.3943 6.90201 19.6362C6.14657 18.8781 6.14746 17.6581 6.14746 15.2181V10.9039Z"
+                          fill="white"
+                        />
+                        <path
+                          opacity="0.5"
+                          d="M3.97383 3.54182C2.9248 4.58995 2.9248 6.27806 2.9248 9.65337V11.4435C2.9248 14.8188 2.9248 16.5069 3.97383 17.5551C4.52609 18.1082 5.25647 18.3696 6.31892 18.4931C6.14706 17.7412 6.14706 16.7065 6.14706 15.2171V10.9038C6.14706 8.46382 6.14706 7.24384 6.90161 6.48571C7.65705 5.72759 8.87166 5.72759 11.3027 5.72759H13.8805C15.3591 5.72759 16.3867 5.72759 17.1368 5.89765C17.0132 4.82983 16.7519 4.09677 16.1969 3.54182C15.1488 2.4928 13.4607 2.4928 10.0854 2.4928C6.71006 2.4928 5.02196 2.4928 3.97383 3.54182Z"
+                          fill="white"
+                        />
+                      </svg>
+                    )}
                   </div>
                 </div>
               </div>
