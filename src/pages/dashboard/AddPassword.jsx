@@ -186,8 +186,8 @@ function AddPassword() {
 
   const handleBrowseClick = () => {
     fileInputRef.current.click();
-    setProgressValue(0);
-    setSelectedFile(null);
+    // setProgressValue(0);
+    // setSelectedFile(null);
   };
 
   const handleFileRemove = () => {
