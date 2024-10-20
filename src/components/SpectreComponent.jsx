@@ -4,7 +4,7 @@ function SpectreComponent() {
   return (
     <>
       <section className="w-full h-[480px] relative bg-[#0e1a60]">
-        <section className="flex flex-col sm:flex-row justify-between sm:pl-[60px] px-[11px] pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-36 w-full relative z-10">
+        <section className="flex flex-col sm:flex-row justify-arround gap-[250px] sm:pl-[60px]  pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-36 w-full relative z-10">
           <section className="flex flex-col gap-[20px] sm:gap-[30px] sm:w-[43%] items-start pb-[140px] sm:pb-0 sm:pt-[70px]">
             {/* Button */}
             <button
@@ -17,8 +17,8 @@ function SpectreComponent() {
             </button>
 
             {/* Headline */}
-            <h1 className="text-white text-[32px] w-[85%] sm:w-full md:text-[66px] font-[400] leading-[36px] md:leading-[61px]">
-              Password without saving password
+            <h1 className="text-white text-[32px] sm:w-full md:text-[66px] font-[400] leading-[36px] md:leading-[61px]">
+              Password <br /> without saving <br /> password
             </h1>
             <h1 className="text-[#FFFFFFB2] font-sans text-[12px] md:text-[18px] font-[400] leading-[15.62px] md:leading-[22px]">
               Let us store your passwords and auto-fill them into your favorite
