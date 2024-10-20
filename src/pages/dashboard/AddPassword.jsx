@@ -92,14 +92,9 @@ function AddPassword() {
       onError: (error) => {
         setLoading(false);
         setErrors(error.response.data);
-        toast.error(
-          error.response.data?.error
-            ? error.response.data?.error[0]
-            : "Please fix the errors in mentioned fields.",
-          {
-            className: "toast-message",
-          }
-        );
+        Object.values(error.response.data).forEach((errorArray) => {
+          toast.error(errorArray[0]);
+        });
       },
     });
   };
