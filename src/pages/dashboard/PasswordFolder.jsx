@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { debounce } from "lodash";
 import { useAuth } from "../../AuthContext";
 import PasswordTable from "../../components/Table";
 import RootFolder from "../../components/RootFolder";
@@ -12,13 +12,29 @@ import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 const PasswordFolder = () => {
   const navigate = useNavigate();
-  const { isDesktop ,search} = useAuth();
+  const { isDesktop, search, passSelectedFolderId, setSearch } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
-  const { data, isLoading, refetch } = useGetUserPasswords();
+  const { data, isLoading, refetch } = useGetUserPasswords(
+    passSelectedFolderId,
+    search
+  );
+
+  const debouncedRefetch = debounce(() => {
+    refetch();
+  }, 500); // 500ms debounce time
 
   useEffect(() => {
-    refetch();
-  }, [refetch]);
+    // Call the debounced refetch function whenever search changes
+    if (search) {
+      debouncedRefetch();
+    } else {
+      refetch();
+    }
+    // Cleanup function to cancel the debounce on unmount
+    return () => {
+      debouncedRefetch.cancel();
+    };
+  }, [search, debouncedRefetch]); // Run this effect whenever 'search' changes
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -26,6 +42,7 @@ const PasswordFolder = () => {
 
   const handleRowClick = (item) => {
     navigate(`/dashboard/edit/${item.id}`, { state: { item } });
+    setSearch("");
   };
 
   return isDesktop ? (
@@ -41,35 +58,42 @@ const PasswordFolder = () => {
       </div>
     </section>
   ) : (
-    <section className="flex flex-col gap-[23px] mt-[13px]">
-      {/* <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
+    <section className="flex flex-col gap-[0px] mt-[13px]">
+      <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
         <Link
-          to="/dashboard/folders"
+          to="/dashboard/folders/123"
           className="text-[#5D73F2]"
         >{`Folders > ${"Database folder 1"} > `}</Link>
         Passwords
-      </h3> */}
-      <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
+      </h3>
+      {/* <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
         <Link
           to="/dashboard/folders/123"
           className="text-[#5D73F2]"
         >{`Folders > `}</Link>
         Passwords
-      </h3>
+      </h3> */}
       <div className="flex flex-col gap-[11px]">
-      {data?.results
-          .filter((item) =>item?.title.toLowerCase().includes(search.toLowerCase()))
-          .map((passWordRecord, index) => (
+        {data?.results.map((passWordRecord, index) => (
           <div
             key={index}
             className="flex flex-col gap-[2px] rounded-[6px] bg-[#0E1A60]"
           >
             <button
-              onClick={() => handleTabClick(index)}
+              onClick={() => {
+                handleTabClick(index);
+              }}
               className={`${
                 index === activeTab ? "active" : ""
-              } flex justify-between items-center text-white bg-[#010E59] py-[17px] px-[14px] text-[14px] dm-sans font-[400] leading-[20px]`}
+              } flex justify-between items-center relative text-white bg-[#010E59] py-[17px] px-[44px] text-[14px] dm-sans font-[400] leading-[20px]`}
             >
+              {passWordRecord?.emoji && (
+                <img
+                  src={`/${passWordRecord.emoji}.png`}
+                  alt={passWordRecord.emoji}
+                  className="h-6 absolute left-3"
+                />
+              )}
               {passWordRecord.title}
               {index === activeTab ? <UpArrow /> : <DownArrow />}
             </button>

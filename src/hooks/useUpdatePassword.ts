@@ -7,3 +7,4 @@ const useUpdatePassword = () =>
   useMutation({ mutationFn: (data) => apiClient.updatePassword(data) });
 
 export default useUpdatePassword;
+

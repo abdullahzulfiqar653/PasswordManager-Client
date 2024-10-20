@@ -7,6 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ConfirmationModal from "../components/ConfirmationModal";
 import GeneratePassword from "../components/GeneratePassword";
+import DeleteConfirmation from "../components/DeleteConfirmation";
+import AddNewFolder from "../components/AddNewFolder";
+import ConfirmChanges from "../components/ConfirmChanges";
+import DeletePassword from "../components/DeletePassword";
 
 const Layout = () => {
   const {
@@ -17,6 +21,14 @@ const Layout = () => {
     showGeneratePassModal,
     setGeneratorPassword,
     applyPasswordButton,
+    openDeleteModal,
+    handleOpenDeleteModal,
+    openCreateFolderModal,
+    handleCreateFolderModal,
+    openConfirmChangesModal,
+    handleConfirmChangesModal,
+    openPasswordDeleteModal,
+    handleOpenPasswordDeleteModal,
   } = useAuth();
   const location = useLocation();
   const noNavbarRoutes = ["/auth/login", "/auth/register"];
@@ -37,6 +49,18 @@ const Layout = () => {
           setGeneratorPassword={setGeneratorPassword}
           triggerSource={applyPasswordButton}
         />
+      )}
+      {openDeleteModal && (
+        <DeleteConfirmation hideModal={handleOpenDeleteModal} />
+      )}
+      {openCreateFolderModal && (
+        <AddNewFolder hideModal={handleCreateFolderModal} />
+      )}
+      {openPasswordDeleteModal && (
+        <DeletePassword hideModal={handleOpenPasswordDeleteModal} />
+      )}
+      {openConfirmChangesModal && (
+        <ConfirmChanges hideModal={handleConfirmChangesModal} />
       )}
     </React.Fragment>
   );

@@ -19,15 +19,26 @@ export const AuthProvider = ({ children }) => {
   const [showSaveConfirmationModal, setShowSaveConfirmationModal] =
     useState(false);
   const [showGeneratePassModal, setShowGeneratePassModal] = useState(false);
-  const [applyPasswordButton, setApplyPasswordButton] = useState("")
+  const [applyPasswordButton, setApplyPasswordButton] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [generatorPassword, setGeneratorPassword] = useState("");
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
+  const [selectedFolderId, setSelectedFolderId] = useState("");
+  const [openPasswordDeleteModal, setOpenPasswordDeleteModal] = useState("");
+  const [openConfirmChangesModal, setOpenConfirmChangesModal] = useState("");
+  const [data, setData] = useState("");
+  const [selectPasswordsId, setSelectedPasswordsId] = useState([]);
   const [search, setSearch] = useState("");
-   
+  const [passSelectedFolderId, setPassSelectedFolderId] = useState(() => {
+    return localStorage.getItem("FolderId") || "";
+  });
+
   useEffect(() => {
     if (isTokenValid()) {
       setIsAuthenticated(true);
     } else {
+      localStorage.removeItem("access_token");
       setIsAuthenticated(false);
     }
     const handleResize = () => setIsDesktop(window.innerWidth >= 768);
@@ -54,12 +65,51 @@ export const AuthProvider = ({ children }) => {
 
   const handleGeneratePassVisibility = (source) => {
     setShowGeneratePassModal((prev) => !prev);
-    setApplyPasswordButton(source)
+    setApplyPasswordButton(source);
+  };
+
+  const handleOpenDeleteModal = (id) => {
+    setSelectedFolderId(id);
+    setOpenDeleteModal((prev) => !prev);
+  };
+
+  const handleCreateFolderModal = () => {
+    setOpenCreateFolderModal((prev) => !prev);
+  };
+
+  const handleOpenPasswordDeleteModal = () => {
+    setOpenPasswordDeleteModal((prev) => !prev);
+  };
+
+  const handleConfirmChangesModal = (formData) => {
+    setOpenConfirmChangesModal((prev) => !prev);
+    setData(formData);
+  };
+
+  const handleFolderSelection = (id) => {
+    setPassSelectedFolderId(id); // Update the state with the selected ID
+    localStorage.setItem("FolderId", id); // Store the selected ID in localStorage
+  };
+
+  const clearFolderSelection = () => {
+    setPassSelectedFolderId(""); // Clear the state
+    localStorage.removeItem("FolderId"); // Remove it from localStorage
+  };
+
+  const toggleSelection = (id) => {
+    setSelectedPasswordsId((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((selectedId) => selectedId !== id);
+      } else {
+        return [...prevSelected, id];
+      }
+    });
   };
 
   return (
     <AuthContext.Provider
       value={{
+        data,
         login,
         search,
         signup,
@@ -67,10 +117,30 @@ export const AuthProvider = ({ children }) => {
         isDesktop,
         setSearch,
         isAuthenticated,
+        openDeleteModal,
+        setOpenDeleteModal,
+        selectedFolderId,
         generatorPassword,
         setGeneratorPassword,
+        handleOpenDeleteModal,
+        passSelectedFolderId,
+        clearFolderSelection,
+        handleFolderSelection,
+        setPassSelectedFolderId,
+        openCreateFolderModal,
+        setOpenCreateFolderModal,
+        handleCreateFolderModal,
+        toggleSelection,
+        selectPasswordsId,
+        setSelectedPasswordsId,
+        openPasswordDeleteModal,
+        setOpenPasswordDeleteModal,
+        handleOpenPasswordDeleteModal,
         showGeneratePassModal,
         applyPasswordButton,
+        openConfirmChangesModal,
+        setOpenConfirmChangesModal,
+        handleConfirmChangesModal,
         showSaveConfirmationModal,
         handleGeneratePassVisibility,
         handleSaveConfirmationModalVisibility,

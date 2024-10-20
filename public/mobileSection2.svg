@@ -1,0 +1,56 @@
+<svg width="428" height="1316" viewBox="0 0 428 1316" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_f_0_1)">
+<path d="M69 1093.68C69 1132.57 90.0162 1168.53 125.165 1185.17C168.574 1205.71 229.441 1231.28 279.164 1239.82C470.573 1272.73 542.491 1315.21 678.177 1229.75C731.465 1196.19 778.582 1139.87 808.128 1099.55C829.445 1070.46 862.141 1050.73 898.169 1049.14L1079.11 1041.16C1096.55 1040.39 1111.98 1029.62 1118.73 1013.52C1131.17 983.802 1109.34 951 1077.12 951H176.108C116.954 951 69 998.954 69 1058.11V1093.68Z" fill="url(#paint0_linear_0_1)"/>
+</g>
+<g filter="url(#filter1_b_0_1)">
+<circle cx="214.222" cy="967.222" r="236.222" fill="#0F1D72" fill-opacity="0.36"/>
+<circle cx="214.222" cy="967.222" r="235.593" stroke="url(#paint1_linear_0_1)" stroke-opacity="0.3" stroke-width="1.2589"/>
+</g>
+<g filter="url(#filter2_b_0_1)">
+<circle cx="213.718" cy="967.728" r="206.442" fill="#0F1D72" fill-opacity="0.36"/>
+<circle cx="213.718" cy="967.728" r="205.813" stroke="url(#paint2_linear_0_1)" stroke-opacity="0.3" stroke-width="1.2589"/>
+</g>
+<g filter="url(#filter3_f_0_1)">
+<path d="M-670 227.427C-670 286.019 -638.399 340.32 -585.164 364.796C-532.637 388.946 -464.679 416.265 -408.248 425.972C-169.853 466.978 -80.2825 519.927 88.7108 413.414C143.223 379.056 192.551 325.564 228.825 279.705C270.614 226.876 331.337 189.695 398.631 186.726L588.025 178.37C609.768 177.411 629.004 163.986 637.404 143.908C652.9 106.872 625.695 66 585.548 66H-508.573C-597.727 66 -670 138.273 -670 227.427Z" fill="url(#paint3_linear_0_1)"/>
+</g>
+<defs>
+<filter id="filter0_f_0_1" x="33.6543" y="915.654" width="1123.96" height="399.656" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="17.6728" result="effect1_foregroundBlur_0_1"/>
+</filter>
+<filter id="filter1_b_0_1" x="-29.0993" y="723.901" width="486.643" height="486.643" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="3.54966"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_0_1"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_0_1" result="shape"/>
+</filter>
+<filter id="filter2_b_0_1" x="0.176068" y="754.186" width="427.083" height="427.083" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="3.54966"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_0_1"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_0_1" result="shape"/>
+</filter>
+<filter id="filter3_f_0_1" x="-736" y="0" width="1443.82" height="542" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="33" result="effect1_foregroundBlur_0_1"/>
+</filter>
+<linearGradient id="paint0_linear_0_1" x1="254.565" y1="1275.81" x2="669.608" y2="1010.71" gradientUnits="userSpaceOnUse">
+<stop stop-color="#A143FF"/>
+<stop offset="1" stop-color="#5003DB"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_1" x1="214.222" y1="731" x2="214.222" y2="1203.44" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5408DE"/>
+<stop offset="1" stop-color="#0E1A60"/>
+</linearGradient>
+<linearGradient id="paint2_linear_0_1" x1="213.718" y1="761.285" x2="213.718" y2="1174.17" gradientUnits="userSpaceOnUse">
+<stop stop-color="#5408DE"/>
+<stop offset="1" stop-color="#0E1A60"/>
+</linearGradient>
+<linearGradient id="paint3_linear_0_1" x1="-438.885" y1="470.815" x2="78.2467" y2="140.748" gradientUnits="userSpaceOnUse">
+<stop stop-color="#A143FF"/>
+<stop offset="1" stop-color="#5003DB"/>
+</linearGradient>
+</defs>
+</svg>
