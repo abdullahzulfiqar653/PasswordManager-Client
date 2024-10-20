@@ -400,7 +400,7 @@ function AddPassword() {
                 </span>
               )}
               {isDropdownOpen && (
-                <div className="absolute left-0 mt-2 w-full h-auto max-h-[273px] overflow-y-auto bg-[#101E71] text-white shadow-[0px 4px 32px 0px #00000040] rounded-[12px] z-10">
+                <div className="absolute left-0 mt-2 w-full h-auto max-h-[200px] sm:max-h-[273px] overflow-y-auto bg-[#101E71] text-white shadow-[0px 4px 32px 0px #00000040] rounded-[12px] z-10">
                   <ul className="p-4">
                     {data?.results?.map((folder) => (
                       <li

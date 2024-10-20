@@ -1,11 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function SpectreComponent() {
+  const [fullName, setFullName] = useState("");
+  const [secretKey, setSecretKey] = useState("");
+  const [url, setUrl] = useState("");
+  const [generatedPassword, setGeneratedPassword] = useState("");
+
+  const generatePassword = async (fullName, secret, domain) => {
+    const input = `${fullName}${secret}${domain}`;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    let password = "";
+    for (let i = 0; i < 16; i++) {
+      const charIndex =
+        parseInt(hashHex.substring(i * 2, i * 2 + 2), 16) % characters.length;
+      password += characters[charIndex];
+    }
+    return password;
+  };
+
+  useEffect(() => {
+    if (fullName || secretKey || url) {
+      generatePassword(fullName, secretKey, url).then(setGeneratedPassword);
+    }
+    if (fullName === "" && secretKey === "" && url === "") {
+      setGeneratedPassword("");
+    }
+  }, [fullName, secretKey, url]);
+  console.log(fullName, secretKey, url);
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(generatePassword);
+    // .then(() => {
+    //   console.log('Password copied to clipboard!');
+    //   alert('Password copied to clipboard!');
+    // })
+    // .catch(err => {
+    //   console.error('Failed to copy: ', err);
+    // });
+  };
   return (
     <>
       <section className="w-full h-[480px] relative bg-[#0e1a60]">
-        <section className="flex flex-col sm:flex-row justify-arround gap-[250px] sm:pl-[60px]  pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-36 w-full relative z-10">
-          <section className="flex flex-col gap-[20px] sm:gap-[30px] sm:w-[43%] items-start pb-[140px] sm:pb-0 sm:pt-[70px]">
+        <section className="flex flex-col sm:flex-row justify-between sm:justify-arround px-[11px] sm:px-[0px] sm:gap-[250px] sm:pl-[60px]  pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-36 w-full relative z-10">
+          <section className="flex flex-col gap-[10px] sm:gap-[30px] sm:w-[43%] items-start pb-[140px] sm:pb-0 sm:pt-[70px]">
             {/* Button */}
             <button
               className="rounded-[12px] border-[0.8px] border-[#fff] backdrop-blur-[11px] flex justify-between p-[5px] items-center text-[#EFFAFF] font-[400] text-[12px] sm:text-[16px] xs:leading-[64px] h-[39px] dm-sans outline-none w-[175px] md:w-[212px]"
@@ -45,7 +90,7 @@ function SpectreComponent() {
                 src="\spreadsheet-grid.png"
                 className="w-full pr-9 sm:pr-11 pb-[290px] sm:pb-[350px] absolute z-0"
               />
-              <div className="flex flex-col gap-1 relative z-10 mt-5 sm:mt-0">
+              <div className="flex flex-col gap-1 relative z-20 mt-5 sm:mt-0">
                 <label
                   htmlFor="name"
                   className="flex font-sans  items-center text-[#FFFFFFB2] text-[12px] sm:text-[16px] leading-[19.69px]  gap-[0.5px]"
@@ -73,6 +118,8 @@ function SpectreComponent() {
                   type="text"
                   id="name"
                   placeholder="Name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                   className="p-2 text-[14px] font-sans  sm:text-[16px] font-[700] rounded-[4.49px] sm:rounded-[8px] mq350:w-[280.86px]  mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -81,7 +128,7 @@ function SpectreComponent() {
                   X
                 </h1>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 relative z-20">
                 <label
                   htmlFor="secretKey"
                   className="flex items-center text-[#FFFFFFB2] text-[12px] sm:text-[16px] leading-[19.69px] gap-[1.5px] font-sans"
@@ -93,6 +140,8 @@ function SpectreComponent() {
                   type="password"
                   id="secretKey"
                   placeholder="Secret Key"
+                  value={secretKey}
+                  onChange={(e) => setSecretKey(e.target.value)}
                   className="p-2 text-[14px] font-sans  sm:text-[16px] font-[700] rounded-[4.49px] sm:rounded-[8px] mq350:w-[280.86px] mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -153,7 +202,7 @@ function SpectreComponent() {
                   </svg>
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 relative z-20 ">
                 <label
                   htmlFor="name"
                   className="flex items-center text-[#FFFFFFB2] text-[12px] sm:text-[16px] gap-[2px] leading-[19.69px] font-sans"
@@ -165,6 +214,8 @@ function SpectreComponent() {
                   type="url"
                   id="url"
                   placeholder="https://example.com"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
                   className="p-2 rounded-[4.49px] font-sans  text-[14px] sm:text-[16px] font-[700] sm:rounded-[8px] mq350:w-[280.86px]  mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -183,13 +234,15 @@ function SpectreComponent() {
                 </label>
                 <div className="bg-[#2A3992] mq350:w-[280.86px] mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] rounded-[4.49px] sm:rounded-[5.37px] flex justify-between items-center px-3 focus:outline-none">
                   <div className="text-white text-[14px] sm:text-[16px] leading-[19.69px] font-[700] font-sans">
-                    Cor657656
+                    {generatedPassword}
                   </div>
                   <div
+                    onClick={copyToClipboard}
                     style={{
                       background: `linear-gradient(90deg, #A143FF 0%, #5003DB 100%)`,
                     }}
-                    className="flex items-center justify-center w-[34.39px] h-[30.65px] sm:w-[41.17px] sm:h-[36.7px] rounded-[5.37px]"
+                    className="flex items-center transition duration-300 ease-in-out 
+                   hover:shadow-lg hover:shadow-slate-800 cursor-pointer justify-center relative z-30  w-[34.39px] h-[30.65px] sm:w-[41.17px] sm:h-[36.7px] rounded-[5.37px]"
                   >
                     <svg
                       width="22"

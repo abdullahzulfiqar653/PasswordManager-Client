@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SpectreComponent from "../components/SpectreComponent";
+import { useAuth } from "../AuthContext";
 
 function Home() {
+  const {isAuthenticated}=useAuth();
   return (
     <>
       <section className="main-banner w-full relative bg-[#0e1a60]">
@@ -51,7 +53,7 @@ function Home() {
               </button>
 
               {/* Mobile buttons */}
-              <div className="flex items-center gap-[20px] mt-6 mb-3 sm:hidden">
+             { !isAuthenticated && (<div className="flex items-center gap-[20px] mt-6 mb-3 sm:hidden">
                 <div className="w-[108.63px] h-[38.05px] bg-white hover:bg-[#e7e7e7] text-[#002550] border-[0.8px] border-[#FFFFFF] rounded-[8px] flex justify-center items-center">
                   <Link
                     to="/auth/register"
@@ -69,7 +71,7 @@ function Home() {
                     Login
                   </Link>
                 </div>
-              </div>
+              </div>)}
             </section>
           </section>
           {/* Background Image for Larger Screens */}
