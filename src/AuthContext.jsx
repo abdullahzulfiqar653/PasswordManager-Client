@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [selectedFolderId, setSelectedFolderId] = useState("");
   const [openPasswordDeleteModal, setOpenPasswordDeleteModal] = useState("");
   const [openConfirmChangesModal, setOpenConfirmChangesModal] = useState("");
+  const [openLogoutModal, setOpenLogoutModal] = useState("");
   const [data, setData] = useState("");
   const [selectPasswordsId, setSelectedPasswordsId] = useState([]);
   const [search, setSearch] = useState("");
@@ -79,6 +80,10 @@ export const AuthProvider = ({ children }) => {
 
   const handleOpenPasswordDeleteModal = () => {
     setOpenPasswordDeleteModal((prev) => !prev);
+  };
+
+  const handleConfirmLogoutModal = () => {
+    setOpenLogoutModal((prev) => !prev);
   };
 
   const handleConfirmChangesModal = (formData) => {
@@ -141,6 +146,9 @@ export const AuthProvider = ({ children }) => {
         openConfirmChangesModal,
         setOpenConfirmChangesModal,
         handleConfirmChangesModal,
+        openLogoutModal,
+        setOpenLogoutModal,
+        handleConfirmLogoutModal,
         showSaveConfirmationModal,
         handleGeneratePassVisibility,
         handleSaveConfirmationModalVisibility,

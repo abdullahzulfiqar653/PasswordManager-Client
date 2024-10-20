@@ -36,7 +36,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
   }, [selectPasswordsId, data?.results]);
 
   return (
-    <table className="w-full h-full table-fixed text-center">
+    <table className="w-full table-fixed text-center">
       <thead className="text-xs text-gray-700 uppercase z-[3] bg-[#010E59]">
         <tr>
           <th scope="col" className="p-0 w-[50px] h-[60px]">
@@ -87,7 +87,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
       </thead>
 
       {data?.count === 0 && (
-        <tbody className="relative w-full h-[524px]">
+        <tbody className="relative w-full h-[565px]">
           <tr>
             <td className="w-full h-full">
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
