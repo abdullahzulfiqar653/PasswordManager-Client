@@ -1,28 +1,38 @@
-import React from "react";
+import React , { useState } from "react";
 import { useAuth } from "../AuthContext";
 import useDeletePasswords from "../hooks/useDeletePasswords";
 import { toast } from "react-toastify";
 import useGetUserPasswords from "../hooks/useGetUserPasswords";
+import { ThreeDots } from "react-loader-spinner";
 
 function DeletePassword({ hideModal }) {
   const { selectPasswordsId, setSelectedPasswordsId } = useAuth();
   const { mutate } = useDeletePasswords();
   const { refetch } = useGetUserPasswords();
+  const [loading, setLoading] = useState(false);
   const deleteButtonClick = () => {
     if (!selectPasswordsId) return;
+    setLoading(true);
     const payload = {
       passwords: selectPasswordsId,
     };
     mutate(payload, {
       onSuccess: () => {
-        toast.success("Password Deleted Successfully.", {
-          className: "toast-message",
-        });
+        setLoading(false);
+        toast.success(
+          `${
+            selectPasswordsId.length === 1 ? "Password" : "Passwords"
+          } Deleted Successfully.`,
+          {
+            className: "toast-message",
+          }
+        );
         refetch();
         hideModal();
         setSelectedPasswordsId([]);
       },
       onError: (error) => {
+        setLoading(false);
         toast.error("Error deleting Password.");
       },
     });
@@ -57,12 +67,25 @@ function DeletePassword({ hideModal }) {
           <button
             onClick={deleteButtonClick}
             style={{
-              background: ` linear-gradient(90deg, #A143FF 0%, #5003DB 100%)`,
+              background: loading
+                ? "#0E1956" // Disabled background color
+                : "linear-gradient(90deg, #A143FF 0%, #5003DB 100%)", // Active color gradient
+              cursor: loading ? "not-allowed" : "pointer", // Cursor change when loading
             }}
+            disabled={loading} 
             className="dm-sans  w-[125px] h-[40px] sm:w-[254px] sm:h-[58px] rounded-[6.23px] sm:rounded-[18.37px] outline-none 
           border-none flex items-center justify-center text-[12px] sm:text-[15.5px]  text-white"
           >
             Delete
+            {loading && (
+              <ThreeDots
+                color="white"
+                height={10}
+                width={35}
+                ariaLabel="loading"
+                wrapperStyle={{ marginLeft: "5%" }}
+              />
+            )}
           </button>
         </section>
       </section>

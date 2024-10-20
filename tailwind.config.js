@@ -26,6 +26,7 @@ module.exports = {
         mq1150: '1150px',
         mq1200: '1200px', 
         mq1290: '1290px', 
+        mq1370: '1020px',
         mq1330: '1380px',
         mq1440: '1440px',
         'h-sm': { 'raw': '(max-height: 666px)' }, 

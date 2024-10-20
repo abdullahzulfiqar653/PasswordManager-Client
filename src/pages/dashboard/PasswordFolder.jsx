@@ -48,7 +48,7 @@ const PasswordFolder = () => {
   return isDesktop ? (
     <section className="w-full rounded-[12px] flex flex-col gap-[11px]">
       <section className="bg-[#101E71] rounded-[12px] min-h-[624px]">
-        <div className="relative overflow-x-auto  sm:rounded-lg">
+        <div className="relative h-[624px] overflow-auto  sm:rounded-lg">
           <PasswordTable data={data} handleRowClick={handleRowClick} />
         </div>
       </section>

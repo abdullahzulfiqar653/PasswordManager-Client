@@ -1,11 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function SpectreComponent() {
+  const [formData, setFormData] = useState({
+    full_name: "",
+    secret_key: "",
+    url: "",
+  });
+  const [password, setPassword] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
+
+  const generatePassword = async (fullName, secret, domain) => {
+    const input = `${fullName}${secret}${domain}`;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+    let password = "";
+    for (let i = 0; i < 16; i++) {
+      const charIndex =
+        parseInt(hashHex.substring(i * 2, i * 2 + 2), 16) % characters.length;
+      password += characters[charIndex];
+    }
+    return password;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    const { full_name, secret_key, url } = formData;
+    generatePassword(full_name, secret_key, url).then((password) => {
+      setPassword(password);
+    });
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(password).then(() => {
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 1000);
+    });
+  };
   return (
     <>
       <section className="w-full h-[480px] relative bg-[#0e1a60]">
-        <section className="flex flex-col sm:flex-row justify-between sm:pl-[60px] px-[11px] pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-36 w-full relative z-10">
-          <section className="flex flex-col gap-[20px] sm:gap-[30px] sm:w-[43%] items-start pb-[140px] sm:pb-0 sm:pt-[70px]">
+        <section className="flex flex-col sm:flex-row justify-between sm:justify-arround px-[11px] sm:px-[0px] sm:gap-[250px] sm:pl-[60px]  pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-36 w-full relative z-10">
+          <section className="flex flex-col gap-[10px] sm:gap-[30px] sm:w-[43%] items-start pb-[140px] sm:pb-0 sm:pt-[70px]">
             {/* Button */}
             <button
               className="rounded-[12px] border-[0.8px] border-[#fff] backdrop-blur-[11px] flex justify-between p-[5px] items-center text-[#EFFAFF] font-[400] text-[12px] sm:text-[16px] xs:leading-[64px] h-[39px] dm-sans outline-none w-[175px] md:w-[212px]"
@@ -17,8 +66,8 @@ function SpectreComponent() {
             </button>
 
             {/* Headline */}
-            <h1 className="text-white text-[32px] w-[85%] sm:w-full md:text-[66px] font-[400] leading-[36px] md:leading-[61px]">
-              Password without saving password
+            <h1 className="text-white text-[32px] sm:w-full md:text-[66px] font-[400] leading-[36px] md:leading-[61px]">
+              Password <br /> without saving <br /> password
             </h1>
             <h1 className="text-[#FFFFFFB2] font-sans text-[12px] md:text-[18px] font-[400] leading-[15.62px] md:leading-[22px]">
               Let us store your passwords and auto-fill them into your favorite
@@ -43,9 +92,9 @@ function SpectreComponent() {
             >
               <img
                 src="\spreadsheet-grid.png"
-                className="w-full pr-9 sm:pr-11 pb-[290px] sm:pb-[350px] absolute z-0"
+                className="w-full pr-7 sm:pr-11 pb-[320px] sm:pb-[350px] absolute z-0"
               />
-              <div className="flex flex-col gap-1 relative z-10 mt-5 sm:mt-0">
+              <div className="flex flex-col gap-1 relative z-20 mt-5 sm:mt-0">
                 <label
                   htmlFor="name"
                   className="flex font-sans  items-center text-[#FFFFFFB2] text-[12px] sm:text-[16px] leading-[19.69px]  gap-[0.5px]"
@@ -73,6 +122,9 @@ function SpectreComponent() {
                   type="text"
                   id="name"
                   placeholder="Name"
+                  name="full_name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="p-2 text-[14px] font-sans  sm:text-[16px] font-[700] rounded-[4.49px] sm:rounded-[8px] mq350:w-[280.86px]  mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -81,7 +133,7 @@ function SpectreComponent() {
                   X
                 </h1>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 relative z-20">
                 <label
                   htmlFor="secretKey"
                   className="flex items-center text-[#FFFFFFB2] text-[12px] sm:text-[16px] leading-[19.69px] gap-[1.5px] font-sans"
@@ -92,7 +144,10 @@ function SpectreComponent() {
                 <input
                   type="password"
                   id="secretKey"
+                  name="secret_key"
                   placeholder="Secret Key"
+                  value={formData.secret_key}
+                  onChange={handleChange}
                   className="p-2 text-[14px] font-sans  sm:text-[16px] font-[700] rounded-[4.49px] sm:rounded-[8px] mq350:w-[280.86px] mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -153,7 +208,7 @@ function SpectreComponent() {
                   </svg>
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 relative z-20 ">
                 <label
                   htmlFor="name"
                   className="flex items-center text-[#FFFFFFB2] text-[12px] sm:text-[16px] gap-[2px] leading-[19.69px] font-sans"
@@ -165,6 +220,9 @@ function SpectreComponent() {
                   type="url"
                   id="url"
                   placeholder="https://example.com"
+                  name="url"
+                  value={formData.url}
+                  onChange={handleChange}
                   className="p-2 rounded-[4.49px] font-sans  text-[14px] sm:text-[16px] font-[700] sm:rounded-[8px] mq350:w-[280.86px]  mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -183,31 +241,44 @@ function SpectreComponent() {
                 </label>
                 <div className="bg-[#2A3992] mq350:w-[280.86px] mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] rounded-[4.49px] sm:rounded-[5.37px] flex justify-between items-center px-3 focus:outline-none">
                   <div className="text-white text-[14px] sm:text-[16px] leading-[19.69px] font-[700] font-sans">
-                    Cor657656
+                    {password}
                   </div>
                   <div
+                    onClick={copyToClipboard}
                     style={{
                       background: `linear-gradient(90deg, #A143FF 0%, #5003DB 100%)`,
                     }}
-                    className="flex items-center justify-center w-[34.39px] h-[30.65px] sm:w-[41.17px] sm:h-[36.7px] rounded-[5.37px]"
+                    className="flex items-center transition duration-300 ease-in-out 
+                   hover:shadow-lg hover:shadow-slate-800 cursor-pointer justify-center relative z-30  w-[34.39px] h-[30.65px] sm:w-[41.17px] sm:h-[36.7px] rounded-[5.37px]"
                   >
-                    <svg
-                      width="22"
-                      height="23"
-                      viewBox="0 0 22 23"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.14746 10.9039C6.14746 8.4639 6.14746 7.24391 6.90201 6.48579C7.65745 5.72766 8.87206 5.72766 11.3031 5.72766H13.8809C16.311 5.72766 17.5265 5.72766 18.2811 6.48579C19.0365 7.24391 19.0365 8.4639 19.0365 10.9039V15.2181C19.0365 17.6581 19.0365 18.8781 18.2811 19.6362C17.5265 20.3943 16.311 20.3943 13.8809 20.3943H11.3031C8.87206 20.3943 7.65745 20.3943 6.90201 19.6362C6.14657 18.8781 6.14746 17.6581 6.14746 15.2181V10.9039Z"
+                    {isCopied ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="19px"
                         fill="white"
-                      />
-                      <path
-                        opacity="0.5"
-                        d="M3.97383 3.54182C2.9248 4.58995 2.9248 6.27806 2.9248 9.65337V11.4435C2.9248 14.8188 2.9248 16.5069 3.97383 17.5551C4.52609 18.1082 5.25647 18.3696 6.31892 18.4931C6.14706 17.7412 6.14706 16.7065 6.14706 15.2171V10.9038C6.14706 8.46382 6.14706 7.24384 6.90161 6.48571C7.65705 5.72759 8.87166 5.72759 11.3027 5.72759H13.8805C15.3591 5.72759 16.3867 5.72759 17.1368 5.89765C17.0132 4.82983 16.7519 4.09677 16.1969 3.54182C15.1488 2.4928 13.4607 2.4928 10.0854 2.4928C6.71006 2.4928 5.02196 2.4928 3.97383 3.54182Z"
-                        fill="white"
-                      />
-                    </svg>
+                      >
+                        <path d="M20.285 5.432l-11.642 11.64-5.585-5.586a1.5 1.5 0 00-2.121 2.121l7.25 7.25a1.5 1.5 0 002.121 0l12-12a1.5 1.5 0 00-2.121-2.121z" />
+                      </svg>
+                    ) : (
+                      <svg
+                        width="22"
+                        height="23"
+                        viewBox="0 0 22 23"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.14746 10.9039C6.14746 8.4639 6.14746 7.24391 6.90201 6.48579C7.65745 5.72766 8.87206 5.72766 11.3031 5.72766H13.8809C16.311 5.72766 17.5265 5.72766 18.2811 6.48579C19.0365 7.24391 19.0365 8.4639 19.0365 10.9039V15.2181C19.0365 17.6581 19.0365 18.8781 18.2811 19.6362C17.5265 20.3943 16.311 20.3943 13.8809 20.3943H11.3031C8.87206 20.3943 7.65745 20.3943 6.90201 19.6362C6.14657 18.8781 6.14746 17.6581 6.14746 15.2181V10.9039Z"
+                          fill="white"
+                        />
+                        <path
+                          opacity="0.5"
+                          d="M3.97383 3.54182C2.9248 4.58995 2.9248 6.27806 2.9248 9.65337V11.4435C2.9248 14.8188 2.9248 16.5069 3.97383 17.5551C4.52609 18.1082 5.25647 18.3696 6.31892 18.4931C6.14706 17.7412 6.14706 16.7065 6.14706 15.2171V10.9038C6.14706 8.46382 6.14706 7.24384 6.90161 6.48571C7.65705 5.72759 8.87166 5.72759 11.3027 5.72759H13.8805C15.3591 5.72759 16.3867 5.72759 17.1368 5.89765C17.0132 4.82983 16.7519 4.09677 16.1969 3.54182C15.1488 2.4928 13.4607 2.4928 10.0854 2.4928C6.71006 2.4928 5.02196 2.4928 3.97383 3.54182Z"
+                          fill="white"
+                        />
+                      </svg>
+                    )}
                   </div>
                 </div>
               </div>
