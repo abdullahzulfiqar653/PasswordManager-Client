@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 function SpectreComponent() {
-  const [fullName, setFullName] = useState("");
-  const [secretKey, setSecretKey] = useState("");
-  const [url, setUrl] = useState("");
-  const [generatedPassword, setGeneratedPassword] = useState("");
+  const [formData, setFormData] = useState({});
+  const [password, setPassword] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 
   const generatePassword = async (fullName, secret, domain) => {
@@ -27,22 +25,25 @@ function SpectreComponent() {
     return password;
   };
 
-  useEffect(() => {
-    if (fullName || secretKey || url) {
-      generatePassword(fullName, secretKey, url).then(setGeneratedPassword);
-    }
-    if (fullName === "" && secretKey === "" && url === "") {
-      setGeneratedPassword("");
-    }
-  }, [fullName, secretKey, url]);
-  console.log(fullName, secretKey, url);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    const { full_name, secret_key, url } = formData;
+    generatePassword(full_name, secret_key, url).then((password) => {
+      setPassword(password);
+    });
+  };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(generatePassword).then(() => {
+    navigator.clipboard.writeText(password).then(() => {
       setIsCopied(true);
       setTimeout(() => {
         setIsCopied(false);
-      }, 3000);
+      }, 1000);
     });
   };
   return (
@@ -117,8 +118,9 @@ function SpectreComponent() {
                   type="text"
                   id="name"
                   placeholder="Name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  name="full_name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="p-2 text-[14px] font-sans  sm:text-[16px] font-[700] rounded-[4.49px] sm:rounded-[8px] mq350:w-[280.86px]  mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -138,9 +140,10 @@ function SpectreComponent() {
                 <input
                   type="password"
                   id="secretKey"
+                  name="secret_key"
                   placeholder="Secret Key"
-                  value={secretKey}
-                  onChange={(e) => setSecretKey(e.target.value)}
+                  value={formData.secret_key}
+                  onChange={handleChange}
                   className="p-2 text-[14px] font-sans  sm:text-[16px] font-[700] rounded-[4.49px] sm:rounded-[8px] mq350:w-[280.86px] mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -213,8 +216,9 @@ function SpectreComponent() {
                   type="url"
                   id="url"
                   placeholder="https://example.com"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
+                  name="url"
+                  value={formData.url}
+                  onChange={handleChange}
                   className="p-2 rounded-[4.49px] font-sans  text-[14px] sm:text-[16px] font-[700] sm:rounded-[8px] mq350:w-[280.86px]  mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] bg-[#0E1A60] text-white focus:outline-none"
                 />
               </div>
@@ -233,7 +237,7 @@ function SpectreComponent() {
                 </label>
                 <div className="bg-[#2A3992] mq350:w-[280.86px] mq400:w-[309.86px] mq425:w-[349.86px] h-[38.87px] sm:w-[418.89px] sm:h-[46.54px] rounded-[4.49px] sm:rounded-[5.37px] flex justify-between items-center px-3 focus:outline-none">
                   <div className="text-white text-[14px] sm:text-[16px] leading-[19.69px] font-[700] font-sans">
-                    {generatedPassword}
+                    {password}
                   </div>
                   <div
                     onClick={copyToClipboard}
