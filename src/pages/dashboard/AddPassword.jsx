@@ -318,7 +318,7 @@ function AddPassword() {
             </label>
             <div className="relative flex-1 cursor-pointer">
               <div
-                className="w-full dm-sans border-[1px] flex gap-2 mb-2 md:mb-0 sm:min-h-[63px] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
+                className="w-full dm-sans border-[1px] flex mb-2 md:mb-0 sm:min-h-[63px] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[17px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
                 dangerouslySetInnerHTML={{ __html: selectedEmoji }}
                 onClick={() => setShowPicker((prev) => !prev)}
               ></div>
@@ -339,7 +339,7 @@ function AddPassword() {
 
               {showPicker && (
                 <div className="absolute mt-2 top-[100%] left-0 bg-[#101E71] border-[1px] border-[#374CC4] rounded-[12.87px] z-50 w-full py-4 px-2">
-                  <div className="grid grid-cols-7 md:grid-cols-9 lg:grid-cols-10 gap-5">
+                  <div className="grid grid-cols-6 md:grid-cols-9 lg:grid-cols-10 gap-5">
                     {emojiArray.map((emoji) => (
                       <div
                         key={emoji.name}
@@ -473,7 +473,7 @@ function AddPassword() {
           {selectedFile && (
             <div className="flex items-center mt-6">
               <File className={"mb-5"} />
-              <div className="flex flex-col ml-4">
+              <div className="flex flex-col ml-1 sm:ml-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-9">
                     <p className="text-[16px] leading-[32px] text-white font-sans">

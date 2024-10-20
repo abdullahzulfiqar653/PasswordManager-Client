@@ -92,7 +92,7 @@ function SpectreComponent() {
             >
               <img
                 src="\spreadsheet-grid.png"
-                className="w-full pr-9 sm:pr-11 pb-[290px] sm:pb-[350px] absolute z-0"
+                className="w-full pr-7 sm:pr-11 pb-[320px] sm:pb-[350px] absolute z-0"
               />
               <div className="flex flex-col gap-1 relative z-20 mt-5 sm:mt-0">
                 <label

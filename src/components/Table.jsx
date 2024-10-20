@@ -142,14 +142,14 @@ const PasswordTable = ({ data, handleRowClick }) => {
             <th
               onClick={() => handleRowClick(item)}
               scope="row"
-              className="border-[1.5px] relative border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF] whitespace-nowrap"
+              className="border-[1.5px] relative border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] pl-10 px-6 py-0 text-[#DFDFDF] whitespace-nowrap"
               style={{ height: "70px" }}
             >
               {item?.emoji && (
                 <img
                   src={`/${item.emoji}.png`}
                   alt={item.emoji}
-                  className="h-6 absolute left-3"
+                  className="h-6 w-6 absolute left-[10px]"
                 />
               )}
               {item.title}
