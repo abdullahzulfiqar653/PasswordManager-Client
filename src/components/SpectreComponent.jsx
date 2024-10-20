@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 function SpectreComponent() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    full_name: "",
+    secret_key: "",
+    url: "",
+  });
   const [password, setPassword] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 
