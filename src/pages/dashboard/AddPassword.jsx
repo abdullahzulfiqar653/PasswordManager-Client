@@ -318,8 +318,7 @@ function AddPassword() {
             </label>
             <div className="relative flex-1 cursor-pointer">
               <div
-                contentEditable
-                className="w-full dm-sans border-[1px] flex gap-2 mb-2 md:mb-0 sm:h-[62] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
+                className="w-full dm-sans border-[1px] flex gap-2 mb-2 md:mb-0 sm:min-h-[63px] rounded-[10px] border-[#374CC4] outline-none bg-[#101E71] py-[15px] px-[12px] md:px-[24px] placeholder:text-[#DFDFDF36] text-white text-[16px] leading-[32px] font-[400]"
                 dangerouslySetInnerHTML={{ __html: selectedEmoji }}
                 onClick={() => setShowPicker((prev) => !prev)}
               ></div>
