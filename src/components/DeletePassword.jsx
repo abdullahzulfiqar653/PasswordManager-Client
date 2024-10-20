@@ -15,9 +15,14 @@ function DeletePassword({ hideModal }) {
     };
     mutate(payload, {
       onSuccess: () => {
-        toast.success("Password Deleted Successfully.", {
-          className: "toast-message",
-        });
+        toast.success(
+          `${
+            selectPasswordsId.length === 1 ? "Password" : "Passwords"
+          } Deleted Successfully.`,
+          {
+            className: "toast-message",
+          }
+        );
         refetch();
         hideModal();
         setSelectedPasswordsId([]);
