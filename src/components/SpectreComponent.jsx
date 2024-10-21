@@ -31,12 +31,12 @@ function SpectreComponent() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    const updatedFormData = {
       ...formData,
       [name]: value,
-    });
-
-    const { full_name, secret_key, url } = formData;
+    };
+    setFormData(updatedFormData);
+    const { full_name, secret_key, url } = updatedFormData;
     generatePassword(full_name, secret_key, url).then((password) => {
       setPassword(password);
     });
