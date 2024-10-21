@@ -39,13 +39,13 @@ const PasswordDetailContent = ({ passWordRecord, handleRowClick }) => {
           <span className="flex-1 font-[400] dm-sans text-[14px]">
             {passWordRecord?.username}
           </span>
-          <div className="flex gap-[21px] justify-end">
-            <CopyToClipboard
+         <div className="flex gap-[21px] justify-end">
+         {passWordRecord?.username && <CopyToClipboard
               text={passWordRecord?.username}
               onCopy={() => handleCopyName(passWordRecord?.id)}
             >
               <div>{copyName[passWordRecord.id] ? <TickIcon /> : <CopyIcon />}</div>
-            </CopyToClipboard>
+            </CopyToClipboard>}
             <span
               className="cursor-pointer"
               onClick={() => {
@@ -66,12 +66,12 @@ const PasswordDetailContent = ({ passWordRecord, handleRowClick }) => {
             {passWordRecord?.url}
           </span>
           <div className="flex gap-[21px] justify-end">
-          <CopyToClipboard
+          {passWordRecord?.url  && <CopyToClipboard
               text={passWordRecord?.url}
               onCopy={() => handleCopyURL(passWordRecord?.id)}
             >
               <div>{copyURL[passWordRecord.id] ? <TickIcon /> : <CopyIcon />}</div>
-            </CopyToClipboard>
+            </CopyToClipboard>}
             <span
               className="cursor-pointer"
               onClick={() => {
