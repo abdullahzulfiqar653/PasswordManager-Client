@@ -12,13 +12,12 @@ import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 const PasswordFolder = () => {
   const navigate = useNavigate();
-  const { isDesktop, search, passSelectedFolderId, setSearch } = useAuth();
+  const { isDesktop, search, passSelectedFolderId, setSearch,folderTitle } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
   const { data, isLoading, refetch } = useGetUserPasswords(
     passSelectedFolderId,
     search
   );
-
   const debouncedRefetch = debounce(() => {
     refetch();
   }, 500); // 500ms debounce time
@@ -61,9 +60,9 @@ const PasswordFolder = () => {
     <section className="flex flex-col gap-[0px] mt-[13px]">
       <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">
         <Link
-          to="/dashboard/folders/123"
+          to="/dashboard/folders"
           className="text-[#5D73F2]"
-        >{`Folders > ${"Database folder 1"} > `}</Link>
+        >{`Folders > ${folderTitle} > `}</Link>
         Passwords
       </h3>
       {/* <h3 className="cursor-pointer dm-sans font-[400] text-[12px] leading-[64px] text-white">

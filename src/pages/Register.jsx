@@ -17,7 +17,7 @@ function Register() {
   return (
     <section className="flex min-h-screen w-full justify-between flex-col-reverse md:flex-row">
       <section className="w-full md:w-[45%] md:px-[100px] pb-[54px] md:pb-[182px] flex justify-center items-center">
-        <div className="hidden md:flex flex-col gap-[46px] mt-[95px]">
+        <div className="hidden md:flex flex-col gap-[46px] md:mt-[65px] lg:mt-[95px]">
           <div className="flex flex-col gap-[29px] max-w-[450px]">
             <Link to="/" className="flex items-center gap-[15px]">
               <img src="/logo.svg" className="cursor-pointer" />
@@ -48,7 +48,7 @@ function Register() {
             className="absolute w-[100%] md:hidden top-12 left-0 right-0 mx-auto z-[1]"
             src="/registerLogo.svg"
           />
-        <div className="w-full z-[3] h-[75vh] flex flex-col gap-[30px] md:gap-[42px] max-w-[637px]">
+        <div className="w-full z-[3] flex flex-col gap-[30px] md:gap-[22px] max-w-[637px]">
           {!isAgree ? (
             <RegisterInstruction
               agreementHandler={agreementHandler}

@@ -67,7 +67,7 @@ function FoldersList({ foldersData }) {
             <li key={index}>
               <div
                 onClick={() => {
-                  handleFolderSelection(folder.id);
+                  handleFolderSelection(folder);
                   setSearch("");
                 }}
                 className={`h-[54px] max-w-[296px] flex cursor-pointer items-center py-[6px] px-[13px] pl-[21px] ${
@@ -77,9 +77,9 @@ function FoldersList({ foldersData }) {
                 }`}
               >
                 <div className="flex h-full w-full justify-between items-center">
-                  <div className="flex gap-[15px] items-center">
-                    {passSelectedFolderId === folder.id && <Bar />}
-                    <Folder />
+                  <div className="flex gap-[15px] items-center relative">
+                    {passSelectedFolderId === folder.id && <Bar  className={"absolute left-[-12px]"}/>}
+                    <Folder  />
                     <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
                       {folder.title}
                     </h4>
@@ -139,16 +139,17 @@ function FoldersList({ foldersData }) {
       <h4 className="text-white text-[22px] mt-5 font-[400]">Folders</h4>
       <ul className="flex flex-col h-[420px] overflow-auto gap-[9px]">
         {data?.results.map((folder, index) => (
+          <div className="relative">
           <li
             key={index}
             onClick={() => {
-              handleFolderSelection(folder.id);
+              handleFolderSelection(folder);
               setSearch("");
+              navigate(`/dashboard/folders/${folder.id}`);
             }}
             className={`folder-wrapper bg-[#010E59] rounded-[9px] relative flex gap-[5px] items-center`}
           >
             <button
-              onClick={() => navigate(`/dashboard/folders/${folder.id}`)}
               className={`h-[54px] flex gap-[8px] items-center py-[6px] px-[13px] pl-[21px] ${
                 passSelectedFolderId === folder.id
                   ? "active folder-wrapper"
@@ -156,8 +157,8 @@ function FoldersList({ foldersData }) {
               }`}
             >
               <div className="flex h-full gap-[15px] items-center justify-between w-full">
-                <div className="flex gap-[15px] items-center">
-                  {passSelectedFolderId === folder.id && <Bar />}
+                <div className="flex gap-[15px] items-center relative">
+                  {passSelectedFolderId === folder.id && <Bar className={"absolute left-[-12px]"}/>}
                   <Folder />
                   <h4 className="text-[#DFDFDF] text-[12px] leading-[32px] font-[400] dm-sans">
                     {folder.title}
@@ -165,15 +166,16 @@ function FoldersList({ foldersData }) {
                 </div>
               </div>
             </button>
-            <span
-              onClick={() => {
-                handleOpenDeleteModal(folder.id);
-              }}
-              className="absolute right-[15px]"
-            >
-              <Recycle />
-            </span>
+           
           </li>
+           <span
+           onClick={() => {
+             handleOpenDeleteModal(folder.id);
+           }}
+           className="absolute right-[15px] top-4 z-20"
+         >
+           <Recycle />
+         </span> </div>
         ))}
       </ul>
       <div className="flex justify-between">
@@ -206,13 +208,14 @@ function FoldersList({ foldersData }) {
 
 export default FoldersList;
 
-const Folder = () => (
+const Folder = ({className}) => (
   <svg
     width="48"
     height="43"
     viewBox="0 0 48 43"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className={className}
   >
     <rect width="48" height="43" rx="12" fill="#0E1A60" />
     <path
@@ -272,7 +275,7 @@ const Bar = ({ className }) => (
     viewBox="0 0 4 19"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={`bar ${className}`}
+    className={className}
   >
     <path d="M2 2V17.5" stroke="white" strokeWidth="3" strokeLinecap="round" />
   </svg>
