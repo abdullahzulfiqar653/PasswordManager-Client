@@ -15,9 +15,11 @@ function getTokenIncludedConfig() {
     },
   };
 }
-
-let getTokenForMultipartData = getTokenIncludedConfig();
-getTokenForMultipartData.headers["Content-Type"] = "multipart/form-data";
+function getMultipartDataConfig() {
+  let getTokenForMultipartData = getTokenIncludedConfig();
+  getTokenForMultipartData.headers["Content-Type"] = "multipart/form-data";
+  return getTokenForMultipartData;
+}
 
 class APIClient {
   endpoint;
@@ -90,7 +92,7 @@ class APIClient {
 
   create = (data) => {
     return axiosInstance
-      .post(this.endpoint, data, getTokenForMultipartData)
+      .post(this.endpoint, data, getMultipartDataConfig())
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -163,13 +165,13 @@ class APIClient {
   updatePassword = (data) => {
     let idValue = null;
     for (const [key, value] of data.entries()) {
-      if (key === 'id') {
-        idValue = value; 
-        break; 
+      if (key === "id") {
+        idValue = value;
+        break;
       }
     }
     return axiosInstance
-      .patch(`${this.endpoint}/${idValue}/`, data, getTokenForMultipartData)
+      .patch(`${this.endpoint}/${idValue}/`, data, getMultipartDataConfig())
       .then((res) => ({
         data: res.data,
         status: res.status,

@@ -57,7 +57,6 @@ function AddPassword() {
     const fileName = state?.item?.file_name;
     mutate({ fileType, fileName });
   };
-  // console.log(useGetFile(state?.item?.file_type, state?.item?.file_name));
   useEffect(() => {
     if (generatorPassword)
       setFormData((prevFormData) => ({
@@ -92,10 +91,8 @@ function AddPassword() {
       onError: (error) => {
         setLoading(false);
         setErrors(error.response.data);
-        Object.values(error.response.data).forEach((errorArray) => {
-          toast.error(errorArray[0], {
-            className: "toast-message",
-          });
+        toast.error("Please fix the errors in the form!", {
+          className: "toast-message",
         });
       },
     });
@@ -107,14 +104,7 @@ function AddPassword() {
       ...formData,
       [name]: value,
     });
-    if (
-      (name === "notes" ||
-        name === "username" ||
-        name === "password" ||
-        name === "url" ||
-        name === "emoji") &&
-      !value
-    ) {
+    if (name === "emoji" && !value) {
       setFormData({ ...formData, [name]: null });
     }
   };
@@ -205,7 +195,7 @@ function AddPassword() {
         ...prevFormData,
         file: file,
       }));
-      const totalTime = 2000;
+      const totalTime = Math.floor(Math.random() * (1500 - 500 + 1)) + 500;
       const stepTime = totalTime / 100;
 
       let currentProgress = 0;
@@ -392,7 +382,7 @@ function AddPassword() {
                 />
               </svg>
               {errors.folder && (
-                <span className="absolute bottom-[-20px] left-0 text-red-500 text-[12px]">
+                <span className="absolute bottom-[-20px] left-0 text-red-500 text-[12px] font-sans">
                   {errors.folder[0]}
                 </span>
               )}
