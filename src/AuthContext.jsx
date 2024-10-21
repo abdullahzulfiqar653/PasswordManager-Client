@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
   const [data, setData] = useState("");
   const [selectPasswordsId, setSelectedPasswordsId] = useState([]);
   const [search, setSearch] = useState("");
+  const [folderTitle, setFolderTitle] = useState("");
   const [passSelectedFolderId, setPassSelectedFolderId] = useState(() => {
     return localStorage.getItem("FolderId") || "";
   });
@@ -91,9 +92,10 @@ export const AuthProvider = ({ children }) => {
     setData(formData);
   };
 
-  const handleFolderSelection = (id) => {
-    setPassSelectedFolderId(id); // Update the state with the selected ID
-    localStorage.setItem("FolderId", id); // Store the selected ID in localStorage
+  const handleFolderSelection = (folder) => {
+    setPassSelectedFolderId(folder.id); 
+    setFolderTitle(folder.title)
+    localStorage.setItem("FolderId", folder.id); 
   };
 
   const clearFolderSelection = () => {
@@ -121,6 +123,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         isDesktop,
         setSearch,
+        folderTitle,
         isAuthenticated,
         openDeleteModal,
         setOpenDeleteModal,

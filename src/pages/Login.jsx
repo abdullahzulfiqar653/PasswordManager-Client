@@ -97,7 +97,7 @@ function Login() {
               and open source.
             </p>
           </div>
-          <img className="md:w-[300px] lg:w-[337px] md:ml-5 lg:ml-0" src="/loginlock.png" />
+          <img className="md:w-[250px] lg:w-[300px] md:ml-5 lg:ml-0" src="/loginlock.png" />
         </div>
         <img className="block md:hidden" src="/loginlockv2.svg" />
       </section>
@@ -116,7 +116,7 @@ function Login() {
           />
         <div className="w-full h-[65vh] md:h-[100vh] z-[1] justify-center flex flex-col gap-[30px] md:gap-[42px] max-w-[637px]">
           <img
-            className="w-[173px] hidden md:block md:w-[200px] lg:w-[255px] mx-auto z-[1]"
+            className="w-[173px] hidden md:block md:w-[200px] lg:w-[220px] mx-auto z-[1]"
             src="/loginmainlogo.svg"
           />
          

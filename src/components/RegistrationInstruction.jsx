@@ -5,15 +5,15 @@ function RegisterInstruction({ agreementHandler, onSelectSeeds }) {
   return (
     <React.Fragment>
       <img
-        className="w-[173px] hidden md:block lg:w-[255px] mx-auto"
+        className="w-[173px] hidden md:block lg:w-[220px]  mx-auto"
         src="/registrationlogo.svg"
       />
       <h3 className="text-white hidden md:block text-center text-[31px] lg:text-[46px] leading-[43px] lg:leading-[64px] font-[400]">
         Register Account
       </h3>
-      <form className="flex flex-col gap-[20px] md:gap-[92px]">
+      <form className="flex flex-col gap-[20px] md:gap-[34px] lg:gap[92px]">
         <div className="flex flex-col gap-[4px]">
-          <div className="flex flex-col gap-[9px]">
+          <div className="flex flex-col gap-[2px]">
             <p className="dm-sans hidden md:block text-[#DFDFDF] text-[16px] leading-[27px] font-[400] text-center">
               Important Note :
             </p>
@@ -29,7 +29,7 @@ function RegisterInstruction({ agreementHandler, onSelectSeeds }) {
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-[5px] md:gap-[32px]">
+        <div className="flex flex-col gap-[5px] md:gap-[20px]">
           <button
             className="dm-sans mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] py-[10px] 
               lg:py-[19px] max-w-[244px] md:max-w-[312px] w-[100%] rounded-[11.61px] lg:rounded-[18.37px] outline-none 
