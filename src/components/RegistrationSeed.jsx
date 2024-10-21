@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../AuthContext";
+import useGetSeeds from "../hooks/useGetSeeds";
 import useCreateToken from "../hooks/useCreateToken";
 
-function RegisterInstruction({ seedsData }) {
+function RegisterInstruction() {
   const { signup } = useAuth();
+  const { data: seedsData } = useGetSeeds();
   const [copytext, setCopyText] = useState(false);
 
   const copyToClipBoard = () => {
     setCopyText(true);
-    navigator.clipboard.writeText(seedsData.pass_phrase);
+    navigator.clipboard.writeText(seedsData?.pass_phrase);
     setTimeout(() => {
       setCopyText(false);
     }, [700]);
@@ -20,7 +23,7 @@ function RegisterInstruction({ seedsData }) {
   const { mutate } = useCreateToken();
 
   const savePdf = () => {
-    const blob = new Blob([seedsData.pass_phrase], { type: "text/plain" });
+    const blob = new Blob([seedsData?.pass_phrase], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "seed.txt";
@@ -30,7 +33,7 @@ function RegisterInstruction({ seedsData }) {
   };
 
   const handleSubmit = () => {
-    mutate(seedsData.pass_phrase, {
+    mutate(seedsData?.pass_phrase, {
       onSuccess: (res) => {
         toast.success("Logged In Successfully.", {
           className: "toast-message",
@@ -49,7 +52,7 @@ function RegisterInstruction({ seedsData }) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <img
         className="w-[173px] hidden md:block lg:w-[210px] mx-auto"
         src="/registrationlogov2.svg"
@@ -180,7 +183,7 @@ function RegisterInstruction({ seedsData }) {
           </Link>
         </p>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
