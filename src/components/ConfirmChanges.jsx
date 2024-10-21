@@ -26,9 +26,13 @@ function ConfirmChanges({ hideModal }) {
         navigate("/dashboard/folders");
       },
 
-      onError: () => {
+      onError: (error) => {
         setLoading(false);
-        toast.error("Failed to update password.");
+        Object.values(error.response.data).forEach((errorArray) => {
+          toast.error(errorArray[0], {
+            className: "toast-message",
+          });
+        });
       },
     });
   };

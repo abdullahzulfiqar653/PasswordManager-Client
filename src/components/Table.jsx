@@ -36,7 +36,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
   }, [selectPasswordsId, data?.results]);
 
   return (
-    <table className="w-full h-full table-fixed text-center">
+    <table className="w-full table-fixed text-center">
       <thead className="text-xs text-gray-700 uppercase z-[3] bg-[#010E59]">
         <tr>
           <th scope="col" className="p-0 w-[50px] h-[60px]">
@@ -87,7 +87,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
       </thead>
 
       {data?.count === 0 && (
-        <tbody className="relative w-full h-[524px]">
+        <tbody className="relative w-full h-[565px]">
           <tr>
             <td className="w-full h-full">
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
@@ -142,14 +142,14 @@ const PasswordTable = ({ data, handleRowClick }) => {
             <th
               onClick={() => handleRowClick(item)}
               scope="row"
-              className="border-[1.5px] relative border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] px-6 py-0 text-[#DFDFDF] whitespace-nowrap"
+              className="border-[1.5px] relative border-[#002256] overflow-hidden dm-sans text-[15px] font-[400] pl-10 px-6 py-0 text-[#DFDFDF] whitespace-nowrap"
               style={{ height: "70px" }}
             >
               {item?.emoji && (
                 <img
                   src={`/${item.emoji}.png`}
                   alt={item.emoji}
-                  className="h-6 absolute left-3"
+                  className="h-6 w-6 absolute left-[10px]"
                 />
               )}
               {item.title}

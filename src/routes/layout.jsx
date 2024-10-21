@@ -11,6 +11,7 @@ import DeleteConfirmation from "../components/DeleteConfirmation";
 import AddNewFolder from "../components/AddNewFolder";
 import ConfirmChanges from "../components/ConfirmChanges";
 import DeletePassword from "../components/DeletePassword";
+import LogoutConfirmation from "../components/LogoutConfirmation";
 
 const Layout = () => {
   const {
@@ -27,6 +28,8 @@ const Layout = () => {
     handleCreateFolderModal,
     openConfirmChangesModal,
     handleConfirmChangesModal,
+    openLogoutModal,
+    handleConfirmLogoutModal,
     openPasswordDeleteModal,
     handleOpenPasswordDeleteModal,
   } = useAuth();
@@ -61,6 +64,9 @@ const Layout = () => {
       )}
       {openConfirmChangesModal && (
         <ConfirmChanges hideModal={handleConfirmChangesModal} />
+      )}
+      {openLogoutModal && (
+        <LogoutConfirmation hideModal={handleConfirmLogoutModal} />
       )}
     </React.Fragment>
   );
