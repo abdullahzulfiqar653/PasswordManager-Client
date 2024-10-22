@@ -65,34 +65,7 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
     <section className="fixed inset-0 flex justify-center items-center bg-[#0000006B] z-50 px-[20px]">
       <section className="bg-[#101E71] relative w-full max-w-[973px] px-[8px] py-[20px] sm:p-[20px] rounded-[5px] flex flex-col items-center">
         <h4 className="flex items-center gap-[9px] text-white text-[18px] sm:text-[22px] font-[400] text-center">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10.4902 2.23006L5.50016 4.11006C4.35016 4.54006 3.41016 5.90006 3.41016 7.12006V14.5501C3.41016 15.7301 4.19016 17.2801 5.14016 17.9901L9.44016 21.2001C10.8502 22.2601 13.1702 22.2601 14.5802 21.2001L18.8802 17.9901C19.8302 17.2801 20.6102 15.7301 20.6102 14.5501V7.12006C20.6102 5.89006 19.6702 4.53006 18.5202 4.10006L13.5302 2.23006C12.6802 1.92006 11.3202 1.92006 10.4902 2.23006Z"
-              stroke="white"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M12 12.5C13.1046 12.5 14 11.6046 14 10.5C14 9.39543 13.1046 8.5 12 8.5C10.8954 8.5 10 9.39543 10 10.5C10 11.6046 10.8954 12.5 12 12.5Z"
-              stroke="white"
-              strokeMiterlimit="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M12 12.5V15.5"
-              stroke="white"
-              strokeMiterlimit="10"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <Dice/>
           Generate Password
         </h4>
         <span
@@ -407,6 +380,45 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
 }
 
 export default GeneratePassword;
+
+const Dice = () => (
+  <svg
+    width="25"
+    height="25"
+    viewBox="0 0 25 25"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-[18px] h-[18px] sm:w-[22px] sm:h-[22px] sm:mt-1"
+  >
+    <path
+      d="M1 3.55556C1 2.87778 1.26925 2.22776 1.7485 1.7485C2.22776 1.26925 2.87778 1 3.55556 1H21.4444C22.1222 1 22.7722 1.26925 23.2515 1.7485C23.7308 2.22776 24 2.87778 24 3.55556V21.4444C24 22.1222 23.7308 22.7722 23.2515 23.2515C22.7722 23.7308 22.1222 24 21.4444 24H3.55556C2.87778 24 2.22776 23.7308 1.7485 23.2515C1.26925 22.7722 1 22.1222 1 21.4444V3.55556Z"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M8.02756 8.66669C8.38041 8.66669 8.66645 8.38065 8.66645 8.0278C8.66645 7.67496 8.38041 7.38892 8.02756 7.38892C7.67471 7.38892 7.38867 7.67496 7.38867 8.0278C7.38867 8.38065 7.67471 8.66669 8.02756 8.66669Z"
+      fill="white"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M16.9719 17.6112C17.3247 17.6112 17.6108 17.3251 17.6108 16.9723C17.6108 16.6194 17.3247 16.3334 16.9719 16.3334C16.619 16.3334 16.333 16.6194 16.333 16.9723C16.333 17.3251 16.619 17.6112 16.9719 17.6112Z"
+      fill="white"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M12.5002 13.1389C12.8531 13.1389 13.1391 12.8528 13.1391 12.5C13.1391 12.1471 12.8531 11.8611 12.5002 11.8611C12.1474 11.8611 11.8613 12.1471 11.8613 12.5C11.8613 12.8528 12.1474 13.1389 12.5002 13.1389Z"
+      fill="white"
+      stroke="white"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 
 const Cross = () => (
   <svg

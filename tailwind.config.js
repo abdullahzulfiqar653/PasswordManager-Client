@@ -26,11 +26,10 @@ module.exports = {
         mq1150: '1150px',
         mq1200: '1200px', 
         mq1290: '1290px', 
-        mq1370: '1020px',
         mq1330: '1380px',
         mq1440: '1440px',
         'h-sm': { 'raw': '(max-height: 666px)' }, 
-        'h-md': { 'raw': '(max-height: 700px)' }, // For min-height: 601px and max-height: 1024px
+        'h-md': { 'raw': '(max-height: 740px)' },
         'h-lg': { 'raw': '(min-height: 1025px)' }
       },
       boxShadow: {

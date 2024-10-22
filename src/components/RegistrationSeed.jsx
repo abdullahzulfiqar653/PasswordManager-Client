@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../AuthContext";
+import useGetSeeds from "../hooks/useGetSeeds";
 import useCreateToken from "../hooks/useCreateToken";
 
-function RegisterInstruction({ seedsData }) {
+function RegisterInstruction() {
   const { signup } = useAuth();
+  const { data: seedsData } = useGetSeeds();
   const [copytext, setCopyText] = useState(false);
 
   const copyToClipBoard = () => {
     setCopyText(true);
-    navigator.clipboard.writeText(seedsData.pass_phrase);
+    navigator.clipboard.writeText(seedsData?.pass_phrase);
     setTimeout(() => {
       setCopyText(false);
     }, [700]);
@@ -20,7 +23,7 @@ function RegisterInstruction({ seedsData }) {
   const { mutate } = useCreateToken();
 
   const savePdf = () => {
-    const blob = new Blob([seedsData.pass_phrase], { type: "text/plain" });
+    const blob = new Blob([seedsData?.pass_phrase], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "seed.txt";
@@ -30,7 +33,7 @@ function RegisterInstruction({ seedsData }) {
   };
 
   const handleSubmit = () => {
-    mutate(seedsData.pass_phrase, {
+    mutate(seedsData?.pass_phrase, {
       onSuccess: (res) => {
         toast.success("Logged In Successfully.", {
           className: "toast-message",
@@ -49,15 +52,15 @@ function RegisterInstruction({ seedsData }) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <img
-        className="w-[173px] hidden md:block lg:w-[255px] mx-auto"
+        className="w-[173px] hidden md:block lg:w-[210px] mx-auto"
         src="/registrationlogov2.svg"
       />
-      <h3 className="text-white z-[3] mt-[180px] md:mt-0 text-center text-[31px] lg:text-[46px] leading-[43px] lg:leading-[64px] font-[400]">
+      <h3 className="text-white z-[3] mt-[180px] md:mt-0 text-center text-[25px] lg:text-[46px] leading-[43px] lg:leading-[64px] font-[400]">
         Your Seed
       </h3>
-      <div className="flex flex-col gap-[5px]">
+      <div className="flex flex-col gap-[2px]">
         <div className="border-[1px] py-[8px] z-[3] md:py-[21px] pb-[10px] px-[19px] h-[166px] md:h-auto border-[#28399F] outline-none bg-[#0E1A60]">
           <div className="flex gap-[4px] md:gap-[8px] flex-wrap">
             {seedsData?.pass_phrase.split(" ").map((word, index) => (
@@ -162,7 +165,7 @@ function RegisterInstruction({ seedsData }) {
           Please write these down incase you lose your seed
         </p>
       </div>
-      <div className="flex flex-col gap-[5px] lg:gap-[32px]">
+      <div className="flex flex-col gap-[5px] lg:gap-[20px]">
         <button
           onClick={handleSubmit}
           className="dm-sans z-[3] mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] py-[10px] 
@@ -180,7 +183,7 @@ function RegisterInstruction({ seedsData }) {
           </Link>
         </p>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

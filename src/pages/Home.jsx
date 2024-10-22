@@ -77,7 +77,7 @@ function Home() {
           {/* Background Image for Larger Screens */}
           <img
             src="/background_img.svg"
-            className="absolute hidden top-[-99px] mq1290:h-[] mq1370:h-[210vh] sm:block sm:object-cover"
+            className="absolute hidden top-[-99px] mq1290:h-[] h-md:h-[235vh] mq1024:h-[210vh] sm:block sm:object-cover"
             alt="Background"
           />
 
