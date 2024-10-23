@@ -293,6 +293,16 @@ progress::-moz-progress-bar {
     height: 1020px;
   }
 }
+@media (min-width: 2000px) {
+  #custom-section {
+    height: 1210px;
+  }
+}
+@media (min-width: 2400px) {
+  #custom-section {
+    height: 1420px;
+  }
+}
 
 @media (max-width: 980px) {
   #custom-section {
