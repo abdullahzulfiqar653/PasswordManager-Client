@@ -15,7 +15,7 @@ function Navbar() {
   } = useAuth();
 
   return (
-    <header className="bg-transparent z-10 relative">
+    <header className="bg-transparent z-1000 relative">
       <section className="md:container">
         <nav className="relative flex justify-between items-center py-[16px] gradient-border gap-[26px]">
           <Link

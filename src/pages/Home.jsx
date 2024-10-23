@@ -2,9 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SpectreComponent from "../components/SpectreComponent";
 import { useAuth } from "../AuthContext";
+import Navbar from "../components/Navbar";
+import AuthNavbar from "../components/AuthNavbar";
 
 function Home() {
-  const {isAuthenticated}=useAuth();
+  const { isAuthenticated } = useAuth();
   return (
     <>
       <section className="main-banner w-full relative bg-[#0e1a60]">
@@ -22,12 +24,16 @@ function Home() {
         </style>
 
         {/* Main container */}
-        <section className="relative h-[800px] flex items-center">
-          <section className="flex h-[120vh] sm:h-[100vh] flex-col z-20 md:flex-row justify-start sm:pt-[0px] sm:pb-20 w-full relative">
-            <section className="flex absolute top-9 z-10 flex-col gap-[10px] sm:gap-[30px] pt-[20px] pl-6 pr-4 w-[95%] sm:w-[55%] items-start sm:px-[60px] sm:pt-[00px]">
+        <section id="custom-section" className="relative w-full">
+          {isAuthenticated ? <AuthNavbar /> : <Navbar />}
+          <section className="flex h-[100vh] flex-col z-20 md:flex-row justify-start items-start pt-[40px] sm:pt-[60px] sm:pb-20 w-full relative">
+            <section
+              id=""
+              className="flex  flex-col gap-[10px] mq1240:gap-[20px] mq1370:gap-[30px] pl-6 pr-4 w-[95%] sm:w-[55%] items-start sm:px-[60px]"
+            >
               {/* Button */}
               <button
-                className="rounded-[12px] border-[0.8px] border-[#fff] backdrop-blur-[11px] flex justify-between p-[5px] sm:p-[10px] items-center text-[#EFFAFF] font-[400] text-[12px] sm:text-[16px] xs:leading-[64px] h-[39px] dm-sans gap-[9px] outline-none min-w-[210px] md:min-w-[254px]"
+                className="rounded-[12px] border-[0.8px] border-[#fff] backdrop-blur-[11px] flex justify-between p-[5px] sm:p-[10px] items-center text-[#EFFAFF] font-[400] text-[12px] sm:text-[13px] mq1240:text-[16px] xs:leading-[64px] h-[39px] dm-sans gap-[9px] outline-none min-w-[210px] mq1240:min-w-[254px]"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(255, 255, 255, 0.19) 0%, rgba(153, 153, 153, 0.19) 100%)",
@@ -37,7 +43,7 @@ function Home() {
               </button>
 
               {/* Headline */}
-              <h1 className="text-white text-[32px] mq1150:text-[48px] md:text-[66px] font-[400] leading-[36px] md:leading-[61px]">
+              <h1 className="text-white text-[32px] md:text-[40px] mq1240:text-[50px] mq1370:text-[66px] font-[400] leading-[36px] md:leading-[42px] mq1240:leading-[51px] mq1370:leading-[61px]">
                 Secure Your Systems with the Ultimate Password Manager
               </h1>
               <h1 className="text-[#FFFFFFB2] font-sans text-[12px] md:text-[18px] font-[400] leading-[15.62px] md:leading-[22px]">
@@ -48,45 +54,47 @@ function Home() {
               </h1>
 
               {/* Get Started Button */}
-              <button className="bg-white hidden sm:block outline-none border-[0.797px] border-[#fff] rounded-[14px] py-[14px] px-[24px] text-[#002550] font-[400] text-[20px] dm-sans">
+              <button className="bg-white hidden sm:block outline-none border-[0.797px] border-[#fff] rounded-[8px] mq1240:rounded-[10px] mq1370:rounded-[14px] py-[10px] px-[15px] mq1240:py-[12px] mq1240:px-[18px] mq1370:py-[14px] mq1370:px-[24px] text-[#002550] font-[400] text-[16px] mq1240:text-[18px] mq1370:text-[20px] dm-sans">
                 Get Started
               </button>
 
               {/* Mobile buttons */}
-             { !isAuthenticated && (<div className="flex items-center gap-[20px] mt-6 mb-3 sm:hidden">
-                <div className="w-[108.63px] h-[38.05px] bg-white hover:bg-[#e7e7e7] text-[#002550] border-[0.8px] border-[#FFFFFF] rounded-[8px] flex justify-center items-center">
-                  <Link
-                    to="/auth/register"
-                    className="dm-sans outline-none text-[13.84px] whitespace-nowrap cursor-pointer leading-[18.02px] font-[400]"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
+              {!isAuthenticated && (
+                <div className="flex items-center gap-[20px] mt-6 mb-3 sm:hidden">
+                  <div className="w-[108.63px] h-[38.05px] bg-white hover:bg-[#e7e7e7] text-[#002550] border-[0.8px] border-[#FFFFFF] rounded-[8px] flex justify-center items-center">
+                    <Link
+                      to="/auth/register"
+                      className="dm-sans outline-none text-[13.84px] whitespace-nowrap cursor-pointer leading-[18.02px] font-[400]"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
 
-                <div className="w-[108.63px] h-[38.05px] border-white hover:bg-[#0e1a6163] border-[1px] border-[linear-gradient(175.15deg, #FFFFFF 10.76%, rgba(255, 255, 255, 0) 55.66%, rgba(255, 255, 255, 0.28) 95.49%)] rounded-[8px] flex justify-center items-center">
-                  <Link
-                    to="/auth/login"
-                    className="dm-sans outline-none cursor-pointer text-[13.84px] leading-[18.02px] font-[400] text-white"
-                  >
-                    Login
-                  </Link>
+                  <div className="w-[108.63px] h-[38.05px] border-white hover:bg-[#0e1a6163] border-[1px] border-[linear-gradient(175.15deg, #FFFFFF 10.76%, rgba(255, 255, 255, 0) 55.66%, rgba(255, 255, 255, 0.28) 95.49%)] rounded-[8px] flex justify-center items-center">
+                    <Link
+                      to="/auth/login"
+                      className="dm-sans outline-none cursor-pointer text-[13.84px] leading-[18.02px] font-[400] text-white"
+                    >
+                      Login
+                    </Link>
+                  </div>
                 </div>
-              </div>)}
+              )}
             </section>
           </section>
           {/* Background Image for Larger Screens */}
-          <img
+          {/* <img
             src="/background_img.svg"
             className="absolute hidden top-[-99px] mq1290:h-[] h-md:h-[235vh] mq1024:h-[210vh] sm:block sm:object-cover"
             alt="Background"
-          />
+          /> */}
 
           {/* Background Image for Mobile Screens */}
-          <img
+          {/* <img
             src="/mobileSection.svg"
             className="absolute top-[-70px]  w-full object-cover sm:hidden"
             alt="Mobile Background"
-          />
+          /> */}
         </section>
 
         {/* Second section */}

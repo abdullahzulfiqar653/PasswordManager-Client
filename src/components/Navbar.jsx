@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <header className="z-10 relative bg-[linear-gradient(352deg,_rgba(14, 26, 96, 0.00)_4.12%,_#0E1A60_72.05%)]">
+    <header className="z-1000 relative bg-[linear-gradient(352deg,_rgba(14, 26, 96, 0.00)_4.12%,_#0E1A60_72.05%)]">
       <section>
         <nav className="pt-[14px] pb-[11px] px-[10px] sm:px-[35px] gradient-border flex sm:justify-between sm:items-center ">
           <Link to="/" className="flex items-center gap-[6px] md:gap-[15px]">

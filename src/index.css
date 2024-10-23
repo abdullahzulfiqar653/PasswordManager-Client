@@ -253,3 +253,89 @@ progress::-moz-progress-bar {
 }
 
 
+#custom-section {
+  background-image: url("/background_img.svg");
+  background-size: cover;
+  width:100%;
+}
+@media (min-width: 980px) and (max-width: 1120px) {
+  #custom-section {
+    height: 670px;
+  }
+}
+
+@media (min-width: 1120px) and (max-width: 1230px) {
+  #custom-section {
+    height: 740px;
+  }
+}
+
+@media (min-width: 1230px) and (max-width: 1410px) {
+  #custom-section {
+    height: 800px;
+  }
+}
+
+@media (min-width: 1410px) and (max-width: 1550px) {
+  #custom-section {
+    height: 900px;
+  }
+}
+
+@media (min-width: 1550px) {
+  #custom-section {
+    height: 970px;
+  }
+}
+
+@media (min-width: 1750px) {
+  #custom-section {
+    height: 1020px;
+  }
+}
+
+@media (max-width: 980px) {
+  #custom-section {
+    height: 650px;
+  }
+}
+@media (max-width: 800px) {
+  #custom-section {
+    height: 530px;
+  }
+}
+@media (max-width: 450px) {
+  #custom-section {
+    background-image: url("/mobileSection.svg");
+    background-size:cover;
+    height: 1020px; 
+    width:100%;
+  }
+}
+@media (max-width: 430px) {
+  #custom-section {
+    height: 1000px; 
+  }
+}
+@media (max-width: 420px) {
+  #custom-section {
+    height: 950px; 
+  }
+}
+
+@media (max-width: 395px) {
+  #custom-section {
+    height: 900px; 
+  }
+}
+@media (max-width: 370px) {
+  #custom-section {
+    height: 850px; 
+  }
+}
+@media (max-width: 350px) {
+  #custom-section {
+    height: 800px; 
+  }
+}
+
