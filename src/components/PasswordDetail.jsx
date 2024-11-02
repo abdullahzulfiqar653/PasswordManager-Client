@@ -36,16 +36,20 @@ const PasswordDetailContent = ({ passWordRecord, handleRowClick }) => {
           Username
         </span>
         <div className="flex flex-1 gap-[10px] sm:gap-[0] sm:justify-between sm:items-center flex-col sm:flex-row">
-          <span className="flex-1 font-[400] dm-sans text-[14px]">
+          <span className="flex-1 font-[400] w-[140px] overflow-hidden dm-sans text-[14px]">
             {passWordRecord?.username}
           </span>
-         <div className="flex gap-[21px] justify-end">
-         {passWordRecord?.username && <CopyToClipboard
-              text={passWordRecord?.username}
-              onCopy={() => handleCopyName(passWordRecord?.id)}
-            >
-              <div>{copyName[passWordRecord.id] ? <TickIcon /> : <CopyIcon />}</div>
-            </CopyToClipboard>}
+          <div className="flex gap-[16px] absolute right-[30px]">
+            {passWordRecord?.username && (
+              <CopyToClipboard
+                text={passWordRecord?.username}
+                onCopy={() => handleCopyName(passWordRecord?.id)}
+              >
+                <div>
+                  {copyName[passWordRecord.id] ? <TickIcon /> : <CopyIcon />}
+                </div>
+              </CopyToClipboard>
+            )}
             <span
               className="cursor-pointer"
               onClick={() => {
@@ -62,16 +66,20 @@ const PasswordDetailContent = ({ passWordRecord, handleRowClick }) => {
           URL
         </span>
         <div className="flex flex-1 gap-[10px] sm:gap-[0] sm:justify-between sm:items-center flex-col sm:flex-row">
-          <span className="flex-1 font-[400] dm-sans text-[14px]">
+          <span className="flex-1 font-[400] w-[140px] overflow-hidden dm-sans text-[14px]">
             {passWordRecord?.url}
           </span>
-          <div className="flex gap-[21px] justify-end">
-          {passWordRecord?.url  && <CopyToClipboard
-              text={passWordRecord?.url}
-              onCopy={() => handleCopyURL(passWordRecord?.id)}
-            >
-              <div>{copyURL[passWordRecord.id] ? <TickIcon /> : <CopyIcon />}</div>
-            </CopyToClipboard>}
+          <div className="flex gap-[16px] absolute right-[30px]">
+            {passWordRecord?.url && (
+              <CopyToClipboard
+                text={passWordRecord?.url}
+                onCopy={() => handleCopyURL(passWordRecord?.id)}
+              >
+                <div>
+                  {copyURL[passWordRecord.id] ? <TickIcon /> : <CopyIcon />}
+                </div>
+              </CopyToClipboard>
+            )}
             <span
               className="cursor-pointer"
               onClick={() => {
