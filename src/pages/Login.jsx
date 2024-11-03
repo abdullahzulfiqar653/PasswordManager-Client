@@ -83,7 +83,7 @@ function Login() {
   return (
     <section className="flex min-h-screen w-full justify-between flex-col-reverse md:flex-row">
       <section className="w-full md:w-[45%] h-[20vh] md:h-[100vh] flex justify-center items-center">
-        <div className="hidden md:flex flex-col gap-[26px] mt-[95px]">
+        <div className="hidden md:flex flex-col gap-[26px]">
           <div className="flex flex-col md:ml-2 lg:ml-0 gap-[29px] max-w-[450px]">
             <Link to="/" className="flex items-center gap-[15px]">
               <img src="/logo.svg" className="cursor-pointer" />
