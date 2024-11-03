@@ -9,6 +9,7 @@ function LogoutConfirmation({ hideModal }) {
     setLoading(true);
     logout();
     hideModal();
+    window.location.href = '/auth/login';
   };
   return (
     <section className="fixed inset-0 flex justify-center items-center bg-[#0000006B] z-50 px-[20px]">

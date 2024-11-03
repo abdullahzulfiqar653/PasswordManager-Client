@@ -53,7 +53,7 @@ function SpectreComponent() {
   return (
     <>
       <section className="w-full h-[480px] relative bg-[#0e1a60]">
-        <section className="flex flex-col sm:flex-row justify-between sm:justify-arround px-[11px] sm:px-[0px] sm:gap-[250px] sm:pl-[60px]  pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-36 mq2400:pr-72 mq2400:pl-36 w-full relative z-10">
+        <section className="flex flex-col sm:flex-row justify-between sm:justify-arround px-[11px] sm:px-[0px] sm:gap-[250px] sm:pl-[60px]  pb-32 sm:pb-52 mq1024:pr-20 mq1150:pr-48 mq2400:pr-72 mq2400:pl-36 w-full relative z-10">
           <section className="flex flex-col gap-[10px] sm:gap-[30px] mq2000:gap-[50px] sm:w-[43%] items-start pb-[140px] sm:pb-0 sm:pt-[70px]">
             {/* Button */}
             <button
@@ -77,7 +77,7 @@ function SpectreComponent() {
             </h1>
           </section>
 
-          <section className="flex relative flex-col justify-center items-center sm:gap-[30px]">
+          <section className="flex relative flex-col justify-center items-center sm:gap-[30px] mq1500:mt-9 mq2000:mt-0">
             <div
               className="mq350:w-[310px] mq425:w-[390.46px] mq400:w-[340.46px] h-[481.43px] sm:w-[471.7px] sm:h-[575.53px] mq1600:w-[540px] mq1600:h-[800px] mq2000:w-[740px] mq2000:h-[1100px]  relative rounded-[16.48px] sm:rounded-[19.73px] flex flex-col justify-center text-center border-[1px] border-[#ffffff94] pl-[10px] mq1600:pl-[35px] pr-0 sm:px-[25px] py-[8px]"
               style={{
