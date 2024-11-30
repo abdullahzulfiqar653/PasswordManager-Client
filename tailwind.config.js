@@ -30,6 +30,10 @@ module.exports = {
         mq1370: '1370px', 
         mq1330: '1380px',
         mq1440: '1440px',
+        mq1500: '1500px',
+        mq1600: '1600px',
+        mq2000: '2000px',
+        mq2400: '2400px',
         'h-sm': { 'raw': '(max-height: 666px)' }, 
         'h-md': { 'raw': '(max-height: 740px)' },
         'h-lg': { 'raw': '(min-height: 1025px)' }

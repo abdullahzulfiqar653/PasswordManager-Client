@@ -12,7 +12,8 @@ import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 const PasswordFolder = () => {
   const navigate = useNavigate();
-  const { isDesktop, search, passSelectedFolderId, setSearch,folderTitle } = useAuth();
+  const { isDesktop, search, passSelectedFolderId, setSearch, folderTitle } =
+    useAuth();
   const [activeTab, setActiveTab] = useState(0);
   const { data, isLoading, refetch } = useGetUserPasswords(
     passSelectedFolderId,
@@ -93,7 +94,10 @@ const PasswordFolder = () => {
                   className="h-6 absolute left-3"
                 />
               )}
-              {passWordRecord.title}
+              <span className="w-[200px] text-start overflow-hidden">
+                {passWordRecord.title}
+              </span>
+
               {index === activeTab ? <UpArrow /> : <DownArrow />}
             </button>
             {index == activeTab && (

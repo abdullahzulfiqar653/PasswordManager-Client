@@ -11,7 +11,7 @@ function Dashboard() {
     refetchFolders();
   }, [refetchFolders]);
   return (
-    <section className="w-full relative flex mt-[20px] container gap-[7px]">
+    <section className="w-full h-full relative flex mt-[20px] container gap-[7px]">
       <FoldersList foldersData={foldersData} />
       <section className="flex-1 overflow-x-auto">
         <PasswordFolder />

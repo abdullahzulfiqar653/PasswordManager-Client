@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useGenerateRandomPassword from "../hooks/useGenerateRandomPassword";
 import { toast } from "react-toastify";
 
-function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
+function GeneratePassword({ hideModal, setGeneratorPassword, triggerSource }) {
   const [copytext, setCopyText] = useState(false);
   const { mutate, data } = useGenerateRandomPassword();
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -65,7 +65,7 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
     <section className="fixed inset-0 flex justify-center items-center bg-[#0000006B] z-50 px-[20px]">
       <section className="bg-[#101E71] relative w-full max-w-[973px] px-[8px] py-[20px] sm:p-[20px] rounded-[5px] flex flex-col items-center">
         <h4 className="flex items-center gap-[9px] text-white text-[18px] sm:text-[22px] font-[400] text-center">
-          <Dice/>
+          <Dice />
           Generate Password
         </h4>
         <span
@@ -117,7 +117,7 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
                     viewBox="0 0 20 20"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-[8px] h-[9px] sm:w-[26px] sm:h-[26px]"
+                    className="w-[11px] h-[11px] sm:w-[26px] sm:h-[26px]"
                   >
                     <path
                       d="M17.0607 2.9375C16.135 2.00606 15.0339 1.26695 13.821 0.762789C12.6081 0.258627 11.3074 -0.000617944 9.99375 1.10606e-06C4.46529 1.10606e-06 0 4.475 0 10C0 15.525 4.46529 20 9.99375 20C14.6592 20 18.5491 16.8125 19.6623 12.5H17.0607C16.5454 13.9619 15.5889 15.228 14.3231 16.1235C13.0573 17.0191 11.5446 17.5001 9.99375 17.5C5.85366 17.5 2.48906 14.1375 2.48906 10C2.48906 5.8625 5.85366 2.5 9.99375 2.5C12.07 2.5 13.9212 3.3625 15.272 4.725L11.2445 8.75H20V1.10606e-06L17.0607 2.9375Z"
@@ -137,7 +137,7 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
                     viewBox="0 0 26 26"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-[8px] h-[9px] sm:w-[26px] sm:h-[26px]"
+                    className="w-[13px] h-[13px] sm:w-[26px] sm:h-[26px]"
                   >
                     <path
                       d="M21.3072 5.52527H8.74962C6.96893 5.52527 5.52539 6.96881 5.52539 8.7495V21.307C5.52539 23.0877 6.96893 24.5313 8.74962 24.5313H21.3072C23.0879 24.5313 24.5314 23.0877 24.5314 21.307V8.7495C24.5314 6.96881 23.0879 5.52527 21.3072 5.52527Z"
@@ -160,6 +160,7 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
                     viewBox="0 0 22 22"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
+                    className="w-[11px] h-[11px] sm:w-[24px] sm:h-[24px]"
                   >
                     <path
                       d="M18.2606 4.84595H7.58793C6.07452 4.84595 4.84766 6.07281 4.84766 7.58622V18.2589C4.84766 19.7723 6.07452 20.9991 7.58793 20.9991H18.2606C19.774 20.9991 21.0008 19.7723 21.0008 18.2589V7.58622C21.0008 6.07281 19.774 4.84595 18.2606 4.84595Z"
@@ -339,10 +340,10 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
               border-none flex items-center justify-center text-[8px] sm:text-[15px] 
               font-[400] text-white hover:bg-[#091246]
                 ${
-                     passwordCriteria.is_alphabets
-                       ? "bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)]"
-                       : "bg-[#0E1A60]"
-                   }`}
+                  passwordCriteria.is_alphabets
+                    ? "bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)]"
+                    : "bg-[#0E1A60]"
+                }`}
             >
               Extended ASCII
             </button>
@@ -357,22 +358,24 @@ function GeneratePassword({ hideModal, setGeneratorPassword,triggerSource }) {
           >
             Close
           </button>
-         {triggerSource === 'form' && <button
-            className="dm-sans  bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] w-[85px] h-[30px] sm:w-[140px] sm:h-[50px] rounded-[6.23px] sm:rounded-[15px] outline-none 
+          {triggerSource === "form" && (
+            <button
+              className="dm-sans  bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] w-[85px] h-[30px] sm:w-[140px] sm:h-[50px] rounded-[6.23px] sm:rounded-[15px] outline-none 
               border-none flex items-center justify-center text-[9px] sm:text-[15px]
                font-[400] text-white"
-            disabled={!data?.password}
-            onClick={() => {
-              setGeneratorPassword(data?.password);
-              hideModal();
-              toast.success(
-                "Password applied successfully in the password form.",
-                { className: "toast-message" }
-              );
-            }}
-          >
-            Apply Password
-          </button>}
+              disabled={!data?.password}
+              onClick={() => {
+                setGeneratorPassword(data?.password);
+                hideModal();
+                toast.success(
+                  "Password applied successfully in the password form.",
+                  { className: "toast-message" }
+                );
+              }}
+            >
+              Apply Password
+            </button>
+          )}
         </section>
       </section>
     </section>
@@ -444,7 +447,7 @@ const CloseEye = () => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-[10px] h-[10px] sm:w-[24px] sm:h-[24px]"
+    className="w-[13px] h-[13px] sm:w-[24px] sm:h-[24px]"
   >
     <path
       d="M14.5299 9.47004L9.46992 14.53C8.81992 13.88 8.41992 12.99 8.41992 12C8.41992 10.02 10.0199 8.42004 11.9999 8.42004C12.9899 8.42004 13.8799 8.82004 14.5299 9.47004Z"
@@ -491,7 +494,7 @@ const OpenEye = () => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="w-[10px] h-[10px] sm:w-[24px] sm:h-[24px]"
+    className="w-[13px] h-[13px] sm:w-[24px] sm:h-[24px]"
   >
     <path
       d="M14.5299 9.47004L9.46992 14.53C8.81992 13.88 8.41992 12.99 8.41992 12C8.41992 10.02 10.0199 8.42004 11.9999 8.42004C12.9899 8.42004 13.8799 8.82004 14.5299 9.47004Z"
