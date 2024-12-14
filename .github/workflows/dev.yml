@@ -1,12 +1,12 @@
-name: CI/CD > PasswordManager Live
+name: CI/CD > PasswordManager Dev
 
 on:
   push:
     branches:
-      - main
+      - dev
 
 concurrency:
-  group: main
+  group: dev
   cancel-in-progress: true
 
 jobs:
@@ -16,9 +16,9 @@ jobs:
     steps:
       - name: Configure SSH
         env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_USER: ${{ secrets.DEV_SSH_USER }}
+          SSH_HOST: ${{ secrets.DEV_SSH_HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/github
@@ -35,10 +35,11 @@ jobs:
       - name: Run Deploy
         run: |
           ssh target "\
-            export PATH=/root/.nvm/versions/node/v22.5.1/bin:\$PATH && \
-            cd frontends/PasswordManager-Client/ && \
+            export PATH=/root/.nvm/versions/node/v22.12.0/bin:\$PATH && \
+            cd Frontends/dev/PasswordManager-Client/ && \
+            git checkout dev && \
             git pull && \
             export PATH=\$PATH:/root/.npm/bin && \
             npm run build && \
-            cp -r ./dist/* /var/www/password/html/ && \
+            cp -r ./dist/* /var/www/dev/dev.neuropassword.com/html && \
             systemctl reload nginx"
