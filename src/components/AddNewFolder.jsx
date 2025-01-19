@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { CrossI } from "../assets/icons";
+
 import useGetFolders from "../hooks/useGetFolders";
 import useCreateFolder from "../hooks/useCreateFolder";
 
@@ -52,7 +54,7 @@ function AddNewFolder({ hideModal }) {
             setFolderName("");
           }}
         >
-          <Cross />
+          <CrossI />
         </span>
         <section className="flex flex-col justify-center mx-8 sm:mx-16 text-start mb-7">
           <h1 className="text-white text-start leading-[44.7px] text-[20px] sm:text-[32px] mb-9">
@@ -120,21 +122,3 @@ function AddNewFolder({ hideModal }) {
 }
 
 export default AddNewFolder;
-
-const Cross = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-[10px] h-[10px] sm:w-[20px] sm:h-[20px]"
-  >
-    <path
-      d="M1 19L19 1M1 1L19 19"
-      stroke="white"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);

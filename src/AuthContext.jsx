@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     useState(false);
   const [showGeneratePassModal, setShowGeneratePassModal] = useState(false);
   const [applyPasswordButton, setApplyPasswordButton] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [generatorPassword, setGeneratorPassword] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
@@ -93,9 +93,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const handleFolderSelection = (folder) => {
-    setPassSelectedFolderId(folder.id); 
-    setFolderTitle(folder.title)
-    localStorage.setItem("FolderId", folder.id); 
+    setPassSelectedFolderId(folder.id);
+    setFolderTitle(folder.title);
+    localStorage.setItem("FolderId", folder.id);
   };
 
   const clearFolderSelection = () => {

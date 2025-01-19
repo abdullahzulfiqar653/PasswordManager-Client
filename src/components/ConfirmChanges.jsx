@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import { Cross } from "../assets/icons";
 import { useAuth } from "../AuthContext";
 import useUpdatePassword from "../hooks/useUpdatePassword";
 
@@ -90,21 +92,3 @@ function ConfirmChanges({ hideModal }) {
 }
 
 export default ConfirmChanges;
-
-const Cross = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-[10px] h-[10px] sm:w-[20px] sm:h-[20px]"
-  >
-    <path
-      d="M1 19L19 1M1 1L19 19"
-      stroke="white"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);

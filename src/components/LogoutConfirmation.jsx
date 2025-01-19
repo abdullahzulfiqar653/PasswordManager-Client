@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Cross } from "../assets/icons";
 import { useAuth } from "../AuthContext";
 
 function LogoutConfirmation({ hideModal }) {
@@ -9,7 +10,7 @@ function LogoutConfirmation({ hideModal }) {
     setLoading(true);
     logout();
     hideModal();
-    window.location.href = '/auth/login';
+    window.location.href = "/auth/login";
   };
   return (
     <section className="fixed inset-0 flex justify-center items-center bg-[#0000006B] z-50 px-[20px]">
@@ -64,21 +65,3 @@ function LogoutConfirmation({ hideModal }) {
 }
 
 export default LogoutConfirmation;
-
-const Cross = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-[10px] h-[10px] sm:w-[20px] sm:h-[20px]"
-  >
-    <path
-      d="M1 19L19 1M1 1L19 19"
-      stroke="white"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);
