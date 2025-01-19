@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   AddA,
   Dice,
@@ -11,6 +11,8 @@ import {
 import { useAuth } from "../AuthContext";
 
 function Navbar() {
+  const location = useLocation();
+
   const {
     search,
     setSearch,
@@ -21,7 +23,6 @@ function Navbar() {
     handleOpenPasswordDeleteModal,
     handleSaveConfirmationModalVisibility,
   } = useAuth();
-
   return (
     <header className="bg-transparent z-1000 relative">
       <section className="md:container">
@@ -72,12 +73,16 @@ function Navbar() {
               </div>
               {selectPasswordsId?.length === 0 ? (
                 <>
-                  <Link
-                    onClick={() => handleGeneratePassVisibility("navbar")}
-                    className="w-[36px] h-[36px]  sm:w-[61px] sm:h-[61px] mq2000:w-[81px] mq2000:h-[81px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full z-20"
-                  >
-                    <Dice />
-                  </Link>
+                  {location.pathname == "/" ? (
+                    ""
+                  ) : (
+                    <Link
+                      onClick={() => handleGeneratePassVisibility("navbar")}
+                      className="w-[36px] h-[36px]  sm:w-[61px] sm:h-[61px] mq2000:w-[81px] mq2000:h-[81px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full z-20"
+                    >
+                      <Dice />
+                    </Link>
+                  )}
                   <Link
                     to="/dashboard/add"
                     className="w-[36px] h-[36px]  sm:w-[61px] sm:h-[61px] mq2000:w-[81px] mq2000:h-[81px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
