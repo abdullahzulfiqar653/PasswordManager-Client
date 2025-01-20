@@ -3,11 +3,12 @@ import { useState } from "react";
 import Words from "../data/Seeds";
 import { toast } from "react-toastify";
 import { useAuth } from "../AuthContext";
+import { ThreeDots } from "react-loader-spinner";
 import useCreateToken from "../hooks/useCreateToken";
 
 function Login() {
   const navigate = useNavigate();
-  const { mutate } = useCreateToken();
+  const { mutate, isPending } = useCreateToken();
   const { isAuthenticated, login } = useAuth();
 
   const [inputValue, setInputValue] = useState("");
@@ -97,7 +98,10 @@ function Login() {
               and open source.
             </p>
           </div>
-          <img className="md:w-[250px] lg:w-[300px] md:ml-5 lg:ml-0" src="/loginlock.png" />
+          <img
+            className="md:w-[250px] lg:w-[300px] md:ml-5 lg:ml-0"
+            src="/loginlock.png"
+          />
         </div>
         <img className="block md:hidden" src="/loginlockv2.svg" />
       </section>
@@ -111,15 +115,15 @@ function Login() {
           </Link>
         </nav>
         <img
-            className="absolute w-[100%] md:hidden left-0 right-0 mx-auto"
-            src="/loginForMobile.svg"
-          />
+          className="absolute w-[100%] md:hidden left-0 right-0 mx-auto"
+          src="/loginForMobile.svg"
+        />
         <div className="w-full h-[65vh] md:h-[100vh] z-[1] justify-center flex flex-col gap-[30px] md:gap-[42px] max-w-[637px]">
           <img
             className="w-[173px] hidden md:block md:w-[200px] lg:w-[220px] mx-auto z-[1]"
             src="/loginmainlogo.svg"
           />
-         
+
           <h3 className="text-white hidden md:block text-center text-[31px] md:text-[46px] leading-[43px] md:leading-[64px] font-[400]">
             Log In
           </h3>
@@ -192,9 +196,21 @@ function Login() {
               className="mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] py-[10px] 
               md:py-[19px] md:max-w-[312px] max-w-[244px]  w-[100%] rounded-[11.61px] md:rounded-[18.37px] outline-none 
               border-none text-[12px] md:text-[15.5px] leading-[15.26px] 
-              md:leading-[20.18px] font-[400] text-[#FFFFFF66] dm-sans"
+              md:leading-[20.18px] font-[400] text-[#FFFFFF66] dm-sans flex items-center justify-center"
             >
               Next
+              {isPending && (
+                <ThreeDots
+                  color="white"
+                  height={10}
+                  width={30}
+                  ariaLabel="loading"
+                  wrapperStyle={{
+                    marginLeft: "5%",
+                    // marginTop: "8px",
+                  }}
+                />
+              )}
             </button>
             <p className="dm-sans text-center text-[#DFDFDF] text-[12px] md:text-[16px] leading-[32px] font-[400]">
               Don’t you have any account?{" "}
