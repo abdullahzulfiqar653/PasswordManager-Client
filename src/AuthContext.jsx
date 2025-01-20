@@ -93,9 +93,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const handleFolderSelection = (folder) => {
-    setPassSelectedFolderId(folder.id); 
-    setFolderTitle(folder.title)
-    localStorage.setItem("FolderId", folder.id); 
+    setPassSelectedFolderId(folder.id);
+    setFolderTitle(folder.title);
+    localStorage.setItem("FolderId", folder.id);
   };
 
   const clearFolderSelection = () => {

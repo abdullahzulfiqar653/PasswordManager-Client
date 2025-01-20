@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Cross } from "../assets/icons";
 import { useAuth } from "../AuthContext";
 import useGetFolders from "../hooks/useGetFolders";
 import useDeleteFolders from "../hooks/useDeleteFolder";
@@ -8,17 +9,14 @@ import { toast } from "react-toastify";
 import { ThreeDots } from "react-loader-spinner";
 
 function DeleteConfirmation({ hideModal }) {
-  const { selectedFolderId,clearFolderSelection } = useAuth();
+  const { selectedFolderId, clearFolderSelection } = useAuth();
   const { refetch } = useGetFolders();
-  const { mutate } = useDeleteFolders();
-  const [loading, setLoading] = useState(false);
+  const { mutate, isPending } = useDeleteFolders();
 
   const deleteButtonClick = () => {
     if (!selectedFolderId) return;
-    setLoading(true);
     mutate(selectedFolderId, {
       onSuccess: () => {
-        setLoading(false);
         toast.success("Folder Deleted Successfully.", {
           className: "toast-message",
         });
@@ -26,8 +24,7 @@ function DeleteConfirmation({ hideModal }) {
         hideModal();
         clearFolderSelection();
       },
-      onError: (error) => {
-        setLoading(false);
+      onError: () => {
         toast.error("Error deleting folder.");
       },
     });
@@ -64,16 +61,16 @@ function DeleteConfirmation({ hideModal }) {
           <button
             onClick={deleteButtonClick}
             style={{
-              background: loading
+              background: isPending
                 ? "#0E1956" // Disabled background color
                 : "linear-gradient(90deg, #A143FF 0%, #5003DB 100%)", // Active color gradient
-              cursor: loading ? "not-allowed" : "pointer", // Cursor change when loading
+              cursor: isPending ? "not-allowed" : "pointer", // Cursor change when loading
             }}
-            disabled={loading} // Disable button when loading or blocked
+            disabled={isPending} // Disable button when loading or blocked
             className="dm-sans w-[125px] h-[40px] sm:w-[254px] sm:h-[58px] rounded-[6.23px] sm:rounded-[18.37px] outline-none border-none flex items-center justify-center text-[12px] sm:text-[16px] text-white"
           >
             Delete
-            {loading && (
+            {isPending && (
               <ThreeDots
                 color="white"
                 height={10}
@@ -90,21 +87,3 @@ function DeleteConfirmation({ hideModal }) {
 }
 
 export default DeleteConfirmation;
-
-const Cross = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="w-[10px] h-[10px] sm:w-[20px] sm:h-[20px]"
-  >
-    <path
-      d="M1 19L19 1M1 1L19 19"
-      stroke="white"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-    />
-  </svg>
-);

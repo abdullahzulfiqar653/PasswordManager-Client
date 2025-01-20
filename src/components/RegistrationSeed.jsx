@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 import { useAuth } from "../AuthContext";
 import useGetSeeds from "../hooks/useGetSeeds";
@@ -20,7 +21,7 @@ function RegisterInstruction() {
   };
 
   const navigate = useNavigate();
-  const { mutate } = useCreateToken();
+  const { mutate, isPending } = useCreateToken();
 
   const savePdf = () => {
     const blob = new Blob([seedsData?.pass_phrase], { type: "text/plain" });
@@ -171,9 +172,21 @@ function RegisterInstruction() {
           className="dm-sans z-[3] mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] py-[10px] 
               lg:py-[19px] max-w-[244px] md:max-w-[312px] w-[100%] rounded-[11.61px] lg:rounded-[18.37px] outline-none 
               border-none text-[12px] lg:text-[15.5px] leading-[15.26px] 
-              lg:leading-[20.18px] font-[400] text-white"
+              lg:leading-[20.18px] font-[400] text-white flex items-center justify-center"
         >
           Next
+          {isPending && (
+            <ThreeDots
+              color="white"
+              height={10}
+              width={30}
+              ariaLabel="loading"
+              wrapperStyle={{
+                marginLeft: "5%",
+                // marginTop: "8px",
+              }}
+            />
+          )}
         </button>
         <p className="dm-sans text-center z-[3] text-[#DFDFDF] text-[12px] lg:text-[16px] leading-[32px] font-[400]">
           Already have account?
