@@ -10,6 +10,7 @@ function LogoutConfirmation({ hideModal }) {
     setLoading(true);
     logout();
     hideModal();
+    setLoading(false);
     window.location.href = "/auth/login";
   };
   return (
