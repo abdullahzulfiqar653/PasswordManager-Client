@@ -28,7 +28,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
   useEffect(() => {
     const allIds = data?.results.map((item) => item.id) || [];
 
-    if (selectPasswordsId.length === allIds.length && allIds.length > 0) {
+    if (selectPasswordsId?.length === allIds?.length && allIds?.length > 0) {
       setAreAllSelected(true);
     } else {
       setAreAllSelected(false);

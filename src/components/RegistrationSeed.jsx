@@ -9,7 +9,7 @@ import useCreateToken from "../hooks/useCreateToken";
 
 function RegisterInstruction() {
   const { signup } = useAuth();
-  const { data: seedsData, isLoading } = useGetSeeds();
+  const { data: seedsData } = useGetSeeds();
   const [copytext, setCopyText] = useState(false);
 
   const copyToClipBoard = () => {
@@ -21,7 +21,7 @@ function RegisterInstruction() {
   };
 
   const navigate = useNavigate();
-  const { mutate } = useCreateToken();
+  const { mutate, isPending } = useCreateToken();
 
   const savePdf = () => {
     const blob = new Blob([seedsData?.pass_phrase], { type: "text/plain" });
@@ -175,7 +175,7 @@ function RegisterInstruction() {
               lg:leading-[20.18px] font-[400] text-white flex items-center justify-center"
         >
           Next
-          {isLoading && (
+          {isPending && (
             <ThreeDots
               color="white"
               height={10}
