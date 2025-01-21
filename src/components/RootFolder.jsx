@@ -6,15 +6,15 @@ const RootFolder = () => {
     // <section className="bg-[#101E71] rounded-[12px] min-h-[201px] relative p-[14px]">
     //   <section className="absolute p-[4px] rounded-[0px_0px_12px_12px] left-[140px] top-[0] bg-[#010E59] flex items-center justify-center gap-[4px]">
     //     <button
-    //       className="dm-sans mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] w-[76px] h-[36px] rounded-[11.61px] lg:rounded-[18.37px] outline-none 
-    //           border-none flex items-center justify-center text-[12px] 
+    //       className="dm-sans mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] w-[76px] h-[36px] rounded-[11.61px] lg:rounded-[18.37px] outline-none
+    //           border-none flex items-center justify-center text-[12px]
     //           leading-[32px] font-[400] text-white"
     //     >
     //       General
     //     </button>
     //     <button
-    //       className="dm-sans mx-[auto] bg-[#101E71] w-[76px] h-[36px] rounded-[11.61px] lg:rounded-[18.37px] outline-none 
-    //           border-none flex items-center justify-center text-[12px] 
+    //       className="dm-sans mx-[auto] bg-[#101E71] w-[76px] h-[36px] rounded-[11.61px] lg:rounded-[18.37px] outline-none
+    //           border-none flex items-center justify-center text-[12px]
     //           leading-[32px] font-[400] text-white"
     //     >
     //       Share

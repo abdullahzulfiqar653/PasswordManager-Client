@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     useState(false);
   const [showGeneratePassModal, setShowGeneratePassModal] = useState(false);
   const [applyPasswordButton, setApplyPasswordButton] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [generatorPassword, setGeneratorPassword] = useState("");
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openCreateFolderModal, setOpenCreateFolderModal] = useState(false);
