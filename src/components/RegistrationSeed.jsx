@@ -9,7 +9,7 @@ import useCreateToken from "../hooks/useCreateToken";
 
 function RegisterInstruction() {
   const { signup } = useAuth();
-  const { data: seedsData } = useGetSeeds();
+  const { data: seedsData, isLoading } = useGetSeeds();
   const [copytext, setCopyText] = useState(false);
 
   const copyToClipBoard = () => {
