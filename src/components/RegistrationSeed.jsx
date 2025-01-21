@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 
 import { useAuth } from "../AuthContext";
 import useGetSeeds from "../hooks/useGetSeeds";
@@ -21,7 +22,7 @@ function RegisterInstruction() {
   };
 
   const navigate = useNavigate();
-  const { mutate } = useCreateToken();
+  const { mutate, isPending } = useCreateToken();
 
   const savePdf = () => {
     const blob = new Blob([seedsData?.pass_phrase], { type: "text/plain" });
