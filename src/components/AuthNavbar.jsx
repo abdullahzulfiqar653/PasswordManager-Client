@@ -60,7 +60,11 @@ function Navbar() {
                   placeholder="Search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="absolute font-sans left-0 focus:w-[160px] focus:p-[0_16px_0_0] focus:pl-[10px] placeholder:text-white text-white text-[12px] focus:border-[.5px] rounded-[20px] border-[#374CC4] bg-[#101E71] outline-none p-0 w-0 h-full z-10 transition-[width] duration-400"
+                  className={`absolute font-sans left-0 ${
+                    location.pathname == "/"
+                      ? "focus:w-[120px]"
+                      : "focus:w-[160px]"
+                  }  focus:p-[0_16px_0_0] focus:pl-[10px] placeholder:text-white text-white text-[12px] focus:border-[.5px] rounded-[20px] border-[#374CC4] bg-[#101E71] outline-none p-0 w-0 h-full z-10 transition-[width] duration-400`}
                 />
                 <label
                   htmlFor="searchleft" // Linking the label to the input
@@ -78,7 +82,7 @@ function Navbar() {
                   ) : (
                     <Link
                       onClick={() => handleGeneratePassVisibility("navbar")}
-                      className="w-[36px] h-[36px]  sm:w-[61px] sm:h-[61px] mq2000:w-[81px] mq2000:h-[81px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full z-20"
+                      className="w-[36px] h-[36px]  sm:w-[61px] sm:h-[61px] mq2000:w-[81px] mq2000:h-[81px] flex items-center justify-center bg-[#101E71] border-[.3px] border-[#374CC4] rounded-full"
                     >
                       <Dice />
                     </Link>
