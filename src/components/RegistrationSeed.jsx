@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import { ThreeDots } from "react-loader-spinner";
+import { ThreeCircles, ThreeDots } from "react-loader-spinner";
 
 import { useAuth } from "../AuthContext";
 import useGetSeeds from "../hooks/useGetSeeds";
@@ -9,7 +9,7 @@ import useCreateToken from "../hooks/useCreateToken";
 
 function RegisterInstruction() {
   const { signup } = useAuth();
-  const { data: seedsData } = useGetSeeds();
+  const { data: seedsData, isLoading } = useGetSeeds();
   const [copytext, setCopyText] = useState(false);
 
   const copyToClipBoard = () => {
@@ -58,8 +58,9 @@ function RegisterInstruction() {
         className="w-[173px] hidden md:block lg:w-[210px] mx-auto"
         src="/registrationlogov2.svg"
       />
-      <h3 className="text-white z-[3] mt-[180px] md:mt-0 text-center text-[25px] lg:text-[46px] leading-[43px] lg:leading-[64px] font-[400]">
+      <h3 className="text-white z-[3] mt-[180px] md:mt-0 text-center flex items-center justify-center gap-4 text-[25px] lg:text-[46px] leading-[43px] lg:leading-[64px] font-[400]">
         Your Seed
+        {isLoading && <ThreeCircles height="20" width="20" color="white" />}
       </h3>
       <div className="flex flex-col gap-[2px]">
         <div className="border-[1px] py-[8px] z-[3] md:py-[21px] pb-[10px] px-[19px] h-[166px] md:h-auto border-[#28399F] outline-none bg-[#0E1A60]">
