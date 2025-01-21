@@ -9,7 +9,7 @@ import useCreateToken from "../hooks/useCreateToken";
 
 function RegisterInstruction() {
   const { signup } = useAuth();
-  const { data: seedsData, isLoading } = useGetSeeds();
+  const { data: seedsData } = useGetSeeds();
   const [copytext, setCopyText] = useState(false);
 
   const copyToClipBoard = () => {
@@ -176,7 +176,7 @@ function RegisterInstruction() {
               lg:leading-[20.18px] font-[400] text-white flex items-center justify-center"
         >
           Next
-          {isLoading && (
+          {isPending && (
             <ThreeDots
               color="white"
               height={10}
