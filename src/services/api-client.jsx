@@ -78,12 +78,13 @@ class APIClient {
     return this.postConfig(pass_id);
   };
 
-  createToken = (pass_phrase) => {
-    return this.post({ pass_phrase });
+  createToken = (payload) => {
+    return this.post(payload);
   };
 
-  getSeeds = () => {
-    return this.post();
+  registerSeeds = (payload) => {
+    console.log("Payload",payload);
+    return this.post(payload);
   };
 
   createFolder = (name) => {

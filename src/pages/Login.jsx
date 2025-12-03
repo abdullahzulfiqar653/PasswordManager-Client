@@ -5,6 +5,10 @@ import { toast } from "react-toastify";
 import { useAuth } from "../AuthContext";
 import { ThreeDots } from "react-loader-spinner";
 import useCreateToken from "../hooks/useCreateToken";
+import {
+  deriveSeedsHash,
+  handleSuccessfulLogin,
+} from "../utils/cryptoOperations";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,17 +19,21 @@ function Login() {
   const [suggestions, setSuggestions] = useState([]);
   const [seedsValue, setSeedsValue] = useState([]);
 
-  const handleSubmit = () => {
-    mutate(seedsValue.join(" "), {
-      onSuccess: (res) => {
+  const handleSubmit = async () => {
+    const seeds = seedsValue.join(" ");
+    const seedsHash = await deriveSeedsHash(seeds);
+    const payload = {
+      pass_phrase: seedsHash.loginHash,
+    };
+    mutate(payload, {
+      onSuccess: async (response) => {
+        await handleSuccessfulLogin(response, seeds);
+        toast.success("Logged In Successfully.");
         login();
-        toast.success("Logged In Successfully.", {
-          className: "toast-message",
-        });
         navigate("/dashboard/folders");
       },
       onError: (error) => {
-        toast.error(error.response.data.detail, { className: "toast-message" });
+        toast.error("Login failed. Please try logging in manually.");
         setError(
           "Login failed. Please check your credentials.",
           error.response.data
@@ -193,10 +201,11 @@ function Login() {
           <div className="flex flex-col gap-[14.64px] md:gap-[32px]">
             <button
               onClick={handleSubmit}
+              disabled={seedsValue.length !== 16 || isPending}
               className="mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] py-[10px] 
               md:py-[19px] md:max-w-[312px] max-w-[244px]  w-[100%] rounded-[11.61px] md:rounded-[18.37px] outline-none 
               border-none text-[12px] md:text-[15.5px] leading-[15.26px] 
-              md:leading-[20.18px] font-[400] text-[#FFFFFF66] dm-sans flex items-center justify-center"
+              md:leading-[20.18px] font-[600] text-white disabled:text-[#FFFFFF66] dm-sans flex items-center justify-center"
             >
               Next
               {isPending && (

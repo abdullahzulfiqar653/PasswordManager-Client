@@ -5,10 +5,7 @@ const apiClient = new APIClient("/user/generate-token/");
 
 const useCreateToken = () =>
   useMutation({
-    mutationFn: (pass_phrase) => apiClient.createToken(pass_phrase),
-    onSuccess: (res) => {
-      localStorage.setItem("access_token", res.access);
-    },
+    mutationFn: (payload) => apiClient.createToken(payload),
   });
 
 export default useCreateToken;
