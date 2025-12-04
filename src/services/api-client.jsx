@@ -83,7 +83,6 @@ class APIClient {
   };
 
   registerSeeds = (payload) => {
-    console.log("Payload",payload);
     return this.post(payload);
   };
 

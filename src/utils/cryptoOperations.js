@@ -230,34 +230,18 @@ export async function handleSuccessfulLogin(loginResponse, seedPhrase) {
         localStorage.setItem('crypto_data', JSON.stringify(userCryptoData));
 
         const { encryptionBase64 } = await deriveEncryptionKey(seedPhrase, cryptographic_data.enc_salt);
-        console.log('Derived Encryption Key Base64:', encryptionBase64);
         await storeEncryptionKey(encryptionBase64);
 
         try {
-            // const encryptionKeyObj = await deriveEncryptionKey(seedPhrase, userCryptoData.encSalt);
-            // const privateKey = await decryptPrivateKey(
-            //     userCryptoData.encryptedPrivateKey,
-            //     userCryptoData.encryptedPrivateKeyIV,
-            //     userCryptoData.encryptedPrivateKeyTag,
-            //     encryptionKeyObj.encryptionKey
-            // );
-
-            // Store decrypted private key in memory only (not localStorage for security)
-            // You might want to use sessionStorage or keep in memory only
-            // sessionStorage.setItem('neuro_private_key_temp', privateKey);
-
-            console.log('Login successful - All data stored securely');
             return {
                 success: true,
                 userCryptoData,
-                // privateKeyAvailable: true
             };
         } catch (decryptError) {
             console.warn('Could not decrypt private key now, but login successful');
             return {
                 success: true,
                 userCryptoData,
-                // privateKeyAvailable: false
             };
         }
 
