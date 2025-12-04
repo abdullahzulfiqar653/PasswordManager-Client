@@ -9,6 +9,7 @@ import useCreateToken from "../hooks/useCreateToken";
 import {
   deriveSeedsHash,
   generateSeedPhrase,
+  handleSuccessfulLogin,
   performSignup,
 } from "../utils/cryptoOperations";
 
