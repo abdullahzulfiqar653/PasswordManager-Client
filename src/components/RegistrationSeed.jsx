@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeCircles, ThreeDots } from "react-loader-spinner";
-
+import { TfiReload } from "react-icons/tfi";
 import { useAuth } from "../AuthContext";
 import useRegisterSeeds from "../hooks/useRegisterSeeds";
 import useCreateToken from "../hooks/useCreateToken";
@@ -21,6 +21,7 @@ function RegisterInstruction() {
   const [seedsData, setSeedsData] = useState(null);
   const [copytext, setCopyText] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [triggerReload, setTriggerReload] = useState(0);
   const navigate = useNavigate();
 
   // Effect to generate seed phrase and crypto payload
@@ -35,10 +36,8 @@ function RegisterInstruction() {
         const payload = {
           enc_salt: cryptoData.encSalt,
           encrypted_private_key: cryptoData.encryptedPrivateKey,
-          encrypted_private_key_iv:
-            cryptoData.encryptedPrivateKeyIV,
-          encrypted_private_key_tag:
-            cryptoData.encryptedPrivateKeyTag,
+          encrypted_private_key_iv: cryptoData.encryptedPrivateKeyIV,
+          encrypted_private_key_tag: cryptoData.encryptedPrivateKeyTag,
           pass_phrase: cryptoData.loginHash,
           public_key: cryptoData.publicKey,
         };
@@ -73,8 +72,7 @@ function RegisterInstruction() {
     }
 
     registerCryptoData();
-  }, []);
-
+  }, [triggerReload]);
 
   const copyToClipBoard = () => {
     if (!seedsData) return;
@@ -103,7 +101,7 @@ function RegisterInstruction() {
       pass_phrase: seedsHash.loginHash,
     };
     createToken(payload, {
-      onSuccess: async(response) => {
+      onSuccess: async (response) => {
         await handleSuccessfulLogin(response, seeds);
         toast.success("Logged In Successfully.");
         signup();
@@ -141,6 +139,13 @@ function RegisterInstruction() {
       {/* Display seed phrase when ready */}
 
       <div className="flex flex-col gap-[2px]">
+        <div
+          onClick={() => setTriggerReload((prev) => prev + 1)}
+          className="w-full flex justify-end cursor-pointer pb-2 pr-2 "
+        >
+          <TfiReload className="text-white hover:text-[17px] font-[800]" />
+        </div>
+
         <div className="border-[1px] py-[8px] z-[3] md:py-[21px] pb-[10px] px-[19px] h-[166px] md:h-auto border-[#28399F] outline-none bg-[#0E1A60]">
           <div className="flex gap-[4px] md:gap-[8px] flex-wrap">
             {seedsData?.split(" ").map((word, index) => (
