@@ -103,7 +103,7 @@ function RegisterInstruction() {
     };
     createToken(payload, {
       onSuccess: async (response) => {
-        await handleSuccessfulLogin(response, seeds);
+        await handleSuccessfulLogin(response, seedsData);
         toast.success("Logged In Successfully.");
         signup();
         navigate("/dashboard/folders");
