@@ -1,30 +1,106 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeCircles, ThreeDots } from "react-loader-spinner";
-
+import { TfiReload } from "react-icons/tfi";
 import { useAuth } from "../AuthContext";
-import useGetSeeds from "../hooks/useGetSeeds";
+import useRegisterSeeds from "../hooks/useRegisterSeeds";
 import useCreateToken from "../hooks/useCreateToken";
+import {
+  deriveSeedsHash,
+  generateSeedPhrase,
+  handleSuccessfulLogin,
+  performSignup,
+} from "../utils/cryptoOperations";
 
 function RegisterInstruction() {
   const { signup } = useAuth();
-  const { data: seedsData, isLoading } = useGetSeeds();
+  const { mutate: registerSeeds, isPending: isRegistering } =
+    useRegisterSeeds();
+  const { mutate: createToken, isPending: isCreatingToken } = useCreateToken();
+  const retryAttempt = useRef(0);
+  const [seedsData, setSeedsData] = useState(null);
   const [copytext, setCopyText] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [triggerReload, setTriggerReload] = useState(0);
+  const navigate = useNavigate();
+
+  // Effect to generate seed phrase and crypto payload
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    let isMounted = true;
+
+    async function registerCryptoData() {
+      if (!isMounted) return;
+
+      setIsGenerating(true);
+      try {
+        const seedPhrase = await generateSeedPhrase();
+
+        const cryptoData = await performSignup(seedPhrase);
+
+        if (!isMounted) return;
+
+        const payload = {
+          enc_salt: cryptoData.encSalt,
+          encrypted_private_key: cryptoData.encryptedPrivateKey,
+          encrypted_private_key_iv: cryptoData.encryptedPrivateKeyIV,
+          encrypted_private_key_tag: cryptoData.encryptedPrivateKeyTag,
+          pass_phrase: cryptoData.loginHash,
+          public_key: cryptoData.publicKey,
+        };
+
+        registerSeeds(payload, {
+          onSuccess: () => {
+            setSeedsData(seedPhrase);
+            setIsGenerating(false);
+          },
+          onError: (error) => {
+            const errorMessage =
+              error.response.data[0] || "Registration failed.Please try again.";
+            if (retryAttempt.current === 0) {
+              retryAttempt.current = 1;
+              registerCryptoData();
+            } else {
+              toast.error(errorMessage);
+              setIsGenerating(false);
+            }
+          },
+        });
+      } catch (error) {
+        console.error("Crypto error:", error);
+        if (retryAttempt.current === 0) {
+          retryAttempt.current = 1;
+          registerCryptoData();
+        } else {
+          toast.error("Failed to generate credentials. Please refresh.");
+          setIsGenerating(false);
+        }
+      }
+    }
+
+    registerCryptoData();
+
+    return () => {
+      abortController.abort();
+      isMounted = false;
+    };
+  }, [triggerReload]);
 
   const copyToClipBoard = () => {
+    if (!seedsData) return;
     setCopyText(true);
-    navigator.clipboard.writeText(seedsData?.pass_phrase);
+    navigator.clipboard.writeText(seedsData);
     setTimeout(() => {
       setCopyText(false);
-    }, [700]);
+    }, 700);
   };
 
-  const navigate = useNavigate();
-  const { mutate, isPending } = useCreateToken();
-
   const savePdf = () => {
-    const blob = new Blob([seedsData?.pass_phrase], { type: "text/plain" });
+    if (!seedsData) return;
+
+    const blob = new Blob([seedsData], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "seed.txt";
@@ -33,21 +109,22 @@ function RegisterInstruction() {
     document.body.removeChild(link);
   };
 
-  const handleSubmit = () => {
-    mutate(seedsData?.pass_phrase, {
-      onSuccess: (res) => {
-        toast.success("Logged In Successfully.", {
-          className: "toast-message",
-        });
+  const handleSubmit = async () => {
+    const seedsHash = await deriveSeedsHash(seedsData);
+    const payload = {
+      pass_phrase: seedsHash.loginHash,
+    };
+    createToken(payload, {
+      onSuccess: async (response) => {
+        await handleSuccessfulLogin(response, seedsData);
+        toast.success("Logged In Successfully.");
         signup();
         navigate("/dashboard/folders");
       },
       onError: (error) => {
-        toast.error(error.response.data.detail, { className: "toast-message" });
-        setError(
-          "Login failed. Please check your credentials.",
-          error.response.data
-        );
+        toast.error("Login failed. Please try logging in manually.", {
+          className: "toast-message",
+        });
       },
     });
   };
@@ -59,16 +136,36 @@ function RegisterInstruction() {
         src="/registrationlogov2.svg"
       />
       <h3 className="text-white z-[3] mt-[180px] md:mt-0 text-center flex items-center justify-center gap-4 text-[25px] lg:text-[46px] leading-[43px] lg:leading-[64px] font-[400]">
-        Your Seed
-        {isLoading && <ThreeCircles height="20" width="20" color="white" />}
+        Your Seed{" "}
+        {(isGenerating || isRegistering) && (
+          <ThreeCircles height="20" width="20" color="white" />
+        )}
       </h3>
+
+      {/* Loading state */}
+      {/* {isGenerating && (
+        <div className="text-white text-center my-8">
+          <ThreeDots color="white" height={30} width={30} />
+          <p>Generating secure credentials...</p>
+        </div>
+      )} */}
+
+      {/* Display seed phrase when ready */}
+
       <div className="flex flex-col gap-[2px]">
+        <div
+          onClick={() => setTriggerReload((prev) => prev + 1)}
+          className="w-full flex justify-end cursor-pointer pb-2 pr-2 "
+        >
+          <TfiReload className="text-white hover:text-[17px] font-[800]" />
+        </div>
+
         <div className="border-[1px] py-[8px] z-[3] md:py-[21px] pb-[10px] px-[19px] h-[166px] md:h-auto border-[#28399F] outline-none bg-[#0E1A60]">
           <div className="flex gap-[4px] md:gap-[8px] flex-wrap">
-            {seedsData?.pass_phrase.split(" ").map((word, index) => (
+            {seedsData?.split(" ").map((word, index) => (
               <span
                 key={index}
-                className="dm-sans border-[#9F42FF] border-[1px] px-[8px] text-[12px] md:text-[16px] leading-[27px] font-[400] text-white rounded-[6px]"
+                className="dm-sans border-[#9F42FF] uppercase border-[1px] px-[8px] text-[12px] md:text-[16px] leading-[27px] font-[400] text-white rounded-[6px]"
               >
                 {word}
               </span>
@@ -139,7 +236,7 @@ function RegisterInstruction() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                    />{" "}
+                    />
                   </svg>
                 ) : (
                   <>
@@ -167,16 +264,19 @@ function RegisterInstruction() {
           Please write these down incase you lose your seed
         </p>
       </div>
+
       <div className="flex flex-col gap-[5px] lg:gap-[20px]">
         <button
           onClick={handleSubmit}
+          disabled={!seedsData || isCreatingToken}
           className="dm-sans z-[3] mx-[auto] bg-[linear-gradient(90deg,_#A143FF_0%,_#5003DB_100%)] py-[10px] 
-              lg:py-[19px] max-w-[244px] md:max-w-[312px] w-[100%] rounded-[11.61px] lg:rounded-[18.37px] outline-none 
-              border-none text-[12px] lg:text-[15.5px] leading-[15.26px] 
-              lg:leading-[20.18px] font-[400] text-white flex items-center justify-center"
+                lg:py-[19px] max-w-[244px] md:max-w-[312px] w-[100%] rounded-[11.61px] lg:rounded-[18.37px] outline-none 
+                border-none text-[12px] lg:text-[15.5px] leading-[15.26px] 
+                lg:leading-[20.18px] font-[400] text-white flex items-center justify-center
+                disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
-          {isPending && (
+          {isCreatingToken && (
             <ThreeDots
               color="white"
               height={10}
@@ -184,7 +284,6 @@ function RegisterInstruction() {
               ariaLabel="loading"
               wrapperStyle={{
                 marginLeft: "5%",
-                // marginTop: "8px",
               }}
             />
           )}
