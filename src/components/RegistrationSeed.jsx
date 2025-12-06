@@ -28,12 +28,20 @@ function RegisterInstruction() {
   // Effect to generate seed phrase and crypto payload
 
   useEffect(() => {
+    const abortController = new AbortController();
+    let isMounted = true;
+
     async function registerCryptoData() {
+      if (!isMounted) return;
+
       setIsGenerating(true);
       try {
         const seedPhrase = await generateSeedPhrase();
 
         const cryptoData = await performSignup(seedPhrase);
+
+        if (!isMounted) return;
+
         const payload = {
           enc_salt: cryptoData.encSalt,
           encrypted_private_key: cryptoData.encryptedPrivateKey,
@@ -73,6 +81,11 @@ function RegisterInstruction() {
     }
 
     registerCryptoData();
+
+    return () => {
+      abortController.abort();
+      isMounted = false;
+    };
   }, [triggerReload]);
 
   const copyToClipBoard = () => {
