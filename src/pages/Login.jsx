@@ -165,7 +165,7 @@ function Login() {
               {seedsValue?.map((seed, index) => (
                 <span
                   key={index}
-                  className="group cursor-pointer dm-sans border-[#9F42FF] border-[1px] px-[8px] text-[16px] leading-[27px] font-[400] text-white rounded-[6px]"
+                  className="group uppercase cursor-pointer dm-sans border-[#9F42FF] border-[1px] px-[8px] text-[16px] leading-[27px] font-[400] text-white rounded-[6px]"
                 >
                   {seed}
                   <span
