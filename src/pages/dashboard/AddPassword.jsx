@@ -20,6 +20,7 @@ import {
   Folder,
   OpenEye,
 } from "../../assets/icons";
+import { encryptAnyData } from "../../utils/cryptoOperations";
 
 function AddPassword() {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -82,30 +83,92 @@ function AddPassword() {
     }
   }
 
-  const handleSubmit = (e) => {
-    setLoading(true);
+  const encryptFormData = async (formData) => {
+    const encryptedData = { ...formData };
+
+    // List of fields that need encryption (sensitive text data)
+    const fieldsToEncrypt = [
+      "emoji",
+      "username",
+      "password",
+      "url",
+      "notes",
+    ];
+
+    for (const field of fieldsToEncrypt) {
+      const value = formData[field];
+      if (value !== null && value !== undefined && value !== "") {
+        try {
+          encryptedData[field] = await encryptAnyData(value);
+        } catch (error) {
+          console.error(`Failed to encrypt ${field}:`, error);
+        }
+      }
+    }
+
+    return encryptedData;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const mutationFn = isUpdating ? updatePassword : addPassword;
-    mutationFn(uploadData, {
-      onSuccess: () => {
-        setLoading(false);
-        setGeneratorPassword("");
-        navigate("/dashboard/folders");
-        toast.success(
-          `Password ${isUpdating ? "updated" : "added"} successfully.`,
-          {
-            className: "toast-message",
+    setLoading(true);
+
+    try {
+      // Create FormData object
+      const uploadData = new FormData();
+
+      // Handle file separately
+      const file = formData.file;
+
+      // Create copy without file for encryption
+      const formDataCopy = { ...formData };
+      delete formDataCopy.file;
+
+      // Encrypt only sensitive fields
+      const encryptedFormData = await encryptFormData(formDataCopy);
+
+      // Append all fields to FormData
+      for (const [key, value] of Object.entries(encryptedFormData)) {
+        if (value !== null && value !== undefined) {
+          if (value instanceof Blob || value instanceof File) {
+            uploadData.append(key, value);
+          } else {
+            uploadData.append(key, String(value));
           }
-        );
-      },
-      onError: (error) => {
-        setLoading(false);
-        setErrors(error.response.data);
-        toast.error("Please fix the errors in the form!", {
-          className: "toast-message",
-        });
-      },
-    });
+        }
+      }
+
+      if (file) {
+        uploadData.append("file", file);
+      }
+
+      const mutationFn = isUpdating ? updatePassword : addPassword;
+
+      mutationFn(uploadData, {
+        onSuccess: () => {
+          setLoading(false);
+          setGeneratorPassword("");
+          navigate("/dashboard/folders");
+          toast.success(
+            `Password ${isUpdating ? "updated" : "added"} successfully.`,
+            { className: "toast-message" }
+          );
+        },
+        onError: (error) => {
+          setLoading(false);
+          setErrors(error.response?.data || {});
+          toast.error("Please fix the errors in the form!", {
+            className: "toast-message",
+          });
+        },
+      });
+    } catch (error) {
+      setLoading(false);
+      console.error("Encryption failed:", error);
+      toast.error("Failed to encrypt data. Please try again.", {
+        className: "toast-message",
+      });
+    }
   };
 
   const handleChange = (e) => {
@@ -553,9 +616,40 @@ function AddPassword() {
             Cancel
           </button>
           <button
+            // Update the modal handler call
             onClick={
               isUpdating
-                ? () => handleConfirmChangesModal(uploadData)
+                ? async () => {
+                    try {
+                      const formDataToEncrypt = { ...formData };
+                      const file = formDataToEncrypt.file;
+                      delete formDataToEncrypt.file;
+
+                      const encryptedFormData = await encryptFormData(
+                        formDataToEncrypt
+                      );
+
+                      const uploadData = new FormData();
+                      for (const key in encryptedFormData) {
+                        if (
+                          encryptedFormData[key] !== null &&
+                          encryptedFormData[key] !== undefined
+                        ) {
+                          uploadData.append(key, encryptedFormData[key]);
+                        }
+                      }
+                      if (file) {
+                        uploadData.append("file", file);
+                      }
+
+                      handleConfirmChangesModal(uploadData);
+                    } catch (error) {
+                      console.error("Encryption failed:", error);
+                      toast.error("Failed to encrypt data. Please try again.", {
+                        className: "toast-message",
+                      });
+                    }
+                  }
                 : handleSubmit
             }
             style={{

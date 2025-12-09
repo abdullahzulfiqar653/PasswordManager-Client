@@ -5,7 +5,7 @@ const apiClient = new APIClient("/folders/");
 
 const useGetFolders = (search) =>
   useQuery({
-    queryKey: ["folders"],
+    queryKey: ["folders", search],
     queryFn: () => apiClient.getFolders(search),
     refetchOnWindowFocus: true,
     refetchOnMount: true,

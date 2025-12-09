@@ -269,14 +269,13 @@ function base64ToArrayBuffer(base64) {
 
 export async function encryptAnyData(data) {
     try {
-
         const cryptoData = localStorage.getItem("crypto_data");
         if (!cryptoData) {
             throw new Error("No cryptographic data found. Please login first.");
         }
 
         const parsedCryptoData = JSON.parse(cryptoData);
-        publicKeyToUse = parsedCryptoData.publicKey;
+        const publicKeyToUse = parsedCryptoData.publicKey; 
 
         if (!data) {
             throw new Error("No data provided for encryption.");
@@ -300,7 +299,6 @@ export async function encryptAnyData(data) {
                 preferredCompressionAlgorithm: openpgp.enums.compression.zlib
             }
         });
-
         return encrypted;
 
     } catch (error) {

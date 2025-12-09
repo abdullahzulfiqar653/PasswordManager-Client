@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { FolderF, Folders, Recycle, Bar, Add } from "../../assets/icons";
 import { useAuth } from "../../AuthContext";
 import useGetFolders from "../../hooks/useGetFolders";
-import useGetUserPasswords from "../../hooks/useGetUserPasswords";
 
 function FoldersList({ foldersData }) {
   const navigate = useNavigate();
@@ -20,7 +19,6 @@ function FoldersList({ foldersData }) {
     handleConfirmLogoutModal,
   } = useAuth();
   const { data, refetch: folderRefetch } = useGetFolders(search);
-  const { refetch } = useGetUserPasswords(passSelectedFolderId);
 
   const debouncedRefetch = debounce(() => {
     folderRefetch();
@@ -36,10 +34,6 @@ function FoldersList({ foldersData }) {
       debouncedRefetch.cancel();
     };
   }, [search, debouncedRefetch]);
-
-  useEffect(() => {
-    refetch();
-  }, [refetch, passSelectedFolderId]);
 
   useEffect(() => {
     const storedFolderId = localStorage.getItem("FolderId");

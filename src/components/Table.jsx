@@ -3,7 +3,7 @@ import moment from "moment";
 import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const PasswordTable = ({ data, handleRowClick }) => {
+const PasswordTable = ({ count, data, handleRowClick }) => {
   const navigate = useNavigate();
   const { selectPasswordsId, toggleSelection, setSelectedPasswordsId } =
     useAuth();
@@ -14,7 +14,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
     setAreAllSelected(checked);
 
     if (checked) {
-      const allIds = data?.results.map((item) => item.id);
+      const allIds = data?.map((item) => item.id);
       setSelectedPasswordsId(allIds);
     } else {
       setSelectedPasswordsId([]);
@@ -26,14 +26,14 @@ const PasswordTable = ({ data, handleRowClick }) => {
   };
 
   useEffect(() => {
-    const allIds = data?.results.map((item) => item.id) || [];
+    const allIds = data?.map((item) => item.id) || [];
 
     if (selectPasswordsId?.length === allIds?.length && allIds?.length > 0) {
       setAreAllSelected(true);
     } else {
       setAreAllSelected(false);
     }
-  }, [selectPasswordsId, data?.results]);
+  }, [selectPasswordsId, data]);
 
   return (
     <table className="w-full table-fixed text-center">
@@ -86,7 +86,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
         </tr>
       </thead>
 
-      {data?.count === 0 && (
+      {count === 0 && (
         <tbody className="relative w-full h-[565px]">
           <tr>
             <td className="w-full h-full">
@@ -114,7 +114,7 @@ const PasswordTable = ({ data, handleRowClick }) => {
       )}
 
       <tbody>
-        {data?.results.map((item, index) => (
+        {data?.map((item, index) => (
           <tr
             key={index}
             className="bg-transparent border-[1.5px] border-[#002256] hover:bg-[#4207AF]"

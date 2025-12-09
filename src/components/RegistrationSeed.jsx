@@ -165,7 +165,7 @@ function RegisterInstruction() {
             {seedsData?.split(" ").map((word, index) => (
               <span
                 key={index}
-                className="dm-sans border-[#9F42FF] uppercase border-[1px] px-[8px] text-[12px] md:text-[16px] leading-[27px] font-[400] text-white rounded-[6px]"
+                className="dm-sans border-[#9F42FF]   border-[1px] px-[8px] text-[12px] md:text-[16px] leading-[27px] font-[400] text-white rounded-[6px]"
               >
                 {word}
               </span>

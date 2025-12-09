@@ -7,9 +7,9 @@ import useGetUserPasswords from "../hooks/useGetUserPasswords";
 import { ThreeDots } from "react-loader-spinner";
 
 function DeletePassword({ hideModal }) {
-  const { selectPasswordsId, setSelectedPasswordsId } = useAuth();
+  const { selectPasswordsId, setSelectedPasswordsId, passSelectedFolderId } = useAuth();
   const { mutate, isPending } = useDeletePasswords();
-  const { refetch } = useGetUserPasswords();
+  const { refetch } = useGetUserPasswords(passSelectedFolderId);
   const deleteButtonClick = () => {
     if (!selectPasswordsId) return;
     const payload = {
